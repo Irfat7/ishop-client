@@ -17,6 +17,12 @@
   .md-padding {
     @apply px-10 py-2;
   }
+  .big-header{
+    @apply text-4xl font-medium;
+  }
+  .small-header{
+    @apply text-2xl font-medium;
+  }
   .h1-bold {
     @apply text-[30px] font-bold leading-[140%] tracking-tighter;
   }

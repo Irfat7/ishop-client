@@ -11,7 +11,7 @@ const CategoryCard: React.FC<CategoryInfo> = ({ categoryImage, categoryName }) =
             <img
                 className="flex-1 h-3/4 w-full object-cover"
                 src={categoryImage} />
-            <p className="h3-medium h-1/4 bg-primary center">{categoryName}</p>
+            <p className="base-medium md:h3-medium h-1/4 bg-primary center">{categoryName}</p>
         </div>
     );
 };
