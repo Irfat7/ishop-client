@@ -6,7 +6,7 @@ import image3 from '/carousel/Carousel-3.jpg'
 
 const CarouselHome = () => {
     return (
-        <Carousel>
+        <Carousel className="w-11/12 md:w-9/12 mx-auto" autoPlay infiniteLoop>
             <div>
                 <img src={image1} />
             </div>

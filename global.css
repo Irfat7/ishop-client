@@ -9,7 +9,7 @@
   }
 
   body {
-    @apply font-roboto-condensed;
+    @apply bg-secondary font-roboto-condensed;
   }
 }
 
@@ -71,5 +71,9 @@
 
   .tiny-medium {
     @apply text-[10px] font-medium leading-[140%];
+  }
+
+  .center{
+    @apply flex justify-center items-center
   }
 }

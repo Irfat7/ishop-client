@@ -14,7 +14,9 @@ export default {
     fontFamily: {
       'roboto-condensed': ["Roboto Condensed", 'sans-serif']
     },
-    extend: {},
+    extend: {
+      
+    },
   },
   darkMode: "class",
   plugins: [
