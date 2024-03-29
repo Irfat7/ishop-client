@@ -1,5 +1,5 @@
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
-
+import UserIcon from '/icons/user.svg'
 const UserDropDown = () => {
     return (
         <Dropdown>
@@ -7,10 +7,10 @@ const UserDropDown = () => {
                 <Button
                     variant="bordered"
                 >
-                    Open Menu
+                    <img src={UserIcon} alt="User Icon" />
                 </Button>
             </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
+            <DropdownMenu aria-label="Static Actions" className="bg-primary">
                 <DropdownItem key="new">New file</DropdownItem>
                 <DropdownItem key="copy">Copy link</DropdownItem>
                 <DropdownItem key="edit">Edit file</DropdownItem>

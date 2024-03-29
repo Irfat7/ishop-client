@@ -5,7 +5,6 @@ const Main = () => {
     return (
         <div>
             <Navigation />
-            <p>main section</p>
             <Outlet />
         </div>
     );
