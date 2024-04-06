@@ -8,6 +8,7 @@ export const useGetAllCategory = () => {
         queryFn: async () => {
             const response = await axios.get('http://localhost:3001/categories')
             return response.data
+            
         }
     })
     return [categories, isPending, isError]

@@ -23,23 +23,23 @@ const Home = () => {
                 </div>
                 <SectionHeader title='Our Top Selling Products' />
                 <div className='grid gap-y-6 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                    {/* <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ProductCard /> */}
                 </div>
                 <SectionHeader title='Customer Reviews' />
                 <div className='grid gap-y-6 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
+                    {/* <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
                     <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
+                    <ProductCard /> */}
                 </div>
             </div>
         </div>
