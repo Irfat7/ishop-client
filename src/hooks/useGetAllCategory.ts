@@ -3,10 +3,12 @@ import { QUERY_KEYS } from "../lib/react-query/keys"
 import axios from "axios"
 
 export const useGetAllCategory = () => {
-    return useQuery({
+    const { data: categories = [], isPending, isError } = useQuery({
         queryKey: [QUERY_KEYS.GET_ALL_CATEGORY],
         queryFn: async () => {
-            return axios.get('http://localhost:3001/categories')
+            const response = await axios.get('http://localhost:3001/categories')
+            return response.data
         }
     })
+    return [categories, isPending, isError]
 }

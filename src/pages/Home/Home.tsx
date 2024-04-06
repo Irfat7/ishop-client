@@ -7,19 +7,18 @@ import { ICategory } from '../../types';
 import CarouselHome from './Carousel/CarouselHome';
 
 const Home = () => {
-    const { data: categories, isPending: isCategoryLoading, isError } = useGetAllCategory()
+    const [categories, isCategoryLoading, isCategoryError] = useGetAllCategory()
     return (
         <div>
             <CarouselHome />
-            <Loader/>
             <div className='mx-auto md:w-4/6'>
                 <SectionHeader title='Shop By Category' />
                 <div className='grid gap-y-4 place-items-center grid-cols-2 md:grid-cols-3'>
                     {
-                        /* isCategoryLoading && <Loader /> */
+                        isCategoryLoading && <Loader />
                     }
                     {
-                        categories?.data.map((category: ICategory) => <CategoryCard key={category._id} categoryImage='https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/accessories/wireless-mouse-gt/specs-img.jpg' categoryName={category.name} />)
+                        categories.map((category: ICategory) => <CategoryCard key={category._id} categoryImage='https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/accessories/wireless-mouse-gt/specs-img.jpg' categoryName={category.name} />)
                     }
                 </div>
                 <SectionHeader title='Our Top Selling Products' />
