@@ -7,7 +7,7 @@ export type IProduct = {
     _id: string;
     name: string;
     features: [string];
-    category: string;
+    category: ICategory;
     imageUrl: [string];
     quantity: number,
     averageRating: number,

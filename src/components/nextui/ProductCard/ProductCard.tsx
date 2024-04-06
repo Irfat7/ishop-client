@@ -9,7 +9,7 @@ interface ProductProps {
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
     return (
-        <Link to={`/product/123456`} className="relative overflow-visible md:duration-500 md:hover:shadow-md w-36 sm:w-52 bg-primary">
+        <Link to={`/product/${product._id}`} className="relative overflow-visible md:duration-500 md:hover:shadow-md w-36 sm:w-52 bg-primary">
             <div className="w-full h-40 bg-dark-red"></div>
             <div className="relative h-52 overflow-hidden space-y-2 pt-2.5 px-2 md:px-4 pb-2">
                 <p className="base-semibold w-full overflow-clip md:h3-medium">{product.name}</p>
