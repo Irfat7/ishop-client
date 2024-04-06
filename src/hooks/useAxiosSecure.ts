@@ -23,4 +23,6 @@ export const useAxiosSecure = () => {
         }
         return Promise.reject(error);
     });
+
+    return axiosInstance
 }
