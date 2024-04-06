@@ -1,0 +1,8 @@
+.svg-icon path {
+  fill: black; /* Default color */
+  transition: fill 0.3s ease; /* Add transition for smooth color change */
+}
+
+.svg-icon:hover path {
+  fill: white;
+}

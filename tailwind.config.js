@@ -3,25 +3,24 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     colors: {
-      'primary': "#EEEEFF",
-      'secondary': "#F8F8FF",
+      "primary": "#EEEEFF",
+      "secondary": "#F8F8FF",
       "dark-red": "#7D0A0A",
+      "light-ash": "#ddd",
     },
     fontFamily: {
-      'roboto-condensed': ["Roboto Condensed", 'sans-serif']
+      "roboto-condensed": ["Roboto Condensed", "sans-serif"],
     },
-    extend: {
-      
-    },
+    extend: {},
   },
   darkMode: "class",
   plugins: [
     require("tailwindcss-animate"),
-    require("@nextui-org/react")
+    require("@nextui-org/react"),
     // ...
   ],
 };
