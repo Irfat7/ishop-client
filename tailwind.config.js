@@ -11,6 +11,7 @@ export default {
       "secondary": "#F8F8FF",
       "dark-red": "#7D0A0A",
       "light-ash": "#ddd",
+      "transparent": "#FFFFFF00",
     },
     fontFamily: {
       "roboto-condensed": ["Roboto Condensed", "sans-serif"],

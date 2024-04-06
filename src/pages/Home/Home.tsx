@@ -1,3 +1,4 @@
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
 import CategoryCard from '../../components/nextui/CategoryCard';
 import ProductCard from '../../components/nextui/ProductCard/ProductCard';
@@ -8,6 +9,9 @@ import CarouselHome from './Carousel/CarouselHome';
 
 const Home = () => {
     const [categories, isCategoryLoading, isCategoryError] = useGetAllCategory()
+    if (isCategoryError) {
+        return <ErrorMessage code={500} message='Internal Server Error' />
+    }
     return (
         <div>
             <CarouselHome />

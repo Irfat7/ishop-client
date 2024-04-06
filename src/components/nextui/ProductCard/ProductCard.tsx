@@ -1,18 +1,25 @@
 import Rating from '@mui/material/Rating';
 import './productCard.css'
 import { IProduct } from '../../../types';
+import { Link } from 'react-router-dom';
 
 interface ProductProps {
     product: IProduct
 }
 
-const ProductCard: React.FC<ProductProps> = ({product}) => {
+const ProductCard: React.FC<ProductProps> = ({ product }) => {
     return (
-        <div className="relative overflow-visible md:duration-500 md:hover:shadow-md w-36 sm:w-52 bg-primary">
+        <Link to={`/product/123456`} className="relative overflow-visible md:duration-500 md:hover:shadow-md w-36 sm:w-52 bg-primary">
             <div className="w-full h-40 bg-dark-red"></div>
-            <div className="h-52 space-y-2 pt-2.5 px-2 md:px-4 pb-2">
+            <div className="relative h-52 overflow-hidden space-y-2 pt-2.5 px-2 md:px-4 pb-2">
                 <p className="base-semibold w-full overflow-clip md:h3-medium">{product.name}</p>
                 <p className="base-regular">Product description and details</p>
+                <ul>
+                    {
+                        product.features.map((feature, index) => <li key={index}>{feature}</li>)
+                    }
+                </ul>
+                <div className='w-full h-14 z-10 absolute bottom-0 left-0 bg-gradient-to-b from-transparent to-primary'></div>
             </div>
             <div className="flex justify-between items-center px-4 pt-2 border-t-2 border-t-light-ash">
                 <span className="h3-medium text-dark-red">${product.price}</span>
@@ -25,7 +32,7 @@ const ProductCard: React.FC<ProductProps> = ({product}) => {
                 </div>
             </div>
             <Rating className='px-2 md:px-4 pt-2' size='small' name="half-rating-read" defaultValue={product.averageRating} precision={0.1} readOnly />
-        </div>
+        </Link>
     );
 };
 
