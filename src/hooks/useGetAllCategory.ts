@@ -9,7 +9,7 @@ export const useGetAllCategory = () => {
         queryFn: async () => {
             const response = await axios.get(`${baseUrl}categories`)
             return response.data
-            
+
         }
     })
     return [categories, isPending, isError]

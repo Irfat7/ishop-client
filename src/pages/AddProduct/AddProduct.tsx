@@ -3,13 +3,14 @@ import { useGetAllCategory } from "../../hooks/useGetAllCategory"
 import Loader from "../../components/universe/Loader/Loader"
 import { ICategory } from "../../types"
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage"
+import { handleImageUpload } from "../../Utils"
 
 type Inputs = {
     productName: string
     price: number
     features: string
     category: string
-    imageUrl: [File]
+    imageFile: [File]
     quantity: number
 }
 
@@ -21,14 +22,20 @@ const AddProduct = () => {
         formState: { errors },
     } = useForm<Inputs>()
 
-    const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        const imageUploadSuccess = await handleImageUpload(data.imageFile)
+        if (imageUploadSuccess === false) {
+            return 0; // toast goes here
+        }
+        console.log(imageUploadSuccess);
+    }
 
     if (isCategoryPending) {
         return <Loader />
     }
 
-    if(isCategoryError){
-        return <ErrorMessage code={404} message="Error Loading Category"/>
+    if (isCategoryError) {
+        return <ErrorMessage code={404} message="Error Loading Category" />
     }
 
     return (
@@ -81,7 +88,7 @@ const AddProduct = () => {
                     })} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled selected value=''>Choose Category</option>
                         {
-                            categories.map((category: ICategory) => <option>{category.name}</option>)
+                            categories.map((category: ICategory) => <option key={category._id}>{category.name}</option>)
                         }
                     </select>
                     {errors.category && <p className="text-dark-red text-sm">*{errors.category.message}</p>}
@@ -114,13 +121,13 @@ const AddProduct = () => {
 
             <div className="mt-2">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="user_avatar">Add Photos (Minimum 2)</label>
-                <input {...register("imageUrl", {
+                <input {...register("imageFile", {
                     required: "Image is required",
                     validate: {
                         minTwoFile: (files) => files.length >= 2 && files.length <= 5 || "Minimum of 2 files and maximum of 5 files"
                     }
-                })} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" accept="image/*" multiple />
-                {errors.imageUrl && <p className="text-dark-red text-sm">*{errors.imageUrl.message}</p>}
+                })} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" accept="image/png, image/jpg, image/jpeg" multiple />
+                {errors.imageFile && <p className="text-dark-red text-sm">*{errors.imageFile.message}</p>}
             </div>
 
             <button type="submit" className="w-full text-center bg-dark-red mt-4 text-secondary font-normal py-1 rounded-md">Add Product</button>
