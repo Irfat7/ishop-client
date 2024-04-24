@@ -16,7 +16,7 @@ export const handleImageUpload = async (imageFiles: File[]) => {
 
 const compressImage = async (image: File) => {
     const options = {
-        maxSizeMB: 0.5,
+        maxSizeMB: 0.3,
         maxWidthOrHeight: 1920,
         useWebWorker: true,
     }
@@ -39,4 +39,9 @@ const uploadImage = async (imageFile: File) => {
         url: 'https://api.imgbb.com/1/upload',
         data: formData
     })
+}
+
+export const separateFeaturesByFullStop = (allFeatures: string) => {
+    const featuresArray = allFeatures.split(".")
+    return featuresArray
 }

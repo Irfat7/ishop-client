@@ -3,7 +3,13 @@ import { useGetAllCategory } from "../../hooks/useGetAllCategory"
 import Loader from "../../components/universe/Loader/Loader"
 import { ICategory } from "../../types"
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage"
-import { handleImageUpload } from "../../Utils"
+import { handleImageUpload, separateFeaturesByFullStop } from "../../Utils"
+import { useAxiosSecure } from "../../hooks/useAxiosSecure"
+import axios from "axios"
+import { baseUrl } from "../../constants"
+import toast from 'react-hot-toast';
+import { useState } from "react"
+import CircularProgress from '@mui/material/CircularProgress';
 
 type Inputs = {
     productName: string
@@ -15,19 +21,39 @@ type Inputs = {
 }
 
 const AddProduct = () => {
+    const axiosInstance = useAxiosSecure();
+    const [loading, setLoading] = useState(false)
     const [categories, isCategoryPending, isCategoryError] = useGetAllCategory()
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm<Inputs>()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        setLoading(true)
+        const featuresList = separateFeaturesByFullStop(data.features)
         const imageUploadSuccess = await handleImageUpload(data.imageFile)
         if (imageUploadSuccess === false) {
-            return 0; // toast goes here
+            setLoading(false)
+            return toast.error('Sorry, Something Went Wrong');
         }
-        console.log(imageUploadSuccess);
+        const newProduct = {
+            name: data.productName,
+            price: data.price,
+            features: featuresList,
+            category: data.category,
+            imageUrl: imageUploadSuccess,
+            quantity: data.quantity
+        }
+
+        const response = await axios.post(`${baseUrl}products`, newProduct)
+        if (response.status === 200) {
+            toast.success('New Product Added');
+        }
+        reset()
+        setLoading(false)
     }
 
     if (isCategoryPending) {
@@ -88,7 +114,7 @@ const AddProduct = () => {
                     })} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled selected value=''>Choose Category</option>
                         {
-                            categories.map((category: ICategory) => <option key={category._id}>{category.name}</option>)
+                            categories.map((category: ICategory) => <option className="capitalize" key={category._id} value={category._id}>{category.name}</option>)
                         }
                     </select>
                     {errors.category && <p className="text-dark-red text-sm">*{errors.category.message}</p>}
@@ -130,7 +156,9 @@ const AddProduct = () => {
                 {errors.imageFile && <p className="text-dark-red text-sm">*{errors.imageFile.message}</p>}
             </div>
 
-            <button type="submit" className="w-full text-center bg-dark-red mt-4 text-secondary font-normal py-1 rounded-md">Add Product</button>
+            <button disabled={loading} type="submit" className="center w-full text-center bg-dark-red mt-4 text-secondary font-normal py-1 rounded-md">
+                {loading ? <CircularProgress size={20} style={{ color: 'white' }} /> : 'Add Product'}
+            </button>
         </form>
 
     );
