@@ -5,6 +5,7 @@ import Category from "../pages/Category/Category";
 import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
 import Admin from "../Layout/Admin";
+import AddProduct from "../pages/AddProduct/AddProduct";
 
 const router = createBrowserRouter([
     {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/admin/add-product',
-                element: <p>new product page</p>
+                element: <AddProduct />
             },
             {
                 path: '/admin/search',

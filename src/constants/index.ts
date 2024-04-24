@@ -43,3 +43,5 @@ export const adminRoutes = [
         icon: AttachMoneyIcon
     },
 ]
+
+export const baseUrl = 'http://localhost:3001/'
