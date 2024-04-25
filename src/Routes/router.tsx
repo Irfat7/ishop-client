@@ -6,6 +6,7 @@ import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
 import SingleProduct from "../pages/SingleProduct/SingleProduct";
 import Admin from "../Layout/Admin";
 import AddProduct from "../pages/AddProduct/AddProduct";
+import SearchProduct from "../pages/SearchProduct/SearchProduct";
 
 const router = createBrowserRouter([
     {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/admin/search',
-                element: <p>search page</p>
+                element: <SearchProduct/>
             },
             {
                 path: '/admin/assign-role',
