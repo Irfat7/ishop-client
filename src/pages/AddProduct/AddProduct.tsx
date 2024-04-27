@@ -160,7 +160,6 @@ const AddProduct = () => {
                 {loading ? <CircularProgress size={20} style={{ color: 'white' }} /> : 'Add Product'}
             </button>
         </form>
-
     );
 };
 

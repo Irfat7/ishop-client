@@ -6,7 +6,7 @@ import Loader from '../../components/universe/Loader/Loader';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { IProduct } from '../../types';
 import { Rating } from '@mui/material';
-
+import UpdateProductModal from '../../components/nextui/UpdateProductModal/UpdateProductModal';
 
 const SingleProduct = () => {
     const { productId } = useParams()
@@ -49,6 +49,7 @@ const SingleProduct = () => {
                     </Link>
                 </div>
             </div>
+            <UpdateProductModal {...typedProduct} />
         </div>
     );
 };

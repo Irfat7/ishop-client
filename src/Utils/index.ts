@@ -7,6 +7,7 @@ export const handleImageUpload = async (imageFiles: File[]) => {
     try {
         const compressedImages = await Promise.all(imageFilesArray.map(image => compressImage(image)));
         const response = await Promise.all(compressedImages.map(image => uploadImage(image)));
+        console.log(response);
         const imageUrl = response.map(image => image?.data?.data?.display_url)
         return imageUrl
     } catch (error) {
@@ -44,4 +45,9 @@ const uploadImage = async (imageFile: File) => {
 export const separateFeaturesByFullStop = (allFeatures: string) => {
     const featuresArray = allFeatures.split(".")
     return featuresArray
+}
+
+export const addFeaturesByFullStop = (allFeatures: [string]) => {
+    const featuresText = allFeatures.join(". ")
+    return featuresText
 }
