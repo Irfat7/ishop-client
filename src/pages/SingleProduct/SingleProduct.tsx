@@ -15,7 +15,7 @@ const SingleProduct = () => {
         return <Loader />
     }
     if (errorInfo) {
-        return <ErrorMessage code={errorInfo.response.status} message={errorInfo.response.data.message} />
+        return <ErrorMessage code={errorInfo.response?.status} message={errorInfo.response.data.message} />
     }
     const typedProduct = product as IProduct;
     return (
@@ -24,7 +24,7 @@ const SingleProduct = () => {
                 {
                     typedProduct.imageUrl.map((url, index) =>
                         <div key={index}>
-                            <img className='w-full h-full' src={url} />
+                            <img className='w-full h-52 object-contain' src={url} />
                         </div>)
                 }
             </Carousel>

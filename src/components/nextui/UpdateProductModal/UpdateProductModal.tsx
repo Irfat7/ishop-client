@@ -92,7 +92,7 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
                                 <div className='flex gap-2 overflow-y-scroll'>
                                     {
                                         newUrls.map((url, index) => <div key={index} className='relative'>
-                                            <img hidden={!newUrls.includes(url)} src={url} className='object-contain' />
+                                            <img hidden={!newUrls.includes(url)} src={url} className='h-32 object-contain' />
                                             <button onClick={() => removeImage(url)}>
                                                 <DeleteIcon
                                                     className='absolute right-0 top-0 bg-primary text-dark-red'
