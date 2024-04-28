@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
+import { useLogin } from "../../hooks/useLogin";
 
 type Inputs = {
     userName: string
@@ -16,49 +17,54 @@ type Inputs = {
 const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
     const { createNewAccount, isNewAccountCreating, isNewAccountCreatingError } = useCreateNewAccount();
+    const { login, isLoggingIn, isLoggingInError } = useLogin()
     const {
         register,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm<Inputs>()
 
-    useEffect(() => {
-        if (isNewAccountCreatingError) {
-            toast.error("Account register failed");
-        }
-    }, [isNewAccountCreatingError]);
-
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (loginPage) {
-            console.log('login function yet to develop')
+            await login({ email: data.email, password: data.password })
+            if (isLoggingInError) {
+                return toast.error("Login failed");
+            }
+            toast.success("Logged in")
+            reset()
         }
         else {
-            const user = await createNewAccount({ email: data.email, password: data.password, displayName: data.userName })
-            if (user.email) {
-                console.log(user);
-                toast.success("Account created")
+            await createNewAccount({ email: data.email, password: data.password, displayName: data.userName })
+            if (isNewAccountCreatingError) {
+                return toast.error("Account register failed");
             }
+            toast.success("Account created")
+            reset()
         }
     }
 
     return (
         <form className="max-w-sm mx-auto" onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-5">
-                <label htmlFor="userName" className="block mb-2 text-sm font-medium">Your Name</label>
-                <input type="text" {...register("userName", {
-                    required: "Username can not be empty",
-                    minLength: {
-                        value: 3,
-                        message: "Minimum of length 3"
-                    },
-                    maxLength: {
-                        value: 10,
-                        message: "Maximum of length 10"
-                    }
-                })} id="userName" className="border text-sm rounded-lg block w-full p-2.5" placeholder="nor more than 10 character" />
-                {errors.userName && <p className="text-dark-red text-sm">*{errors.userName.message}</p>}
-            </div>
+            {
+                loginPage ||
+                <div className="mb-5">
+                    <label htmlFor="userName" className="block mb-2 text-sm font-medium">Your Name</label>
+                    <input type="text" {...register("userName", {
+                        required: "Username can not be empty",
+                        minLength: {
+                            value: 3,
+                            message: "Minimum of length 3"
+                        },
+                        maxLength: {
+                            value: 10,
+                            message: "Maximum of length 10"
+                        }
+                    })} id="userName" className="border text-sm rounded-lg block w-full p-2.5" placeholder="nor more than 10 character" />
+                    {errors.userName && <p className="text-dark-red text-sm">*{errors.userName.message}</p>}
+                </div>
+            }
             <div className="mb-5">
                 <label htmlFor="email" className="block mb-2 text-sm font-medium">Your email</label>
                 <input type="email" {...register("email", {
@@ -110,7 +116,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
                 className="font-medium rounded-lg text-sm w-full px-5 py-2.5 center bg-dark-red text-secondary"
             >
                 {
-                    isNewAccountCreating ? <CircularProgress size={20} style={{ color: 'white' }} /> : 'Sign In Up'
+                    isNewAccountCreating || isLoggingIn ? <CircularProgress size={20} style={{ color: 'white' }} /> : loginPage ? 'Sign In' : 'Sign Up'
                 }
             </button>
         </form>
