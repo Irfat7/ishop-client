@@ -154,6 +154,6 @@ export default function Admin(props: Props) {
                 <Toolbar />
                 <Outlet />
             </Box>
-        </Box>
+        </Box >
     );
 }

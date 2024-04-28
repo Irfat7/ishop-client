@@ -6,8 +6,10 @@ const Main = () => {
     return (
         <div className='space-y-8'>
             <Navigation />
-            <Outlet />
-            <Footer/>
+            <div className='p-2 md:p-0'>
+                <Outlet />
+            </div>
+            <Footer />
         </div>
     );
 };

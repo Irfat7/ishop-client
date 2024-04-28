@@ -1,5 +1,5 @@
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, divider } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { ICategory, IProduct } from '../../../types';
 
 import { useForm, SubmitHandler } from "react-hook-form"
@@ -11,6 +11,8 @@ import { useGetAllCategory } from '../../../hooks/useGetAllCategory';
 import { baseUrl } from '../../../constants';
 import { addFeaturesByFullStop, handleImageUpload, separateFeaturesByFullStop } from '../../../Utils';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Loader from '../../universe/Loader/Loader';
+import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 
 type Inputs = {
     productName: string
@@ -20,6 +22,7 @@ type Inputs = {
     prevCategory: string
     imageFile: [File]
     quantity: number
+    discount: number
 }
 
 const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category: categoryName, imageUrl, quantity, price, discount }) => {
@@ -27,10 +30,13 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
     const [loading, setLoading] = useState(false)
     const [newUrls, setNewUrls] = useState<string[]>(imageUrl)
     const [categories, isCategoryPending, isCategoryError] = useGetAllCategory()
+    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         formState: { errors },
     } = useForm<Inputs>()
 
@@ -39,7 +45,13 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
         setNewUrls(updatedUrl)
     }
 
-    console.log(newUrls)
+    if (isCategoryPending) {
+        return <Loader />
+    }
+
+    if (isCategoryError) {
+        return <ErrorMessage code={500} message='Something Went Wrong' />
+    }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         setLoading(true)
@@ -66,7 +78,6 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
         reset()
         setLoading(false)
     }
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
     return (
         <div className="flex flex-col gap-2">
@@ -174,6 +185,33 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
                                         {errors.quantity && <p className="text-dark-red text-sm">*{errors.quantity.message}</p>}
                                     </div>
 
+                                    <div className="relative z-0 w-full mb-5 group">
+                                        <input
+                                            type="number"
+                                            {...register("discount", {
+                                                validate: (value) => {
+                                                    if (Number(value) === 30 && watch("price") <= 1000) {
+                                                        return "For 30% discount product price should be above 1000";
+                                                    }
+                                                    return true;
+                                                },
+                                                min: {
+                                                    value: 0,
+                                                    message: "Minimum discount is 0"
+                                                },
+                                                max: {
+                                                    value: 30,
+                                                    message: "Maximum discount is 30"
+                                                }
+                                            })}
+                                            defaultValue={0}
+                                            id="discount"
+                                            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "
+                                        />
+                                        <label htmlFor="discount" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transhtmlForm -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Discount</label>
+                                        {errors.discount && <p className="text-dark-red text-sm">*{errors.discount.message}</p>}
+                                    </div>
+
                                     <div>
                                         <label htmlFor="features" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Features Separated By Full Stop</label>
                                         <textarea {...register("features", {
@@ -185,7 +223,6 @@ const UpdateProductModal: React.FC<IProduct> = ({ _id, name, features, category:
                                     <div className="mt-2">
                                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="user_avatar">Add Photos (Minimum 2)</label>
                                         <input {...register("imageFile", {
-                                            required: !(newUrls.length >= 2) && "Image is required",
                                             validate: {
                                                 minTwoFile: (files) => files.length >= (2 - newUrls.length) && files.length <= (5 - newUrls.length) || "Minimum of 2 files and maximum of 5 files"
                                             }

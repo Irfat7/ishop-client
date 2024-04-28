@@ -3,6 +3,7 @@ import router from "./Routes/router";
 import { NextUIProvider } from '@nextui-org/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast';
+import AuthProvider from "./providers/AuthProvider";
 
 const queryClient = new QueryClient()
 
@@ -20,7 +21,9 @@ function App() {
           }}
             position="bottom-center"
           />
-          <RouterProvider router={router} />
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
         </div>
       </QueryClientProvider>
     </NextUIProvider>

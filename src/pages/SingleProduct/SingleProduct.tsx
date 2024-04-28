@@ -20,7 +20,7 @@ const SingleProduct = () => {
     const typedProduct = product as IProduct;
     return (
         <div className='md:w-3/4 mx-auto md:flex gap-4'>
-            <Carousel className="w-1/3">
+            <Carousel  className="md:w-1/3">
                 {
                     typedProduct.imageUrl.map((url, index) =>
                         <div key={index}>
@@ -28,8 +28,8 @@ const SingleProduct = () => {
                         </div>)
                 }
             </Carousel>
-            <div className='space-y-2'>
-                <p className='text-3xl'>{typedProduct.name}</p>
+            <div className='space-y-2 mb-4'>
+                <p className='text-3xl uppercase'>{typedProduct.name}</p>
                 <div className='flex'>
                     <Rating size='medium' name="half-rating-read" defaultValue={typedProduct.averageRating} precision={0.1} readOnly />
                     <span className='opacity-70'>({typedProduct.reviews.length} ratings)</span>

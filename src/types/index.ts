@@ -15,3 +15,8 @@ export type IProduct = {
     price: number,
     discount: number
 }
+
+/* export type IUser = {
+    uid: string,
+    email: string
+} */
