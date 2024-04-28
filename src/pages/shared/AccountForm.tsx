@@ -6,6 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
+import { useLogout } from "../../hooks/useLogout";
 
 type Inputs = {
     userName: string
@@ -16,8 +17,9 @@ type Inputs = {
 
 const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-    const { createNewAccount, isNewAccountCreating, isNewAccountCreatingError } = useCreateNewAccount();
-    const { login, isLoggingIn, isLoggingInError } = useLogin()
+    const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
+    const { login, isLoggingIn } = useLogin()
+    const { logOut } = useLogout()
     const {
         register,
         handleSubmit,
@@ -28,16 +30,16 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (loginPage) {
-            await login({ email: data.email, password: data.password })
-            if (isLoggingInError) {
+            const user = await login({ email: data.email, password: data.password })
+            if (!user) {
                 return toast.error("Login failed");
             }
             toast.success("Logged in")
             reset()
         }
         else {
-            await createNewAccount({ email: data.email, password: data.password, displayName: data.userName })
-            if (isNewAccountCreatingError) {
+            const user = await createNewAccount({ email: data.email, password: data.password, displayName: data.userName })
+            if (!user) {
                 return toast.error("Account register failed");
             }
             toast.success("Account created")
@@ -119,6 +121,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
                     isNewAccountCreating || isLoggingIn ? <CircularProgress size={20} style={{ color: 'white' }} /> : loginPage ? 'Sign In' : 'Sign Up'
                 }
             </button>
+            <p onClick={() => logOut()}>logout</p>
         </form>
     );
 };
