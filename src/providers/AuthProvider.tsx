@@ -8,7 +8,7 @@ type IAuthContext = {
     setIsLoading: React.Dispatch<SetStateAction<boolean>>
 }
 
-const AuthContext = createContext<IAuthContext | null>(null)
+export const AuthContext = createContext<IAuthContext | null>(null)
 
 const AuthProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null)

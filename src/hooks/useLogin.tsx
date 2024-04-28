@@ -4,7 +4,7 @@ import { useFirebaseAuth } from "./useFirebaseAuth";
 
 export const useLogin = (email: string, password: string) => {
     const auth = useFirebaseAuth()
-    useMutation({
+    const { mutateAsync: login, isPending, isError } = useMutation({
         mutationFn: async () => {
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password)
@@ -14,4 +14,6 @@ export const useLogin = (email: string, password: string) => {
             }
         }
     })
+
+    return [login, isPending, isError]
 };
