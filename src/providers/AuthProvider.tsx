@@ -1,6 +1,6 @@
 import React, { ReactElement, SetStateAction, createContext, useEffect, useState } from "react";
-import { User, getAuth, onAuthStateChanged } from "firebase/auth";
-import { app } from "../firebase/firebase.config";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
 
 type IAuthContext = {
     user: User | null,
@@ -9,11 +9,11 @@ type IAuthContext = {
 }
 
 const AuthContext = createContext<IAuthContext | null>(null)
-const auth = getAuth(app);
 
 const AuthProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
+    const auth = useFirebaseAuth()
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

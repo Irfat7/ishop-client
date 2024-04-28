@@ -1,9 +1,10 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../firebase/firebase.config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useMutation } from "@tanstack/react-query";
+import { useFirebaseAuth } from "./useFirebaseAuth";
 
-const auth = getAuth(app);
+
 export const useCreateNewAccount = (email: string, password: string) => {
+    const auth = useFirebaseAuth();
     const { mutateAsync: createNewAccount, isPending, isError } = useMutation({
         mutationFn: async () => {
             try {
