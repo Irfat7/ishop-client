@@ -1,19 +1,34 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, deleteUser } from "firebase/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useFirebaseAuth } from "./useFirebaseAuth";
+import { useAddUserDB } from "./useAddUserDB";
 
 
-export const useCreateNewAccount = (email: string, password: string) => {
+export const useCreateNewAccount = () => {
     const auth = useFirebaseAuth();
-    const { mutateAsync: createNewAccount, isPending, isError } = useMutation({
-        mutationFn: async () => {
+    const { mutateAsync: addUserDB, isError: isAddingUserDBFailed } = useAddUserDB()
+    const { mutateAsync: createNewAccount, isPending: isNewAccountCreating, isError: isNewAccountCreatingError } = useMutation({
+        mutationFn: async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
             try {
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user
+                await updateProfile(user, { displayName })
+                const newUser = {
+                    name: user.displayName || '',
+                    email: user.email || '',
+                    imageUrl: 'abc',
+                    role: "user"
+                }
+                await addUserDB(newUser)
+                if (isAddingUserDBFailed) {
+                    await deleteUser(user)
+                    throw new Error()
+                }
                 return userCredential.user;
             } catch (error) {
                 throw new Error()
             }
         }
     })
-    return [createNewAccount, isPending, isError]
+    return { createNewAccount, isNewAccountCreating, isNewAccountCreatingError }
 };

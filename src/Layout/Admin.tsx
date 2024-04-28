@@ -17,14 +17,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavLink, Outlet } from 'react-router-dom';
 import { adminRoutes } from '../constants';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const drawerWidth = 240;
 
 interface Props {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * Remove this when copying and pasting into your project.
-     */
     window?: () => Window;
 }
 
@@ -32,6 +29,9 @@ export default function Admin(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
+    const authInfo = useAuthContext()
+
+    console.log(authInfo);
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -86,8 +86,6 @@ export default function Admin(props: Props) {
             </List>
         </div>
     );
-
-    // Remove this const when copying and pasting into your project.
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
@@ -119,7 +117,6 @@ export default function Admin(props: Props) {
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
                 aria-label="mailbox folders"
             >
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
                     container={container}
                     variant="temporary"
@@ -127,7 +124,7 @@ export default function Admin(props: Props) {
                     onTransitionEnd={handleDrawerTransitionEnd}
                     onClose={handleDrawerClose}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },

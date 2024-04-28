@@ -7,6 +7,7 @@ import SingleProduct from "../pages/SingleProduct/SingleProduct";
 import Admin from "../Layout/Admin";
 import AddProduct from "../pages/AddProduct/AddProduct";
 import SearchProduct from "../pages/SearchProduct/SearchProduct";
+import AccountForm from "../pages/shared/AccountForm";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
             {
                 path: '/product/:productId',
                 element: <SingleProduct />
+            },
+            {
+                path: '/sign-in',
+                element: <AccountForm loginPage={true}/>
+            },
+            {
+                path: '/sign-up',
+                element: <AccountForm loginPage={false}/>
             }
         ]
     },

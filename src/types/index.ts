@@ -16,7 +16,9 @@ export type IProduct = {
     discount: number
 }
 
-/* export type IUser = {
-    uid: string,
+export type IUser = {
+    name: string
     email: string
-} */
+    imageUrl: string
+    role: string
+}

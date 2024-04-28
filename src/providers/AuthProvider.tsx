@@ -19,9 +19,9 @@ const AuthProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
             if (currentUser) {
-                console.log('logged in', user);
+                console.log('logged in');
             } else {
-                console.log('logged out', user);
+                console.log('logged out');
             }
             setIsLoading(false)
         });
