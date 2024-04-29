@@ -7,15 +7,18 @@ import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
 import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { Navigate } from "react-router-dom";
 
 type Inputs = {
     userName: string
     email: string
     password: string
-    confirmPassword: string | null
+    confirmPassword: string
 }
 
-const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
+const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.ReactNode => {
+    const { user, isLoading: userInfoLoading } = useAuthContext()
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
     const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
     const { login, isLoggingIn } = useLogin()
@@ -27,6 +30,10 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }) => {
         reset,
         formState: { errors },
     } = useForm<Inputs>()
+
+    if (!userInfoLoading && user) {
+        return <Navigate to='/' replace={true} />
+    }
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (loginPage) {
