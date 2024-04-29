@@ -9,6 +9,7 @@ import { baseUrl } from "../../constants"
 import toast from 'react-hot-toast';
 import { useState } from "react"
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast"
 
 type Inputs = {
     productName: string
@@ -23,6 +24,7 @@ const AddProduct = () => {
     const axiosInstance = useAxiosSecure();
     const [loading, setLoading] = useState(false)
     const [categories, isCategoryPending, isCategoryError] = useGetAllCategory()
+    const errorToast = useAxiosErrorToast()
     const {
         register,
         handleSubmit,
@@ -47,10 +49,15 @@ const AddProduct = () => {
             quantity: data.quantity
         }
 
-        const response = await axiosInstance.post(`${baseUrl}products`, newProduct)
-        if (response.status === 200) {
-            toast.success('New Product Added');
+        try {
+            const response = await axiosInstance.post(`${baseUrl}products`, newProduct)
+            if (response.status === 200) {
+                toast.success('New Product Added');
+            }
+        } catch (error) {
+            errorToast(error as Error)
         }
+
         reset()
         setLoading(false)
     }
