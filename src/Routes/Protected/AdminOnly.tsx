@@ -3,6 +3,7 @@ import { useAuthContext } from '../../hooks/useAuthContext';
 import { useAdminVerify } from '../../hooks/useAdminVerify';
 import { Navigate } from 'react-router-dom';
 import { useLogout } from '../../hooks/useLogout';
+import LoadingFull from '../../components/LoadingFull/LoadingFull';
 
 const AdminOnly: React.FC<{ children: ReactElement }> = ({ children }) => {
     const { user, isLoading: isUserLoading } = useAuthContext()
@@ -10,7 +11,7 @@ const AdminOnly: React.FC<{ children: ReactElement }> = ({ children }) => {
     const [admin, isAdminLoading, adminError] = useAdminVerify(user?.email || '')
 
     if (isUserLoading || isAdminLoading) {
-        return <p>loading</p> // Loader
+        return <LoadingFull />
     } else if (adminError) {
         logOut()
         return null;
