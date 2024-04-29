@@ -8,6 +8,7 @@ import Admin from "../Layout/Admin";
 import AddProduct from "../pages/AddProduct/AddProduct";
 import SearchProduct from "../pages/SearchProduct/SearchProduct";
 import AccountForm from "../pages/shared/AccountForm";
+import AdminOnly from "./Protected/AdminOnly";
 
 const router = createBrowserRouter([
     {
@@ -28,17 +29,17 @@ const router = createBrowserRouter([
             },
             {
                 path: '/sign-in',
-                element: <AccountForm loginPage={true}/>
+                element: <AccountForm loginPage={true} />
             },
             {
                 path: '/sign-up',
-                element: <AccountForm loginPage={false}/>
+                element: <AccountForm loginPage={false} />
             }
         ]
     },
     {
         path: '/admin',
-        element: <Admin></Admin>,
+        element: <AdminOnly><Admin></Admin></AdminOnly>,
         children: [
             {
                 path: '/admin/add-product',
