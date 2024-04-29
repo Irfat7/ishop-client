@@ -3,9 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useAddUserDB } from "./useAddUserDB";
 import { useAuthContext } from "./useAuthContext";
+import { useGenerateToken } from "./useGenerateToken";
 
 
 export const useCreateNewAccount = () => {
+    const { generateToken, tokenError } = useGenerateToken()
     const { setIsLoading: setUserCredentialLoading } = useAuthContext()
     const auth = useFirebaseAuth();
     const { mutateAsync: addUserDB, isError: isAddingUserDBFailed } = useAddUserDB()
@@ -23,10 +25,12 @@ export const useCreateNewAccount = () => {
                     role: "user"
                 }
                 await addUserDB(newUser)
-                if (isAddingUserDBFailed) {
+                const { token } = await generateToken(newUser.email)
+                if (isAddingUserDBFailed || tokenError) {
                     await deleteUser(user)
                     throw new Error()
                 }
+                localStorage.setItem('access-token', token)
                 return userCredential.user;
             } catch (error) {
                 throw new Error()
