@@ -5,7 +5,6 @@ import { ICategory } from "../../types"
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage"
 import { handleImageUpload, separateFeaturesByFullStop } from "../../Utils"
 import { useAxiosSecure } from "../../hooks/useAxiosSecure"
-import axios from "axios"
 import { baseUrl } from "../../constants"
 import toast from 'react-hot-toast';
 import { useState } from "react"
@@ -48,7 +47,7 @@ const AddProduct = () => {
             quantity: data.quantity
         }
 
-        const response = await axios.post(`${baseUrl}products`, newProduct)
+        const response = await axiosInstance.post(`${baseUrl}products`, newProduct)
         if (response.status === 200) {
             toast.success('New Product Added');
         }

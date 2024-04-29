@@ -16,6 +16,7 @@ export const useAxiosSecure = () => {
     });
 
     axiosInstance.interceptors.response.use(function (response) {
+        console.log('success with token', response);
         return response;
     }, function (error) {
         if (error.response.status === 401 || error.response.status === 403) {

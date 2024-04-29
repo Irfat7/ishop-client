@@ -27,7 +27,7 @@ const AuthProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
             if (currentUser) {
                 console.log('logged in');
             } else {
-                console.log('logged out');
+                localStorage.removeItem('access-token')
             }
             setIsLoading(false)
         });
