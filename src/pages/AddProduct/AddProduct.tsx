@@ -157,7 +157,7 @@ const AddProduct = () => {
                     validate: {
                         minTwoFile: (files) => files.length >= 2 && files.length <= 5 || "Minimum of 2 files and maximum of 5 files"
                     }
-                })} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" accept="image/png, image/jpg, image/jpeg" multiple />
+                })} className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" accept="image/png, image/jpg, image/jpeg, image/webp" multiple />
                 {errors.imageFile && <p className="text-dark-red text-sm">*{errors.imageFile.message}</p>}
             </div>
 

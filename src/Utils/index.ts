@@ -43,7 +43,7 @@ const uploadImage = async (imageFile: File) => {
 }
 
 export const separateFeaturesByFullStop = (allFeatures: string) => {
-    const featuresArray = allFeatures.split(".")
+    const featuresArray = allFeatures.split(".").map(feature => feature.trim());
     return featuresArray
 }
 
