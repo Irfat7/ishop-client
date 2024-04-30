@@ -13,11 +13,16 @@ const AdminOnly: React.FC<{ children: ReactElement }> = ({ children }) => {
     if (isUserLoading || isAdminLoading) {
         return <LoadingFull />
     } else if (adminError) {
-        logOut()
+        setTimeout(() => {
+            logOut()
+        }, 0)
         return null;
     } else if (admin) {
         return children
     }
+    setTimeout(() => {
+        logOut()
+    }, 0)
     return <Navigate to='/' replace={true} />
 };
 
