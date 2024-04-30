@@ -21,9 +21,10 @@ const Category = () => {
             <div className="grid gap-y-4 place-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
                 {
                     isProductLoading ? <Loader /> :
-                        products.map((product: IProduct) => <ProductCard key={product._id} product={product} />)
+                        products.length !== 0 && products.map((product: IProduct) => <ProductCard key={product._id} product={product} />)
                 }
             </div>
+            {products.length === 0 && <p className="text-center">Yet to add product in this category</p>}
         </div>
     );
 };
