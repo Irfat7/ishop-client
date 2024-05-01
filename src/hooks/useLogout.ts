@@ -2,6 +2,7 @@ import { signOut } from "firebase/auth";
 import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthContext } from "./useAuthContext";
+import toast from "react-hot-toast";
 
 export const useLogout = () => {
     const { setIsLoading: setUserCredentialLoading } = useAuthContext()
@@ -11,8 +12,13 @@ export const useLogout = () => {
             setUserCredentialLoading(true)
             try {
                 await signOut(auth)
+                toast.success("You have been logged out")
             } catch (error) {
-                console.log(error);
+                if (error instanceof Error) {
+                    toast.error(error.message || "Failed logging out");
+                } else {
+                    toast.error("An unexpected error occurred.");
+                }
             }
         }
     })
