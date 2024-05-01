@@ -18,11 +18,9 @@ export const useAxiosSecure = () => {
     });
 
     axiosInstance.interceptors.response.use(function (response) {
-        console.log('success with token', response);
         return response;
     }, function (error) {
         if (error.response.status === 401 || error.response.status === 403) {
-            console.log('token problem logging out', error)
             logOut()
         }
         return Promise.reject(error);

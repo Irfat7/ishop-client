@@ -19,6 +19,7 @@ export const useCreateNewAccount = () => {
                 const user = userCredential.user
                 await updateProfile(user, { displayName })
                 const newUser = {
+                    firebaseId: user.uid,
                     name: user.displayName || '',
                     email: user.email || '',
                     imageUrl: 'abc',

@@ -17,7 +17,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavLink, Outlet } from 'react-router-dom';
 import { adminRoutes } from '../constants';
-import { useAuthContext } from '../hooks/useAuthContext';
 
 const drawerWidth = 240;
 
@@ -29,9 +28,6 @@ export default function Admin(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
-    const authInfo = useAuthContext()
-
-    console.log(authInfo);
 
     const handleDrawerClose = () => {
         setIsClosing(true);

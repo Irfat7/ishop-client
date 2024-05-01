@@ -7,10 +7,15 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { IProduct } from '../../types';
 import { Rating } from '@mui/material';
 import UpdateProductModal from '../../components/nextui/UpdateProductModal/UpdateProductModal';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useAdminVerify } from '../../hooks/useAdminVerify';
 
 const SingleProduct = () => {
     const { productId } = useParams()
     const [product, isProductInfoLoading, errorInfo] = useGetProductById(productId || "")
+    const { user } = useAuthContext()
+    const [admin] = useAdminVerify(user?.email || '')
+
     if (isProductInfoLoading) {
         return <Loader />
     }
@@ -20,7 +25,7 @@ const SingleProduct = () => {
     const typedProduct = product as IProduct;
     return (
         <div className='md:w-3/4 mx-auto md:flex gap-4'>
-            <Carousel  className="md:w-1/3">
+            <Carousel className="md:w-1/3">
                 {
                     typedProduct.imageUrl.map((url, index) =>
                         <div key={index}>
@@ -49,7 +54,7 @@ const SingleProduct = () => {
                     </Link>
                 </div>
             </div>
-            <UpdateProductModal {...typedProduct} />
+            {admin && <UpdateProductModal {...typedProduct} />}
         </div>
     );
 };

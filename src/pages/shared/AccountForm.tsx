@@ -6,7 +6,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
-import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Navigate } from "react-router-dom";
 
@@ -22,7 +21,6 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.Rea
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
     const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
     const { login, isLoggingIn } = useLogin()
-    const { logOut } = useLogout()
     const {
         register,
         handleSubmit,
@@ -128,7 +126,6 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.Rea
                     isNewAccountCreating || isLoggingIn ? <CircularProgress size={20} style={{ color: 'white' }} /> : loginPage ? 'Sign In' : 'Sign Up'
                 }
             </button>
-            <p onClick={() => logOut()}>logout</p>
         </form>
     );
 };
