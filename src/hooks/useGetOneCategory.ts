@@ -21,11 +21,13 @@ export const useGetOneCategory = (categoryName: string) => {
         queryFn: getProducts,
         initialPageParam: 1,
         getNextPageParam: (lastPage, allPages) => {
-            if (lastPage.length < 3) {
+            const limit = 3
+            if (lastPage.length < limit) {
                 return undefined;
             }
             return allPages.length + 1;
         },
+        refetchOnWindowFocus: false
     })
 
     return {
