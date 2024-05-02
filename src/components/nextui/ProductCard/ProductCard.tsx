@@ -48,7 +48,11 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
                     <div className="flex justify-between items-center px-4 pt-2 border-t-2 border-t-light-ash">
                         <span className="h3-medium text-dark-red">${product.price}</span>
                         <button onClick={() => {
-                            user ? addCart({ uId: user.uid, productId: product._id }) : toast.error('nei taile')
+                            user ?
+                                addCart({ uId: user.uid, productId: product._id }) :
+                                toast.error('Please login or create account', {
+                                    id: 'login',
+                                })
                         }}>
                             <div className="flex p-1 cursor-pointer border border-light-ash rounded-full duration-500 hover:bg-dark-red">
                                 <svg width={20} height={20} className="svg-icon" viewBox="0 0 20 20">

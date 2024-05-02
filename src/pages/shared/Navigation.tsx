@@ -6,7 +6,8 @@ import UserDropDown from '../../components/nextui/UserDropDown';
 import { useLogout } from '../../hooks/useLogout';
 
 const Navigation = () => {
-  const {logOut} = useLogout()
+  const { logOut } = useLogout()
+  
   return (
     <nav className='flex justify-between items-center p-2 md:md-padding bg-primary'>
       <div className='flex gap-1 items-center md:w-1/3'>
