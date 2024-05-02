@@ -1,21 +1,12 @@
 import CartIcons from '/icons/cart.svg'
 import { useGetUsersCart } from '../../hooks/useGetUsersCart';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
-import { useEffect } from 'react';
-import { useAuthContext } from '../../hooks/useAuthContext';
 
 const Cart = () => {
-    const [carts, , cartError, refetchCart] = useGetUsersCart()
+    const [carts, , cartError] = useGetUsersCart()
     const axiosToast = useAxiosErrorToast()
-    const { user } = useAuthContext()
 
     cartError && axiosToast(cartError)
-
-    useEffect(() => {
-        if (user) {
-            refetchCart()
-        }
-    }, [user])
 
     return (
         <div className='bg-secondary relative'>

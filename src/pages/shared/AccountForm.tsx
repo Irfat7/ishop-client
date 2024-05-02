@@ -6,7 +6,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import { Navigate } from "react-router-dom";
 
 type Inputs = {
@@ -17,10 +16,9 @@ type Inputs = {
 }
 
 const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.ReactNode => {
-    const { user, isLoading: userInfoLoading } = useAuthContext()
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-    const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
-    const { login, isLoggingIn } = useLogin()
+    const { createNewAccount, isNewAccountCreating, accountCreated } = useCreateNewAccount();
+    const { login, isLoggingIn, loggedIn } = useLogin()
     const {
         register,
         handleSubmit,
@@ -29,7 +27,11 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.Rea
         formState: { errors },
     } = useForm<Inputs>()
 
-    if (!userInfoLoading && user) {
+    if (accountCreated) {
+        return <Navigate to='/sign-in' replace={true} />
+    }
+
+    if (loggedIn) {
         return <Navigate to='/' replace={true} />
     }
 
@@ -47,7 +49,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.Rea
             if (!user) {
                 return toast.error("Account register failed");
             }
-            toast.success("Account created")
+            toast.success("Account created, Now you can login")
             reset()
         }
     }

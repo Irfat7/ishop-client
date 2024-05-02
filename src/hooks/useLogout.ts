@@ -12,7 +12,6 @@ export const useLogout = () => {
             setUserCredentialLoading(true)
             try {
                 await signOut(auth)
-                toast.success("You have been logged out")
             } catch (error) {
                 if (error instanceof Error) {
                     toast.error(error.message || "Failed logging out");

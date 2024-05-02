@@ -1,6 +1,7 @@
 import React, { ReactElement, SetStateAction, createContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { useFirebaseAuth } from "../hooks/useFirebaseAuth";
+import { useLogout } from "../hooks/useLogout";
 
 type IAuthContext = {
     user: User | null,
@@ -20,12 +21,15 @@ const AuthProvider: React.FC<{ children: ReactElement }> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const auth = useFirebaseAuth()
+    const { logOut } = useLogout()
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
             if (currentUser) {
-                console.log('logged in');
+                if (!localStorage.getItem('access-token')) {
+                    logOut()
+                }
             } else {
                 localStorage.removeItem('access-token')
             }

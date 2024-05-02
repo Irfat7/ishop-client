@@ -4,7 +4,7 @@ import { useIdMap } from "./useIdMap";
 
 export const useGetUsersCart = () => {
     const axiosSecure = useAxiosSecure()
-    const [userId, userIdLoading] = useIdMap()
+    const [userId] = useIdMap()
 
     const { data: carts = [], isLoading, error, refetch } = useQuery({
         queryKey: ["Cart", userId],
