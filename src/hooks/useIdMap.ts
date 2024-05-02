@@ -5,14 +5,14 @@ import { useAxiosSecure } from "./useAxiosSecure";
 export const useIdMap = () => {
     const { user } = useAuthContext()
     const axiosSecure = useAxiosSecure()
-    const firebaseId = user?.uid
+
     const { data: userId, isLoading } = useQuery({
-        queryKey: ['UID', firebaseId],
+        queryKey: ['UID', user?.uid],
         queryFn: async () => {
-            const { data } = await axiosSecure.get(`/users/id-map/getUser?firebaseId=${firebaseId}`)
-            return data.id
+            const response = await axiosSecure.get(`/users/id-map/getUser?firebaseId=${user?.uid}`)
+            return response.data.id
         },
-        enabled: !!firebaseId
+        enabled: !!user,
     })
     return [userId, isLoading]
 };
