@@ -3,9 +3,11 @@ import { useMutation } from "@tanstack/react-query";
 import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useAddUserDB } from "./useAddUserDB";
 import { useAuthContext } from "./useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 export const useCreateNewAccount = () => {
+    const navigate = useNavigate()
     const { setIsLoading: setUserCredentialLoading } = useAuthContext()
     const auth = useFirebaseAuth();
     const { mutateAsync: addUserDB, isError: isAddingUserDBFailed } = useAddUserDB()
@@ -28,6 +30,7 @@ export const useCreateNewAccount = () => {
                     await deleteUser(user)
                     throw new Error()
                 }
+                navigate('/sign-in')
                 return userCredential.user;
             } catch (error) {
                 throw new Error()

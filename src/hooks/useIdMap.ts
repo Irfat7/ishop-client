@@ -11,7 +11,6 @@ export const useIdMap = () => {
         queryKey: ['UID', user?.uid],
         queryFn: async () => {
             const response = await axiosSecure.get(`/users/id-map/getUser?firebaseId=${user?.uid}`)
-            console.log('success', response.data.id)
             return response.data.id
         },
         enabled: !!user && !!token

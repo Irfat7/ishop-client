@@ -17,7 +17,7 @@ type Inputs = {
 
 const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.ReactNode => {
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false)
-    const { createNewAccount, isNewAccountCreating, accountCreated } = useCreateNewAccount();
+    const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
     const { login, isLoggingIn, loggedIn } = useLogin()
     const {
         register,
@@ -26,10 +26,6 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({ loginPage }): React.Rea
         reset,
         formState: { errors },
     } = useForm<Inputs>()
-
-    if (accountCreated) {
-        return <Navigate to='/sign-in' replace={true} />
-    }
 
     if (loggedIn) {
         return <Navigate to='/' replace={true} />
