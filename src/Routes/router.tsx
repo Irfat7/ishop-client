@@ -9,6 +9,7 @@ import AddProduct from "../pages/AddProduct/AddProduct";
 import SearchProduct from "../pages/SearchProduct/SearchProduct";
 import AccountForm from "../pages/shared/AccountForm";
 import AdminOnly from "./Protected/AdminOnly";
+import CartDetails from "../pages/CartDetails/CartDetails";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
                 element: <Category />
             },
             {
+                path: '/cart',
+                element: <CartDetails />
+            },
+            {
                 path: '/product/:productId',
                 element: <SingleProduct />
             },
@@ -34,7 +39,7 @@ const router = createBrowserRouter([
             {
                 path: '/sign-up',
                 element: <AccountForm loginPage={false} />
-            }
+            },
         ]
     },
     {

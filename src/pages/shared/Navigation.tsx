@@ -37,7 +37,7 @@ const Navigation = () => {
 
       <div className='md:w-1/3 flex justify-end items-center gap-4'>
         <Search />
-        <NavLink to='/'>
+        <NavLink to='/cart'>
           <Cart />
         </NavLink>
         <UserDropDown />

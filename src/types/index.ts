@@ -22,3 +22,10 @@ export type IUser = {
     imageUrl: string
     role: string
 }
+
+export type ICart = {
+    _id: string;
+    userId: IUser
+    productId: IProduct
+    quantity: number
+}
