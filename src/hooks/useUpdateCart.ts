@@ -3,8 +3,8 @@ import { useAxiosSecure } from "./useAxiosSecure";
 
 export const useUpdateCart = () => {
     const axiosInstance = useAxiosSecure()
-    const { mutateAsync: updateCartQuantity, isPending: updatingCartQuantity, error: cartQuantityError } = useMutation({
-        mutationFn: async (updateArray: { _id: string, quantity: number }[]) => {
+    const { mutateAsync: updateCartQuantity, isSuccess: updatedQuantity, error: cartQuantityError } = useMutation({
+        mutationFn: async (updateArray: { id: string, pId: string, quantity: number }[]) => {
             const response = await axiosInstance.patch('/carts/user', {
                 updateArray
             })
@@ -12,5 +12,5 @@ export const useUpdateCart = () => {
         }
     })
 
-    return [updateCartQuantity, updatingCartQuantity, cartQuantityError]
+    return { updateCartQuantity, updatedQuantity, cartQuantityError }
 };

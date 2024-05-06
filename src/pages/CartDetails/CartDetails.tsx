@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SingleCart from "../../components/SingleCart/SingleCart";
 import Loader from "../../components/universe/Loader/Loader";
 import { useGetUsersCart } from "../../hooks/useGetUsersCart";
 import { ICart } from "../../types";
+import { useUpdateCart } from "../../hooks/useUpdateCart";
+import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
+import toast from "react-hot-toast";
 
 const CartDetails = () => {
     const [carts, cartsLoading] = useGetUsersCart()
-    const [updateOperation, setUpdateOperation] = useState<{ id: string; quantity: number }[]>([]);
+    const axiosErrorToast = useAxiosErrorToast()
+    const [updateOperation, setUpdateOperation] = useState<{ id: string, pId: string, quantity: number }[]>([]);
+    const { updateCartQuantity, cartQuantityError } = useUpdateCart()
 
+    useEffect(() => {
+        cartQuantityError && axiosErrorToast(cartQuantityError)
+    }, [cartQuantityError])
 
     if (cartsLoading) {
         return <Loader />
@@ -17,12 +25,18 @@ const CartDetails = () => {
         return <p className="text-center font-medium text-2xl">Cart is empty</p>
     }
 
-    const checkoutHandler = () => {
+    const checkoutHandler = async () => {
         if (updateOperation.length !== 0) {
-            return console.log('update request');
+            const response = await updateCartQuantity(updateOperation)
+            response && toast.success("Cart updated")
+            if (!response) {
+                return
+            }
         }
-        console.log('update operation not required');
+        console.log('payment time');
     }
+
+    console.log(cartQuantityError);
 
     return (
         <section

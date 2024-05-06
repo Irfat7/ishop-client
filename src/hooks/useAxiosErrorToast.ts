@@ -5,7 +5,7 @@ export const useAxiosErrorToast = () => {
     return (error:Error) => {
         if (axios.isAxiosError(error)) {
             if (error.response) {
-                toast.error(error.response.data?.message);
+                toast.error(error.response.data?.error);
             } else if (error.request) {
                 toast.error('No response received from server');
             } else {

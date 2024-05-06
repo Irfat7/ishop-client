@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 interface CartProps {
     cartItem: ICart
-    setUpdateOperation: React.Dispatch<SetStateAction<{ id: string, quantity: number }[]>>
+    setUpdateOperation: React.Dispatch<SetStateAction<{ id: string, pId: string, quantity: number }[]>>
 }
 
 const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
@@ -29,6 +29,7 @@ const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
         setUpdateOperation(prevUpdateOperation => {
             return [...prevUpdateOperation.filter(cartInfo => cartInfo.id !== _id), {
                 id: _id,
+                pId: productId._id,
                 quantity: tempFinalQuantity
             }]
         });
