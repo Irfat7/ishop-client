@@ -42,7 +42,10 @@ const CartDetails = () => {
                         </div>
                         {/* product */}
                         {
-                            carts.map((cartItem: ICart) => <SingleCart key={cartItem._id} imageUrl={cartItem.productId.imageUrl[0]} itemCategory={cartItem.productId.category.name} itemName={cartItem.productId.name} itemPrice={cartItem.productId.price} itemQuantity={cartItem.quantity} />)
+                            carts.map((cartItem: ICart) => <SingleCart
+                                key={cartItem._id}
+                                cartItem={cartItem}
+                            />)
                         }
 
                     </div>
