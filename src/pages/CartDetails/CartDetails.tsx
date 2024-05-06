@@ -17,7 +17,12 @@ const CartDetails = () => {
         return <p className="text-center font-medium text-2xl">Cart is empty</p>
     }
 
-    console.log('update ids', updateOperation);
+    const checkoutHandler = () => {
+        if (updateOperation.length !== 0) {
+            return console.log('update request');
+        }
+        console.log('update operation not required');
+    }
 
     return (
         <section
@@ -64,7 +69,7 @@ const CartDetails = () => {
                                 <p className="font-normal text-lg leading-8 text-black">3 Items</p>
                                 <p className="font-medium text-lg leading-8 text-black">$480.00</p>
                             </div>
-                            <form>
+                            <div>
                                 <label className="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
                                 </label>
                                 <div className="flex pb-4 w-full">
@@ -91,8 +96,9 @@ const CartDetails = () => {
                                     <p className="font-semibold text-xl leading-8 text-indigo-600">$485.00</p>
                                 </div>
                                 <button
-                                    className="w-full text-center bg-indigo-600 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-indigo-700">Checkout</button>
-                            </form>
+                                    onClick={checkoutHandler}
+                                    className="w-full text-center bg-dark-red rounded-xl text-secondary py-3 px-6 font-semibold text-lg">Checkout</button>
+                            </div>
                         </div>
                     </div>
                 </div>
