@@ -1,3 +1,4 @@
+import { useState } from "react";
 import SingleCart from "../../components/SingleCart/SingleCart";
 import Loader from "../../components/universe/Loader/Loader";
 import { useGetUsersCart } from "../../hooks/useGetUsersCart";
@@ -5,6 +6,8 @@ import { ICart } from "../../types";
 
 const CartDetails = () => {
     const [carts, cartsLoading] = useGetUsersCart()
+    const [updateOperation, setUpdateOperation] = useState<{ id: string; quantity: number }[]>([]);
+
 
     if (cartsLoading) {
         return <Loader />
@@ -13,6 +16,8 @@ const CartDetails = () => {
     if (carts.length === 0 && !cartsLoading) {
         return <p className="text-center font-medium text-2xl">Cart is empty</p>
     }
+
+    console.log('update ids', updateOperation);
 
     return (
         <section
@@ -45,6 +50,7 @@ const CartDetails = () => {
                             carts.map((cartItem: ICart) => <SingleCart
                                 key={cartItem._id}
                                 cartItem={cartItem}
+                                setUpdateOperation={setUpdateOperation}
                             />)
                         }
 

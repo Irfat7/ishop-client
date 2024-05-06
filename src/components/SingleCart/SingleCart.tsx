@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import { ICart } from "../../types";
 import toast from "react-hot-toast";
 
 interface CartProps {
     cartItem: ICart
+    setUpdateOperation: React.Dispatch<SetStateAction<{ id: string, quantity: number }[]>>
 }
 
-const SingleCart: React.FC<CartProps> = ({ cartItem }) => {
-    const { productId, quantity: itemQuantity/* , _id */ } = cartItem
+const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
+    const { productId, quantity: itemQuantity, _id } = cartItem
     const { imageUrl, name: itemName, category, price: itemPrice } = productId
 
     const [finalQuantity, setFinalQuantity] = useState<number>(itemQuantity)
@@ -19,7 +20,18 @@ const SingleCart: React.FC<CartProps> = ({ cartItem }) => {
         else if (!reduce && finalQuantity >= 10) {
             return toast.error("Maximum quantity is 10", { id: 'maximum' })
         }
-        setFinalQuantity(reduce ? finalQuantity - 1 : finalQuantity + 1)
+        setFinalQuantity(prevQuantity => reduce ? prevQuantity - 1 : prevQuantity + 1);
+
+        const tempFinalQuantity = reduce ? finalQuantity - 1 : finalQuantity + 1;
+        if (itemQuantity === tempFinalQuantity) {
+            return setUpdateOperation(prevUpdateOperation => prevUpdateOperation.filter(cartInfo => cartInfo.id !== _id));
+        }
+        setUpdateOperation(prevUpdateOperation => {
+            return [...prevUpdateOperation.filter(cartInfo => cartInfo.id !== _id), {
+                id: _id,
+                quantity: tempFinalQuantity
+            }]
+        });
     }
 
     return (
@@ -56,7 +68,7 @@ const SingleCart: React.FC<CartProps> = ({ cartItem }) => {
                     </div>
                 </div>
                 <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">
-                    <p className="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">${itemPrice}</p>
+                    <p className="font-bold text-lg leading-8 text-gray-600 text-center transition-all duration-300 group-hover:text-indigo-600">${finalQuantity * itemPrice}</p>
                 </div>
             </div>
         </div>
