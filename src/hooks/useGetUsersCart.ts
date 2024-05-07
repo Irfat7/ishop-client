@@ -20,6 +20,7 @@ export const useGetUsersCart = () => {
       const response = await axiosSecure.get(`/carts/user?userId=${userId}`);
       return response.data;
     },
+    refetchOnWindowFocus: true,
   });
   return [carts, isLoading, error, refetch];
 };

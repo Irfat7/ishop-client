@@ -10,6 +10,7 @@ import SearchProduct from "../pages/SearchProduct/SearchProduct";
 import AccountForm from "../pages/shared/AccountForm";
 import AdminOnly from "./Protected/AdminOnly";
 import CartDetails from "../pages/CartDetails/CartDetails";
+import Payment from "../pages/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         path: "/sign-up",
         element: <AccountForm loginPage={false} />,
       },
+      {
+        path: '/payment',
+        element: <Payment />
+      }
     ],
   },
   {
