@@ -6,119 +6,150 @@ import { ICart } from "../../types";
 import { useUpdateCart } from "../../hooks/useUpdateCart";
 import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
 import toast from "react-hot-toast";
+import { calculateTotal } from "../../Utils";
 
 const CartDetails = () => {
-    const [carts, cartsLoading] = useGetUsersCart()
-    const axiosErrorToast = useAxiosErrorToast()
-    const [updateOperation, setUpdateOperation] = useState<{ id: string, pId: string, quantity: number }[]>([]);
-    const { updateCartQuantity, cartQuantityError } = useUpdateCart()
+    const [carts, cartsLoading] = useGetUsersCart();
+    const axiosErrorToast = useAxiosErrorToast();
+    const [updateOperation, setUpdateOperation] = useState<
+        { id: string; pId: string; quantity: number }[]
+    >([]);
+    const { updateCartQuantity, updatingQuantity, cartQuantityError } = useUpdateCart();
+    const [totalPrice, setTotalPrice] = useState<number>(0)
 
     useEffect(() => {
-        cartQuantityError && axiosErrorToast(cartQuantityError)
-    }, [cartQuantityError])
+        cartQuantityError && axiosErrorToast(cartQuantityError);
+    }, [cartQuantityError]);
+
+    useEffect(() => {
+        if (!cartsLoading && carts.length !== 0) {
+            setTotalPrice(calculateTotal(carts, updateOperation))
+        }
+    }, [updateOperation, carts])
 
     if (cartsLoading) {
-        return <Loader />
+        return <Loader />;
     }
 
     if (carts.length === 0 && !cartsLoading) {
-        return <p className="text-center font-medium text-2xl">Cart is empty</p>
+        return <p className="text-center text-2xl font-medium">Cart is empty</p>;
     }
 
     const checkoutHandler = async () => {
         if (updateOperation.length !== 0) {
-            const response = await updateCartQuantity(updateOperation)
-            response && toast.success("Cart updated")
+            const response = await updateCartQuantity(updateOperation);
+            response && toast.success("Cart updated");
             if (!response) {
-                return
+                return;
             }
         }
-        console.log('payment time');
-    }
-
-    console.log(cartQuantityError);
+        console.log("payment time");
+    };
 
     return (
-        <section
-            className="relative z-10 after:contents-[''] after:absolute after:z-0 after:h-full xl:after:w-1/3 after:top-0 after:right-0 after:bg-gray-50">
-            <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto relative z-10">
+        <section className="after:contents-[''] after:bg-gray-50 relative z-10 after:absolute after:right-0 after:top-0 after:z-0 after:h-full xl:after:w-1/3">
+            <div className="lg-6 relative z-10 mx-auto w-full max-w-7xl px-4 md:px-5">
                 <div className="grid grid-cols-12">
-                    <div
-                        className="col-span-12 xl:col-span-8 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                        <div className="flex items-center justify-between pb-8 border-b border-gray-300">
-                            <h2 className="font-manrope font-bold text-3xl leading-10 text-black">Shopping Cart</h2>
-                            <h2 className="font-manrope font-bold text-xl leading-8 text-gray-600">3 Items</h2>
+                    <div className="col-span-12 w-full pb-8 max-xl:mx-auto max-xl:max-w-3xl lg:pr-8 xl:col-span-8">
+                        <div className="border-gray-300 flex items-center justify-between border-b pb-8">
+                            <h2 className="font-manrope text-black text-3xl font-bold leading-10">
+                                Shopping Cart
+                            </h2>
+                            <h2 className="font-manrope text-gray-600 text-xl font-bold leading-8">
+                                3 Items
+                            </h2>
                         </div>
-                        <div className="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
+                        <div className="border-gray-200 mt-8 grid grid-cols-12 border-b pb-6 max-md:hidden">
                             <div className="col-span-12 md:col-span-6">
-                                <p className="font-normal text-lg leading-8 text-gray-400">Product Details</p>
+                                <p className="text-gray-400 text-lg font-normal leading-8">
+                                    Product Details
+                                </p>
                             </div>
                             <div className="col-span-12 md:col-span-6">
                                 <div className="grid grid-cols-6">
                                     <div className="col-span-3">
-                                        <p className="font-normal text-lg leading-8 text-gray-400 text-center">Quantity</p>
+                                        <p className="text-gray-400 text-center text-lg font-normal leading-8">
+                                            Quantity
+                                        </p>
                                     </div>
                                     <div className="col-span-3">
-                                        <p className="font-normal text-lg leading-8 text-gray-400 text-right">Total</p>
+                                        <p className="text-gray-400 text-right text-lg font-normal leading-8">
+                                            Total
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         {/* product */}
-                        {
-                            carts.map((cartItem: ICart) => <SingleCart
+                        {carts.map((cartItem: ICart) => (
+                            <SingleCart
                                 key={cartItem._id}
                                 cartItem={cartItem}
                                 setUpdateOperation={setUpdateOperation}
-                            />)
-                        }
-
+                            />
+                        ))}
                     </div>
-                    <div
-                        className=" col-span-12 xl:col-span-4 bg-gray-50 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8">
-                        <h2 className="font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300">
-                            Order Summary</h2>
+                    <div className=" bg-gray-50 col-span-12 mx-auto w-full max-w-3xl max-xl:px-6 lg:pl-8 xl:col-span-4 xl:max-w-lg">
+                        <h2 className="font-manrope text-black border-gray-300 border-b pb-8 text-3xl font-bold leading-10">
+                            Order Summary
+                        </h2>
                         <div className="mt-8">
                             <div className="flex items-center justify-between pb-6">
-                                <p className="font-normal text-lg leading-8 text-black">3 Items</p>
-                                <p className="font-medium text-lg leading-8 text-black">$480.00</p>
+                                <p className="text-black text-lg font-normal leading-8">
+                                    {carts.length} item(s)
+                                </p>
+                                <p className="text-black text-lg font-medium leading-8">
+                                    ${totalPrice}
+                                </p>
                             </div>
                             <div>
-                                <label className="flex items-center mb-1.5 text-gray-400 text-sm font-medium">Promo Code
+                                <label className="text-gray-400 mb-1.5 flex items-center text-sm font-medium">
+                                    Promo Code
                                 </label>
-                                <div className="flex pb-4 w-full">
+                                <div className="flex w-full pb-4">
                                     <div className="relative w-full ">
-                                        <div className=" absolute left-0 top-0 py-2.5 px-4 text-gray-300">
-
-                                        </div>
-                                        <input type="text"
-                                            className="block w-full h-11 pr-11 pl-5 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-lg placeholder-gray-500 focus:outline-gray-400 "
-                                            placeholder="xxxx xxxx xxxx" />
-                                        <button id="dropdown-button" data-target="dropdown"
-                                            className="dropdown-toggle flex-shrink-0 z-10 inline-flex items-center py-4 px-4 text-base font-medium text-center text-gray-900 bg-transparent  absolute right-0 top-0 pl-2 "
-                                            type="button">
+                                        <div className=" text-gray-300 absolute left-0 top-0 px-4 py-2.5"></div>
+                                        <input
+                                            type="text"
+                                            className="shadow-xs text-gray-900 bg-white border-gray-300 placeholder-gray-500 focus:outline-gray-400 block h-11 w-full rounded-lg border py-2.5 pl-5 pr-11 text-base font-normal "
+                                            placeholder="xxxx xxxx xxxx"
+                                        />
+                                        <button
+                                            id="dropdown-button"
+                                            data-target="dropdown"
+                                            className="dropdown-toggle text-gray-900 absolute right-0 top-0 z-10 inline-flex flex-shrink-0 items-center bg-transparent px-4 py-4  pl-2 text-center text-base font-medium "
+                                            type="button"
+                                        >
                                             +
                                         </button>
                                     </div>
                                 </div>
-                                <div className="flex items-center border-b border-gray-200">
-                                    <button
-                                        className="rounded-lg w-full bg-black py-2.5 px-4 text-white text-sm font-semibold text-center mb-8 transition-all duration-500 hover:bg-black/80">Apply</button>
+                                <div className="flex items-center">
+                                    <button className="bg-dark-red text-secondary w-full rounded-lg px-4 py-2.5 text-center text-sm font-semibold">
+                                        Apply
+                                    </button>
                                 </div>
                                 <div className="flex items-center justify-between py-8">
-                                    <p className="font-medium text-xl leading-8 text-black">3 Items</p>
-                                    <p className="font-semibold text-xl leading-8 text-indigo-600">$485.00</p>
+                                    <p className="text-black text-xl font-medium leading-8">
+                                        3 Items
+                                    </p>
+                                    <p className="text-indigo-600 text-xl font-semibold leading-8">
+                                        $485.00
+                                    </p>
                                 </div>
                                 <button
+                                    disabled={updatingQuantity}
                                     onClick={checkoutHandler}
-                                    className="w-full text-center bg-dark-red rounded-xl text-secondary py-3 px-6 font-semibold text-lg">Checkout</button>
+                                    className={`w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary ${updatingQuantity && 'cursor-not-allowed'}`}
+                                >
+                                    Checkout
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     );
 };
 

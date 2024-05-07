@@ -1,31 +1,31 @@
 export type ICategory = {
-    _id: string;
-    name: string;
-    products: [string];
-}
+  _id: string;
+  name: string;
+  products: [string];
+};
 export type IProduct = {
-    _id: string;
-    name: string;
-    features: [string];
-    category: ICategory;
-    imageUrl: [string];
-    quantity: number,
-    averageRating: number,
-    reviews: [string],
-    price: number,
-    discount: number
-}
+  _id: string;
+  name: string;
+  features: [string];
+  category: ICategory;
+  imageUrl: [string];
+  quantity: number;
+  averageRating: number;
+  reviews: [string];
+  price: number;
+  discount: number;
+};
 
 export type IUser = {
-    name: string
-    email: string
-    imageUrl: string
-    role: string
-}
+  name: string;
+  email: string;
+  imageUrl: string;
+  role: string;
+};
 
 export type ICart = {
-    _id: string;
-    userId: IUser
-    productId: IProduct
-    quantity: number
-}
+  _id: string;
+  userId: IUser;
+  productId: IProduct;
+  quantity: number;
+};

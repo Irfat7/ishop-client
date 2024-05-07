@@ -5,7 +5,7 @@
 
 @layer base {
   * {
-    @apply box-border list-none p-0 m-0 scroll-smooth;
+    @apply m-0 box-border list-none scroll-smooth p-0;
   }
 
   body {
@@ -17,10 +17,10 @@
   .md-padding {
     @apply px-10 py-2;
   }
-  .big-header{
+  .big-header {
     @apply text-4xl font-medium;
   }
-  .small-header{
+  .small-header {
     @apply text-2xl font-medium;
   }
   .h1-bold {
@@ -79,7 +79,7 @@
     @apply text-[10px] font-medium leading-[140%];
   }
 
-  .center{
-    @apply flex justify-center items-center
+  .center {
+    @apply flex items-center justify-center;
   }
 }

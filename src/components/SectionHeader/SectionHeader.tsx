@@ -1,10 +1,11 @@
-
 const SectionHeader = ({ title }: { title: string | undefined }) => {
-    return (
-        <div className="flex center my-10 md:my-20">
-            <p className="capitalize small-header md:big-header px-3 border-x-4 border-x-dark-red">{title}</p>
-        </div>
-    );
+  return (
+    <div className="center my-10 flex md:my-20">
+      <p className="small-header md:big-header border-x-4 border-x-dark-red px-3 capitalize">
+        {title}
+      </p>
+    </div>
+  );
 };
 
 export default SectionHeader;
