@@ -51,7 +51,7 @@ const Category = () => {
         </button>
       )}
       {data.pages[0].length === 0 && (
-        <p className="text-center">Yet to add product in this category</p>
+        <p className="text-center text-lg">Yet to add product in this category</p>
       )}
     </div>
   );
