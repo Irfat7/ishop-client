@@ -11,6 +11,7 @@ import AccountForm from "../pages/shared/AccountForm";
 import AdminOnly from "./Protected/AdminOnly";
 import CartDetails from "../pages/CartDetails/CartDetails";
 import Payment from "../pages/Payment/Payment";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: '/payment',
         element: <Payment />
+      },
+      {
+        path: '/payment-status',
+        element: <PaymentSuccess />
       }
     ],
   },

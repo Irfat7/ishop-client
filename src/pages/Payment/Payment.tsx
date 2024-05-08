@@ -1,5 +1,3 @@
-/* import SectionHeader from '../../components/SectionHeader/SectionHeader';
-import bdFlag from '/icons/bdFlag.svg' */
 import { Appearance, StripeElementsOptions, loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';
