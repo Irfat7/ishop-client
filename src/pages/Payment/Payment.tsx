@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useGetUsersCart } from '../../hooks/useGetUsersCart';
 import { useAxiosSecure } from '../../hooks/useAxiosSecure';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
+import { useNavigate } from 'react-router-dom';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_TEST);
 
@@ -15,9 +16,11 @@ const Payment = () => {
     const [carts, cartsLoading, cartsError] = useGetUsersCart()
     const axiosInstance = useAxiosSecure()
     const axiosErrorToast = useAxiosErrorToast()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!cartsLoading) {
+            carts.length === 0 && navigate('/')
             axiosInstance.post('/create-payment-intent', { carts })
                 .then(({ data }) => setClientSecret(data.clientSecret))
                 .catch(error => axiosErrorToast(error))

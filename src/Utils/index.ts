@@ -67,7 +67,8 @@ export const calculateTotal = (carts: ICart[], updateOperation: { id: string; pI
     return cartItem
   })
   const totalPrice = cartToCalculatePrice.reduce((acc, current) => {
-    return current.quantity * current.productId.price + acc
+    const discountedPrice = current.productId.discount === 0 ? current.productId.price : getDiscountedPrice(current.productId.price, current.productId.discount)
+    return current.quantity * discountedPrice + acc
   }, 0)
   return totalPrice
 }

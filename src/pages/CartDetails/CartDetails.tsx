@@ -7,8 +7,10 @@ import { useUpdateCart } from "../../hooks/useUpdateCart";
 import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
 import toast from "react-hot-toast";
 import { calculateTotal } from "../../Utils";
+import { useNavigate } from "react-router-dom";
 
 const CartDetails = () => {
+    const navigate = useNavigate()
     const [carts, cartsLoading] = useGetUsersCart();
     const axiosErrorToast = useAxiosErrorToast();
     const [updateOperation, setUpdateOperation] = useState<
@@ -43,7 +45,7 @@ const CartDetails = () => {
                 return;
             }
         }
-        console.log("payment time");
+        navigate('/payment')
     };
 
     return (

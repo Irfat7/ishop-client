@@ -1,6 +1,7 @@
 import { SetStateAction, useState } from "react";
 import { ICart } from "../../types";
 import toast from "react-hot-toast";
+import { getDiscountedPrice } from "../../Utils";
 
 interface CartProps {
   cartItem: ICart;
@@ -11,7 +12,7 @@ interface CartProps {
 
 const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
   const { productId, quantity: itemQuantity, _id } = cartItem;
-  const { imageUrl, name: itemName, category, price: itemPrice } = productId;
+  const { imageUrl, name: itemName, category, price: itemPrice, discount } = productId;
 
   const [finalQuantity, setFinalQuantity] = useState<number>(itemQuantity);
 
@@ -43,6 +44,8 @@ const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
     });
   };
 
+  const discountedPrice = discount === 0 ? itemPrice : getDiscountedPrice(itemPrice, discount)
+
   return (
     <div className="group flex flex-col gap-5 py-6 min-[500px]:flex-row min-[500px]:items-center">
       <div className="w-full md:max-w-24">
@@ -58,7 +61,7 @@ const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
               {category.name}
             </h6>
             <h6 className="text-gray-600 group-hover:text-indigo-600 text-base font-medium leading-7 transition-all duration-300">
-              ${itemPrice}
+              ${discountedPrice}
             </h6>
           </div>
         </div>
@@ -86,7 +89,7 @@ const SingleCart: React.FC<CartProps> = ({ cartItem, setUpdateOperation }) => {
         </div>
         <div className="flex h-full items-center max-md:mt-3 max-[500px]:justify-center md:justify-end">
           <p className="text-gray-600 group-hover:text-indigo-600 text-center text-lg font-bold leading-8 transition-all duration-300">
-            ${finalQuantity * itemPrice}
+            ${finalQuantity * discountedPrice}
           </p>
         </div>
       </div>
