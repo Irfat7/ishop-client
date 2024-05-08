@@ -8,6 +8,7 @@ import { useGetUsersCart } from '../../hooks/useGetUsersCart';
 import { useAxiosSecure } from '../../hooks/useAxiosSecure';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import { useNavigate } from 'react-router-dom';
+import { calculateTotal } from '../../Utils';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK_TEST);
 
@@ -21,7 +22,8 @@ const Payment = () => {
     useEffect(() => {
         if (!cartsLoading) {
             carts.length === 0 && navigate('/')
-            axiosInstance.post('/create-payment-intent', { carts })
+            const totalPrice = calculateTotal(carts, [])
+            axiosInstance.post('/create-payment-intent', { totalPrice })
                 .then(({ data }) => setClientSecret(data.clientSecret))
                 .catch(error => axiosErrorToast(error))
         }
