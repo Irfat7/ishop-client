@@ -1,85 +1,83 @@
-import { CircularProgress } from '@mui/material';
-import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
-import { StripePaymentElementOptions } from '@stripe/stripe-js';
+import './checkoutForm.css'
 import { FormEvent, useEffect, useState } from 'react';
+import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
+import { useAxiosSecure } from '../../hooks/useAxiosSecure';
+import { useGetUsersCart } from '../../hooks/useGetUsersCart';
+import { useNavigate } from 'react-router-dom';
+import { calculateTotal } from '../../Utils';
+import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
+import { CircularProgress } from '@mui/material';
+import { useAuthContext } from '../../hooks/useAuthContext';
+
 
 const CheckoutForm = () => {
+    const { user } = useAuthContext()
     const stripe = useStripe();
     const elements = useElements();
-    const [message, setMessage] = useState<string | undefined>(undefined);
-    const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const axiosInstance = useAxiosSecure()
+    const [carts, cartsLoading, cartsError] = useGetUsersCart()
+    const navigate = useNavigate()
+    const [clientSecret, setClientSecret] = useState<string>()
+    const axiosErrorToast = useAxiosErrorToast()
 
     useEffect(() => {
-        if (!stripe) {
-            return;
+        if (!cartsLoading) {
+            carts.length === 0 && navigate('/')
+            const totalPrice = calculateTotal(carts, [])
+            axiosInstance.post('/create-payment-intent', { totalPrice, carts })
+                .then(({ data }) => setClientSecret(data.clientSecret))
+                .catch(error => axiosErrorToast(error))
         }
-
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "payment_intent_client_secret"
-        );
-
-        if (!clientSecret) {
-            return;
-        }
-
-        stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-            switch (paymentIntent?.status) {
-                case "succeeded":
-                    setMessage("Payment succeeded!");
-                    break;
-                case "processing":
-                    setMessage("Your payment is processing.");
-                    break;
-                case "requires_payment_method":
-                    setMessage("Your payment was not successful, please try again.");
-                    break;
-                default:
-                    setMessage("Something went wrong.");
-                    break;
-            }
-        });
-    }, [stripe]);
+        cartsError && axiosInstance(cartsError)
+    }, [carts])
 
     const handleSubmit = async (e: FormEvent) => {
+
         e.preventDefault();
 
-        if (!stripe || !elements) {
+        if (!stripe || !clientSecret || !elements || !user) {
+            return
+        }
+
+        setLoading(true);
+
+
+
+        const cardElement = elements.getElement(CardElement);
+        if (!cardElement) {
+            console.error("Card element not found");
+            setLoading(false);
             return;
         }
 
-        setIsLoading(true);
-
-        const { error } = await stripe.confirmPayment({
-            elements,
-            confirmParams: {
-                return_url: "http://localhost:5173/payment-status",
+        const { paymentIntent, error } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement,
+                billing_details: {
+                    email: user.email || 'email failed',
+                },
             },
         });
-
-        if (error.type === "card_error" || error.type === "validation_error") {
-            setMessage(error.message);
-        } else {
-            setMessage("An unexpected error occurred.");
+        setLoading(false);
+        if (paymentIntent) {
+            // Payment successful
+        } else if (error) {
+            // Payment failed
         }
-
-        setIsLoading(false);
     };
 
-    const paymentElementOptions: StripePaymentElementOptions = {
-        layout: "tabs"
-    }
-
     return (
-        <form id="payment-form" onSubmit={handleSubmit}>
-            <PaymentElement id="payment-element" options={paymentElementOptions} />
-            <button className='w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary' disabled={isLoading || !stripe || !elements} id="submit">
+        <form onSubmit={handleSubmit} className=''>
+            <div className="card-element-container">
+                <CardElement />
+            </div>
+            <button className='w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary' disabled={loading || !stripe || !elements} id="submit">
                 <span id="button-text">
-                    {isLoading ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
+                    {loading ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
                 </span>
             </button>
-            {message && <div id="payment-message">{message}</div>}
         </form>
     );
 };
-
 export default CheckoutForm;
