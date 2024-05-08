@@ -11,12 +11,10 @@ import {
 import { ICategory, IProduct } from "../../../types";
 
 import { useForm, SubmitHandler } from "react-hook-form";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useGetAllCategory } from "../../../hooks/useGetAllCategory";
-import { baseUrl } from "../../../constants";
 import {
   addFeaturesByFullStop,
   handleImageUpload,
@@ -25,6 +23,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../universe/Loader/Loader";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
+import { useAxiosSecure } from "../../../hooks/useAxiosSecure";
 
 type Inputs = {
   productName: string;
@@ -47,7 +46,7 @@ const UpdateProductModal: React.FC<IProduct> = ({
   price,
   discount,
 }) => {
-  /* const axiosInstance = useAxiosSecure(); */
+  const axiosInstance = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [newUrls, setNewUrls] = useState<string[]>(imageUrl);
   const [categories, isCategoryPending, isCategoryError] = useGetAllCategory();
@@ -90,10 +89,13 @@ const UpdateProductModal: React.FC<IProduct> = ({
       prevCategory: data.prevCategory,
       imageUrl: [...imageUploadSuccess, ...newUrls],
       quantity: data.quantity,
+      discount: data.discount
     };
 
-    const response = await axios.patch(
-      `${baseUrl}products/${_id}`,
+    console.log(updatedProduct);
+
+    const response = await axiosInstance.patch(
+      `products/${_id}`,
       updatedProduct,
     );
     if (response.status === 200) {

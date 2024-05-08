@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useAddToCart } from "../../../hooks/useAddToCart";
 import { useEffect } from "react";
 import { useAxiosErrorToast } from "../../../hooks/useAxiosErrorToast";
+import { getDiscountedPrice } from "../../../Utils";
 
 interface ProductProps {
   product: IProduct;
@@ -49,14 +50,22 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
         <p>Unavailable</p>
       ) : (
         <div className="flex items-center justify-between border-t-2 border-t-light-ash px-4 pt-2">
-          <span className="h3-medium text-dark-red">${product.price}</span>
+          <p className="space-x-1">
+            <span className="h3-medium text-dark-red">
+              $
+              {
+                product.discount === 0 ? product.price : getDiscountedPrice(product.price, product.discount)
+              }
+            </span>
+            {product.discount !== 0 && <span className="text-sm line-through">${product.price}</span>}
+          </p>
           <button
             onClick={() => {
               user
                 ? addCart({ uId: user.uid, productId: product._id })
                 : toast.error("Please login or create account", {
-                    id: "login",
-                  });
+                  id: "login",
+                });
             }}
           >
             <div className="flex cursor-pointer rounded-full border border-light-ash p-1 duration-500 hover:bg-dark-red">

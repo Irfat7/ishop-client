@@ -71,3 +71,7 @@ export const calculateTotal = (carts: ICart[], updateOperation: { id: string; pI
   }, 0)
   return totalPrice
 }
+
+export const getDiscountedPrice = (price: number, discount: number) => {
+  return Math.floor(price * (1 - discount / 100))
+}
