@@ -8,6 +8,7 @@ import { calculateTotal } from '../../Utils';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import { CircularProgress } from '@mui/material';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import { ICart } from '../../types';
 
 
 const CheckoutForm = () => {
@@ -20,13 +21,17 @@ const CheckoutForm = () => {
     const navigate = useNavigate()
     const [clientSecret, setClientSecret] = useState<string>()
     const axiosErrorToast = useAxiosErrorToast()
+    const [cartData, setCartData] = useState<ICart[]>([]);
 
     useEffect(() => {
         if (!cartsLoading) {
             carts.length === 0 && navigate('/')
             const totalPrice = calculateTotal(carts, [])
             axiosInstance.post('/create-payment-intent', { totalPrice, carts })
-                .then(({ data }) => setClientSecret(data.clientSecret))
+                .then(({ data }) => {
+                    setClientSecret(data.clientSecret)
+                    setCartData(carts)
+                })
                 .catch(error => axiosErrorToast(error))
         }
         cartsError && axiosInstance(cartsError)
@@ -61,9 +66,11 @@ const CheckoutForm = () => {
         });
         setLoading(false);
         if (paymentIntent) {
-            // Payment successful
+            const cartItemIds = cartData.map(cartInformation => cartInformation._id)
+            console.log(cartItemIds);
+            console.log('payment intent', paymentIntent);
         } else if (error) {
-            // Payment failed
+            console.log(error);
         }
     };
 

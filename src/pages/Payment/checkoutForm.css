@@ -1,6 +1,6 @@
 .card-form {
     width: 100%;
-    max-width: 400px; /* adjust as needed */
+    max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -11,6 +11,4 @@
   .card-element-container {
     margin-bottom: 20px;
   }
-  
-  /* Adjust styles for the button as needed */
   

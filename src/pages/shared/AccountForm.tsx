@@ -7,6 +7,7 @@ import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
 import { Navigate } from "react-router-dom";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
 
 type Inputs = {
   userName: string;
@@ -56,7 +57,8 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({
   };
 
   return (
-    <form className="mx-auto max-w-sm" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mx-auto max-w-sm absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" onSubmit={handleSubmit(onSubmit)}>
+      <SectionHeader title={loginPage ? "Login" : "Register"} />
       {loginPage || (
         <div className="mb-5">
           <label htmlFor="userName" className="mb-2 block text-sm font-medium">
