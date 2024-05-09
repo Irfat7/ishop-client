@@ -9,6 +9,9 @@ import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import { CircularProgress } from '@mui/material';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { ICart } from '../../types';
+import { useCreatePayment } from '../../hooks/useCreatePayment';
+import { useIdMap } from '../../hooks/useIdMap';
+import { useCreateOrder } from '../../hooks/useCreateOrder';
 
 
 const CheckoutForm = () => {
@@ -22,6 +25,9 @@ const CheckoutForm = () => {
     const [clientSecret, setClientSecret] = useState<string>()
     const axiosErrorToast = useAxiosErrorToast()
     const [cartData, setCartData] = useState<ICart[]>([]);
+    const { createPaymentRecord, creatingPayment, paymentError } = useCreatePayment()
+    const [userId] = useIdMap()
+    const { createOrder, creatingOrder, orderCreationError } = useCreateOrder()
 
     useEffect(() => {
         if (!cartsLoading) {
@@ -67,8 +73,22 @@ const CheckoutForm = () => {
         setLoading(false);
         if (paymentIntent) {
             const cartItemIds = cartData.map(cartInformation => cartInformation._id)
-            console.log(cartItemIds);
-            console.log('payment intent', paymentIntent);
+            const productInfo = cartData.map(cartInformation => {
+                return {
+                    productId: cartInformation.productId._id,
+                    quantity: cartInformation.quantity
+                }
+            })
+            const newPayment = await createPaymentRecord({ amount: Math.floor(paymentIntent.amount / 100), userId })
+            if (!newPayment) {
+                paymentError && axiosErrorToast(paymentError)
+                return
+            }
+            const newOrder = await createOrder({ userId: userId, paymentId: newPayment._id, productInfo, carts: cartItemIds })
+            if (!newOrder) {
+                orderCreationError && axiosErrorToast(orderCreationError)
+            }
+            navigate('/payment-status')
         } else if (error) {
             console.log(error);
         }
@@ -81,7 +101,7 @@ const CheckoutForm = () => {
             </div>
             <button className='w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary' disabled={loading || !stripe || !elements} id="submit">
                 <span id="button-text">
-                    {loading ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
+                    {loading || creatingPayment || creatingOrder ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
                 </span>
             </button>
         </form>

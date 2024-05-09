@@ -1,14 +1,6 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PaymentSuccess = () => {
-    const params = new URLSearchParams(window.location.search);
-    const payment_intent = params.get('payment_intent')
-    const payment_intent_client_secret = params.get('payment_intent_client_secret')
-    const redirect_status = params.get('redirect_status')
-
-    if (!payment_intent || !payment_intent_client_secret || redirect_status !== 'succeeded') {
-        return <Navigate to='/' replace={true} />
-    }
 
     return (
         <div className="md:m-auto">
