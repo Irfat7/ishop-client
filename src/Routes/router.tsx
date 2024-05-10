@@ -12,6 +12,7 @@ import AdminOnly from "./Protected/AdminOnly";
 import CartDetails from "../pages/CartDetails/CartDetails";
 import Payment from "../pages/Payment/Payment";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import MyOrders from "../pages/MyOrders/MyOrders";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: '/payment-status',
         element: <PaymentSuccess />
+      },
+      {
+        path: '/my-orders',
+        element: <MyOrders />
       }
     ],
   },

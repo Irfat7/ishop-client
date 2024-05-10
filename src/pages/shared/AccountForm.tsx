@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
 import { Navigate } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 type Inputs = {
   userName: string;
@@ -19,6 +20,7 @@ type Inputs = {
 const AccountForm: React.FC<{ loginPage: boolean }> = ({
   loginPage,
 }): React.ReactNode => {
+  const { user } = useAuthContext()
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const { createNewAccount, isNewAccountCreating } = useCreateNewAccount();
   const { login, isLoggingIn, loggedIn } = useLogin();
@@ -30,7 +32,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({
     formState: { errors },
   } = useForm<Inputs>();
 
-  if (loggedIn) {
+  if (loggedIn || user) {
     return <Navigate to="/" replace={true} />;
   }
 

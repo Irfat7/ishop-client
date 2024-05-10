@@ -1,11 +1,14 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import IShopLogo from "/logos/IShop-Logo.svg";
 import Search from "../../components/universe/Search/Search";
 import Cart from "../../components/Cart/Cart";
 import UserDropDown from "../../components/nextui/UserDropDown";
 import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import UserIcon from "/icons/user.svg";
 
 const Navigation = () => {
+  const { user } = useAuthContext()
   const { logOut } = useLogout();
 
   return (
@@ -40,7 +43,13 @@ const Navigation = () => {
         <NavLink to="/cart">
           <Cart />
         </NavLink>
-        <UserDropDown />
+        {
+          user ?
+            <UserDropDown /> :
+            <Link to='/sign-in'>
+              <img src={UserIcon} alt="User Icon" />
+            </Link>
+        }
       </div>
     </nav>
   );
