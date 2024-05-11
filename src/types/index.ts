@@ -29,3 +29,23 @@ export type ICart = {
   productId: IProduct;
   quantity: number;
 };
+
+export type IOrder = {
+  _id: string,
+  userId: string,
+  paymentId: string,
+  paymentInfo: {
+    amount: number,
+    userId: string,
+    _id: string
+  },
+  productDescription: IProduct[],
+  productInfo: {
+    productId: string
+    quantity: number,
+    reviewed: boolean,
+    _id: string
+  }[],
+  otp: string,
+  status: string
+}

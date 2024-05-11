@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   * {
     @apply m-0 box-border list-none scroll-smooth p-0;
