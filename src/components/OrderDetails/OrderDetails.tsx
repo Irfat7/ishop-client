@@ -20,17 +20,17 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     })
 
     return (
-        <div className="bg-primary py-5">
-            <div className="grid grid-cols-4 bg-yellow pb-5 mb-5 border-b border-b-light-ash">
-                <div className="flex justify-center items-center">
+        <div className="bg-primary md:py-5">
+            <div className="grid md:grid-cols-4 bg-yellow pb-5 mb-5 border-b border-b-light-ash">
+                <div className="md:col-span-2 md:ml-[15%]">
                     <div className="text-lg">
-                        <p className="text-xl font-semibold">Order: {orderId}</p>
+                        <p className="text-lg md:text-xl font-semibold">Order: {orderId}</p>
                         <p className="">Delivery Status: {status === 'ordered' ? 'Processing' : 'Delivered'}</p>
                         {status === 'ordered' && <p className="">OTP: <span className="underline text-dark-red">{otp}</span></p>}
                         <p className="">Total Amount: {paymentInfo.amount}</p>
                     </div>
                 </div>
-                <div className="col-start-4 center">
+                <div className=" mt-2 md:mt-0 md:col-start-4 center">
                     <button
                         className={`transition-transform ${productVisible ? 'rotate-90' : 'rotate-0'}`}
                         onClick={() => setProductVisible(!productVisible)}>
@@ -48,9 +48,9 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                 {
                     productWithReview.map(product => <div
                         key={product?._id}
-                        className="h-20 grid grid-cols-4 mb-2">
+                        className="md:h-20 grid grid-cols-5 md:grid-cols-4 mb-2">
                         <img className="h-20 w-full object-contain" src={product?.imageUrl[0]} />
-                        <p className="center">{product?.name}</p>
+                        <p className="center col-span-2 px-[2px]">{product?.name}</p>
                         <p className="center">{product?.quantity}</p>
                         {
                             product && !product.reviewed && status === "delivered" ?

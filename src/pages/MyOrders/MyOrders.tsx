@@ -14,8 +14,6 @@ const MyOrders = () => {
         orderError && axiosErrorToast(orderError)
     }, [orderError])
 
-    /* console.log(myOrders); */
-
     return (
         <div>
             <SectionHeader title='My Orders' />
@@ -24,7 +22,7 @@ const MyOrders = () => {
                     <Loader />
                     :
                     myOrders.length === 0 ?
-                        <p className="text-center text-2xl font-medium">Nothing Ordered</p>
+                        <p className="text-center text-xl md:text-2xl font-medium">Nothing Ordered</p>
                         :
                         <div className='space-y-5'>
                             {

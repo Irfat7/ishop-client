@@ -72,7 +72,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                 }}
             >
                 <ModalContent>
-                    {(onClose) => (
+                    {/* {(onClose) => ( */}
                         <>
                             <ModalHeader className="flex flex-col gap-1">Review Item</ModalHeader>
                             <ModalBody>
@@ -114,7 +114,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                                 </div>
                             </ModalBody>
                         </>
-                    )}
+                    {/* )} */}
                 </ModalContent>
             </Modal>
         </>

@@ -59,7 +59,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({
   };
 
   return (
-    <form className="mx-auto max-w-sm absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2" onSubmit={handleSubmit(onSubmit)}>
+    <form className="mx-auto px-2 md:px-0 max-w-sm w-full " onSubmit={handleSubmit(onSubmit)}>
       <SectionHeader title={loginPage ? "Login" : "Register"} />
       {loginPage || (
         <div className="mb-5">
