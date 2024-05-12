@@ -8,12 +8,13 @@ export const usePostReview = () => {
         isPending: postingReview,
         error: reviewError
     } = useMutation({
-        mutationFn: async ({ orderId, userId, productId, starCount }: { orderId: string, userId: string, productId: string, starCount: number }) => {
+        mutationFn: async ({ orderId, userId, message, productId, starCount }: { orderId: string, userId: string, message: string, productId: string, starCount: number }) => {
             const response = await axiosInstance.post('/reviews', {
                 orderId,
                 userId,
                 productId,
-                starCount
+                starCount,
+                message
             })
             return response.data
         }

@@ -67,7 +67,7 @@ const SingleProduct = () => {
         <div>
           <Link
             className="rounded-md bg-dark-red px-4 py-1 text-lg capitalize text-secondary"
-            to={`/${typedProduct.category.name}`}
+            to={`/category/${typedProduct.category.name}`}
           >
             {typedProduct.category.name}
           </Link>

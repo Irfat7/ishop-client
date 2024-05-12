@@ -12,7 +12,7 @@ const CategoryCard: React.FC<CategoryInfo> = ({
 }) => {
   return (
     <Link
-      to={`/${categoryName}`}
+      to={`/category/${categoryName}`}
       className="h-28 w-32 flex-col overflow-hidden rounded-lg bg-primary sm:h-56 sm:w-60 md:duration-500 md:hover:shadow-lg"
     >
       <img className="h-3/4 w-full flex-1 object-cover" src={categoryImage} />

@@ -50,7 +50,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                         key={product?._id}
                         className="md:h-20 grid grid-cols-5 md:grid-cols-4 mb-2">
                         <img className="h-20 w-full object-contain" src={product?.imageUrl[0]} />
-                        <p className="center col-span-2 px-[2px]">{product?.name}</p>
+                        <p className="center col-span-2 md:col-span-1 px-[2px]">{product?.name}</p>
                         <p className="center">{product?.quantity}</p>
                         {
                             product && !product.reviewed && status === "delivered" ?

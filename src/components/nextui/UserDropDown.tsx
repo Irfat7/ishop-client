@@ -20,7 +20,9 @@ const UserDropDown = () => {
         <DropdownItem key="new" textValue="My Orders">
           <Link to='/my-orders'>My Orders</Link>
         </DropdownItem>
-        <DropdownItem key="copy">Copy link</DropdownItem>
+        <DropdownItem key="new" textValue="My Orders">
+          <Link to='/my-reviews'>My Reviews</Link>
+        </DropdownItem>
         <DropdownItem key="edit">Edit file</DropdownItem>
         <DropdownItem key="delete" className="text-danger" color="danger">
           Delete file

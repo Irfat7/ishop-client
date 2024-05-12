@@ -49,3 +49,12 @@ export type IOrder = {
   otp: string,
   status: string
 }
+
+export type IReview = {
+  _id: string,
+  orderId: string,
+  userId: string,
+  productId: string,
+  starCount: number,
+  message: string
+}

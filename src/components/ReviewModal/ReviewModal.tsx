@@ -21,7 +21,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
     const { id: productId, productImage, productName, userId, orderId } = reviewInfos
     const [rating, setRating] = useState<number>(5)
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
-    const [reviewMessage, setReviewMessage] = useState<string>('')
+    const [errorMessage, setErrorMessage] = useState<string>('')
     const { postReview, postingReview, reviewError } = usePostReview()
     const axiosErrorToast = useAxiosErrorToast()
 
@@ -30,9 +30,9 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
         const form = event.target as HTMLFormElement;
         const reviewMessage = form.reviewMessage.value;
         if (reviewMessage.length > 100) {
-            return setReviewMessage("*Review can not be above 100 characters")
+            return setErrorMessage("*Review can not be above 100 characters")
         }
-        const newReview = await postReview({ orderId, userId, productId, starCount: rating })
+        const newReview = await postReview({ orderId, userId, productId, message: reviewMessage, starCount: rating })
         if (!newReview._id) {
             return reviewError && axiosErrorToast(reviewError)
         }
@@ -73,47 +73,47 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
             >
                 <ModalContent>
                     {/* {(onClose) => ( */}
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">Review Item</ModalHeader>
-                            <ModalBody>
+                    <>
+                        <ModalHeader className="flex flex-col gap-1">Review Item</ModalHeader>
+                        <ModalBody>
+                            <div>
+                                <img
+                                    className="w-full h-52 object-contain"
+                                    src={productImage}
+                                    alt="Product Image" />
+                                <p className="mt-2 mb-5">{productName}</p>
                                 <div>
-                                    <img
-                                        className="w-full h-52 object-contain"
-                                        src={productImage}
-                                        alt="Product Image" />
-                                    <p className="mt-2 mb-5">{productName}</p>
-                                    <div>
-                                        <label htmlFor="message" className="block mb-2 text-sm font-medium">Star Value</label>
-                                        <Rating
-                                            name="simple-controlled"
-                                            value={rating}
-                                            onChange={(event, newValue) => {
-                                                setRating(newValue || rating);
-                                            }}
-                                        />
-                                    </div>
-                                    <form className="space-y-2" onSubmit={(event) => handleReview(event)}>
-                                        <div>
-                                            <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
-                                            <textarea
-                                                id="message"
-                                                name="reviewMessage"
-                                                rows={4}
-                                                className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-light-ash" placeholder="Write your thoughts here..."
-                                            ></textarea>
-                                            <p className="text-dark-red text-sm ml-1">{reviewMessage}</p>
-                                        </div>
-                                        <button
-                                            disabled={postingReview}
-                                            className={`center w-full bg-dark-red p-2 rounded-md text-secondary ${postingReview && 'cursor-not-allowed'}`}>
-                                            {
-                                                postingReview ? <CircularProgress size={20} style={{ color: "white" }} /> : "Submit"
-                                            }
-                                        </button>
-                                    </form>
+                                    <label htmlFor="message" className="block mb-2 text-sm font-medium">Star Value</label>
+                                    <Rating
+                                        name="simple-controlled"
+                                        value={rating}
+                                        onChange={(event, newValue) => {
+                                            setRating(newValue || rating);
+                                        }}
+                                    />
                                 </div>
-                            </ModalBody>
-                        </>
+                                <form className="space-y-2" onSubmit={(event) => handleReview(event)}>
+                                    <div>
+                                        <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+                                        <textarea
+                                            id="message"
+                                            name="reviewMessage"
+                                            rows={4}
+                                            className="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-light-ash" placeholder="Write your thoughts here..."
+                                        ></textarea>
+                                        <p className="text-dark-red text-sm ml-1">{errorMessage}</p>
+                                    </div>
+                                    <button
+                                        disabled={postingReview}
+                                        className={`center w-full bg-dark-red p-2 rounded-md text-secondary ${postingReview && 'cursor-not-allowed'}`}>
+                                        {
+                                            postingReview ? <CircularProgress size={20} style={{ color: "white" }} /> : "Submit"
+                                        }
+                                    </button>
+                                </form>
+                            </div>
+                        </ModalBody>
+                    </>
                     {/* )} */}
                 </ModalContent>
             </Modal>
