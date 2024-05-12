@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } from "@nextui-org/react";
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import Rating from '@mui/material/Rating';
 import { FormEvent, useState } from "react";
@@ -90,7 +90,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                                             ></textarea>
                                             <p className="text-dark-red text-sm ml-1">{reviewMessage}</p>
                                         </div>
-                                        <button className="bg-dark-red p-2 rounded-md text-secondary">
+                                        <button className="w-full bg-dark-red p-2 rounded-md text-secondary">
                                             Submit
                                         </button>
                                     </form>

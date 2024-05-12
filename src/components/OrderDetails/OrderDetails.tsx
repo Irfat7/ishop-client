@@ -53,7 +53,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                         <p className="center">{product?.name}</p>
                         <p className="center">{product?.quantity}</p>
                         {
-                            product && !product.reviewed ?
+                            product && !product.reviewed && status ==="delivered" ?
                                 <button className="center">
                                     <ReviewModal reviewInfos={
                                         {
