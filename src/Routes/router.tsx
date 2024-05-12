@@ -14,6 +14,7 @@ import Payment from "../pages/Payment/Payment";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import MyReviews from "../pages/MyReviews/MyReviews";
+import UserProductSearch from "../pages/UserProductSearch/UserProductSearch";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: '/my-reviews',
         element: <MyReviews />
+      },
+      {
+        path: '/search',
+        element: <UserProductSearch />
       }
     ],
   },

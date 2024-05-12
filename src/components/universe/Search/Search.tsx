@@ -1,17 +1,33 @@
+import { FormEvent } from "react";
 import "./search.css";
+import { useNavigate } from "react-router-dom";
 
 const Search = () => {
+  const navigate = useNavigate()
+  const searchProductHandler = (e: FormEvent) => {
+    e.preventDefault()
+    const form = e.target as HTMLFormElement
+    const searchParams = form.search.value
+    if (searchParams.length === 0) {
+      return
+    }
+    const searchParamsArray = searchParams.split(' ')
+    const searchQuery = searchParamsArray.join('+')
+
+    navigate(`/search?name=${searchQuery}`)
+  }
   return (
-    <form className="form w-32 bg-secondary sm:w-40 lg:w-56">
+    <form onSubmit={(e) => searchProductHandler(e)} className="form w-32 bg-secondary sm:w-40 lg:w-56">
       <label htmlFor="search">
         <input
           required
+          name="search"
           autoComplete="off"
           placeholder="search"
           id="search"
           type="text"
         />
-        <button type="reset" className="icon">
+        <button type="submit" className="icon">
           <svg
             strokeWidth="2"
             stroke="currentColor"

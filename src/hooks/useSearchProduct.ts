@@ -9,7 +9,6 @@ export const useSearchProduct = (
 ) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
 
-  // Debounce the setSearchTerm function
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
       setSearchTerm(initialSearchTerm);
@@ -32,7 +31,8 @@ export const useSearchProduct = (
         });
         return response.data;
       }
-      return null;
+      return [];
+      /* return null; */ 
     },
     enabled: !!searchTerm,
   });
