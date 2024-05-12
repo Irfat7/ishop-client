@@ -17,10 +17,10 @@ const UserDropDown = () => {
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="Static Actions" className="bg-primary">
-        <DropdownItem key="new" textValue="My Orders">
+        <DropdownItem key="myOrders" textValue="My Orders">
           <Link to='/my-orders'>My Orders</Link>
         </DropdownItem>
-        <DropdownItem key="new" textValue="My Orders">
+        <DropdownItem key="myReviews" textValue="My Orders">
           <Link to='/my-reviews'>My Reviews</Link>
         </DropdownItem>
         <DropdownItem key="edit">Edit file</DropdownItem>

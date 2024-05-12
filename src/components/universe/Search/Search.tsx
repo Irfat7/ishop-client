@@ -1,9 +1,24 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import "./search.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Search = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const [defaultValue, setDefaultValue] = useState<string>('')
+
+  useEffect(() => {
+    if (location.pathname === '/search') {
+      if (!defaultValue) {
+        const searchParams = new URLSearchParams(location.search);
+        const name = searchParams.get('name') || '';
+        const nameArray = name.split('+')
+        const nameWithSpace = nameArray.join(" ")
+        setDefaultValue(nameWithSpace)
+      }
+    }
+  }, [location.pathname])
+
   const searchProductHandler = (e: FormEvent) => {
     e.preventDefault()
     const form = e.target as HTMLFormElement
@@ -21,6 +36,7 @@ const Search = () => {
       <label htmlFor="search">
         <input
           required
+          defaultValue={defaultValue}
           name="search"
           autoComplete="off"
           placeholder="search"
