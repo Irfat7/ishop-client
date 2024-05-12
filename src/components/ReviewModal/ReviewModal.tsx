@@ -2,10 +2,15 @@ import { Modal, ModalContent, ModalHeader, ModalBody, Button, useDisclosure } fr
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import Rating from '@mui/material/Rating';
 import { FormEvent, useState } from "react";
+import { usePostReview } from "../../hooks/usePostReview";
+import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
+import toast from "react-hot-toast";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface ReviewModalProps {
     reviewInfos: {
         id: string,
+        orderId: string,
         productImage: string,
         productName: string,
         userId: string
@@ -13,18 +18,26 @@ interface ReviewModalProps {
 }
 
 const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
-    const { id, productImage, productName, userId } = reviewInfos
-    const [rating, setRating] = useState<number | null>(5)
+    const { id: productId, productImage, productName, userId, orderId } = reviewInfos
+    const [rating, setRating] = useState<number>(5)
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [reviewMessage, setReviewMessage] = useState<string>('')
+    const { postReview, postingReview, reviewError } = usePostReview()
+    const axiosErrorToast = useAxiosErrorToast()
 
-    const handleReview = (event: FormEvent) => {
+    const handleReview = async (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement;
         const reviewMessage = form.reviewMessage.value;
         if (reviewMessage.length > 100) {
             return setReviewMessage("*Review can not be above 100 characters")
         }
+        const newReview = await postReview({ orderId, userId, productId, starCount: rating })
+        if (!newReview._id) {
+            return reviewError && axiosErrorToast(reviewError)
+        }
+        toast.success("Review Successful")
+        onOpenChange();
     }
 
     return (
@@ -75,7 +88,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                                             name="simple-controlled"
                                             value={rating}
                                             onChange={(event, newValue) => {
-                                                setRating(newValue);
+                                                setRating(newValue || rating);
                                             }}
                                         />
                                     </div>
@@ -90,8 +103,12 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                                             ></textarea>
                                             <p className="text-dark-red text-sm ml-1">{reviewMessage}</p>
                                         </div>
-                                        <button className="w-full bg-dark-red p-2 rounded-md text-secondary">
-                                            Submit
+                                        <button
+                                            disabled={postingReview}
+                                            className={`center w-full bg-dark-red p-2 rounded-md text-secondary ${postingReview && 'cursor-not-allowed'}`}>
+                                            {
+                                                postingReview ? <CircularProgress size={20} style={{ color: "white" }} /> : "Submit"
+                                            }
                                         </button>
                                     </form>
                                 </div>

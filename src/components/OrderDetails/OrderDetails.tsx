@@ -8,7 +8,7 @@ interface OrderDetailsProps {
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
-    const { _id, status, paymentInfo, productDescription, productInfo, otp, userId } = order
+    const { _id: orderId, status, paymentInfo, productDescription, productInfo, otp, userId } = order
     const [productVisible, setProductVisible] = useState<boolean>(false)
 
     const productWithReview = productDescription.map(prod => {
@@ -24,7 +24,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
             <div className="grid grid-cols-4 bg-yellow pb-5 mb-5 border-b border-b-light-ash">
                 <div className="flex justify-center items-center">
                     <div className="text-lg">
-                        <p className="text-xl font-semibold">Order: {_id}</p>
+                        <p className="text-xl font-semibold">Order: {orderId}</p>
                         <p className="">Delivery Status: {status === 'ordered' ? 'Processing' : 'Delivered'}</p>
                         {status === 'ordered' && <p className="">OTP: <span className="underline text-dark-red">{otp}</span></p>}
                         <p className="">Total Amount: {paymentInfo.amount}</p>
@@ -53,11 +53,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                         <p className="center">{product?.name}</p>
                         <p className="center">{product?.quantity}</p>
                         {
-                            product && !product.reviewed && status ==="delivered" ?
+                            product && !product.reviewed && status === "delivered" ?
                                 <button className="center">
                                     <ReviewModal reviewInfos={
                                         {
                                             id: product._id,
+                                            orderId,
                                             productImage: product.imageUrl[0],
                                             userId,
                                             productName: product.name
