@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { IOrder } from "../../types";
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import ReviewModal from "../ReviewModal/ReviewModal";
 
 interface OrderDetailsProps {
     order: IOrder
 }
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
-    const { _id, status, paymentInfo, productDescription, productInfo, otp } = order
+    const { _id, status, paymentInfo, productDescription, productInfo, otp, userId } = order
     const [productVisible, setProductVisible] = useState<boolean>(false)
 
     const productWithReview = productDescription.map(prod => {
@@ -20,7 +21,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
 
     return (
         <div className="bg-primary py-5">
-            <div className="grid grid-cols-4 bg-yellow pb-5 mb-5 border-b border-b-[#ABB2B9]">
+            <div className="grid grid-cols-4 bg-yellow pb-5 mb-5 border-b border-b-light-ash">
                 <div className="flex justify-center items-center">
                     <div className="text-lg">
                         <p className="text-xl font-semibold">Order: {_id}</p>
@@ -51,7 +52,19 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                         <img className="h-20 w-full object-contain" src={product?.imageUrl[0]} />
                         <p className="center">{product?.name}</p>
                         <p className="center">{product?.quantity}</p>
-                        <p className="center">{product?.reviewed ? 'Reviewed' : 'Please Review'}</p>
+                        {
+                            product && !product.reviewed ?
+                                <button className="center">
+                                    <ReviewModal reviewInfos={
+                                        {
+                                            id: product._id,
+                                            productImage: product.imageUrl[0],
+                                            userId,
+                                            productName: product.name
+                                        }
+                                    } />
+                                </button> : ''
+                        }
                     </div>)
                 }
             </div>
