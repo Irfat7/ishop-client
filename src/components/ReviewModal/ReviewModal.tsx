@@ -30,7 +30,10 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
         const form = event.target as HTMLFormElement;
         const reviewMessage = form.reviewMessage.value;
         if (reviewMessage.length > 100) {
-            return setErrorMessage("*Review can not be above 100 characters")
+            return setErrorMessage("*Review message can not be above 100 characters")
+        }
+        else if(reviewMessage.length === 0){
+            return setErrorMessage("*Review message can not be empty")
         }
         const newReview = await postReview({ orderId, userId, productId, message: reviewMessage, starCount: rating })
         if (!newReview._id) {

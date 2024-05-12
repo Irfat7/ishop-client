@@ -12,9 +12,9 @@ export const useGetProductById = (productId: string) => {
     queryKey: [QUERY_KEYS.GET_ONE_PRODUCT, productId],
     queryFn: async () => {
       const response = await axios.get(`${baseUrl}products/${productId}`);
-      console.log(response);
       return response.data;
     },
+    retry:false
   });
   return [product, isLoading, error];
 };

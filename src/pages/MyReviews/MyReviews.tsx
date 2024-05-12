@@ -24,7 +24,7 @@ const MyReviews = () => {
                 isReviewsLoading ?
                     <Loader /> :
                     noReviews ?
-                        <p>No reviews</p> :
+                        <p className='text-center text-2xl font-medium'>No reviews</p> :
                         myReviews.map((review: IReview) => <ReviewCard key={review._id} review={review} userName={user?.displayName || 'Name Unavailable'} />)
             }
         </div>

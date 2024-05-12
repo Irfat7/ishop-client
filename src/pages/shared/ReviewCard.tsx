@@ -10,7 +10,7 @@ interface ReviewCardProps {
 }
 const ReviewCard: React.FC<ReviewCardProps> = ({ review, userName }) => {
     return (
-        <div className="max-w-[700px] mx-auto border border-light-ash rounded-md">
+        <div className="mb-4 max-w-[700px] mx-auto border border-light-ash rounded-md">
             <Link
                 to={`/product/${review.productId}`}>
                 <div className="flex bg-primary justify-between items-center p-5">
