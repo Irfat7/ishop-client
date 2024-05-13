@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "../constants";
 
@@ -18,24 +18,39 @@ export const useSearchProduct = (
   }, [initialSearchTerm, debounceTime]);
 
   const {
-    data: searchResults = [],
-    status,
-    isLoading,
-    isError,
-  } = useQuery({
+    data: searchedProducts,
+    error: searchError,
+    fetchNextPage: searchNextPage,
+    hasNextPage: hasMoreProducts,
+    isFetching: searchingProducts,
+    isFetchingNextPage: searchingNextProducts
+  } = useInfiniteQuery({
     queryKey: ["search", searchTerm],
-    queryFn: async () => {
+    queryFn: async ({ pageParam = 0 }) => {
       if (searchTerm) {
-        const response = await axios.get(`${baseUrl}products/items/search`, {
-          params: { searchTerm },
-        });
+        const response = await axios.get(`${baseUrl}products/items/search?page=${pageParam}&searchTerm=${searchTerm}`);
         return response.data;
       }
-      return [];
-      /* return null; */ 
+      return null;
     },
     enabled: !!searchTerm,
-  });
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const limit = 3;
+      if (lastPage.length < limit) {
+        return undefined
+      }
+      return allPages.length + 1
+    },
+    refetchOnWindowFocus: false
+  })
 
-  return [searchResults, status, isLoading, isError, setSearchTerm];
+  return {
+    searchedProducts,
+    searchError,
+    searchNextPage,
+    hasMoreProducts,
+    searchingProducts,
+    searchingNextProducts,
+  }
 };
