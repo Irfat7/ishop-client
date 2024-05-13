@@ -1,22 +1,28 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchProduct } from "../../hooks/useSearchProduct";
 import Loader from "../../components/universe/Loader/Loader";
-import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import { IProduct } from "../../types";
 import ProductCard from "../../components/nextui/ProductCard/ProductCard";
+import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
+import { CircularProgress } from "@mui/material";
 
 const SearchProduct = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [products, status, productsLoading, productError] =
-    useSearchProduct(searchTerm);
+  const axiosErrorToast = useAxiosErrorToast()
+  const { searchedProducts, searchingProducts, hasMoreProducts, searchError, searchNextPage, searchingNextProducts } = useSearchProduct(searchTerm)
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
   };
 
-  if (productError) {
-    return <ErrorMessage code={status} message="Error Searching Product" />;
-  }
+  const initialResult = !searchedProducts && !searchTerm
+  const initialSearch = searchingProducts && !searchingNextProducts
+
+  useEffect(() => {
+    searchError && axiosErrorToast(searchError)
+  }, [searchError])
+
+  const nothingFound = searchedProducts?.pages[0].length === 0 && !searchingProducts
 
   return (
     <div>
@@ -43,17 +49,31 @@ const SearchProduct = () => {
         </div>
       </form>
       <div>
-        <div className="flex gap-2 gap-y-4">
-          {productsLoading ? (
-            <Loader />
-          ) : products.length === 0 && searchTerm !== "" ? (
-            <p className="w-full text-center">"{searchTerm}" has 0 result</p>
-          ) : (
-            products.map((product: IProduct) => (
-              <ProductCard key={product._id} product={product} />
-            ))
-          )}
+        <div className="mx-auto">
+          {
+            initialResult ? '' :
+              initialSearch ? <Loader /> :
+                nothingFound ? <p className="text-center text-2xl font-medium">No item found for <span className="underline text-dark-red">"{searchTerm}"</span></p> :
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-1 md:gap-10">
+                    {searchedProducts && searchedProducts.pages.map((group, i) => (
+                      <React.Fragment key={i}>
+                        {group.map((product: IProduct) => (
+                          <ProductCard key={product._id} product={product} />
+                        ))}
+                      </React.Fragment>
+                    ))}
+                  </div>
+          }
         </div>
+        {
+          hasMoreProducts && <button
+            onClick={() => searchNextPage()}
+            disabled={searchingNextProducts}
+            className="center w-28 bg-dark-red p-2 rounded-md text-secondary mx-auto mt-5">
+            {searchingNextProducts ?
+              <CircularProgress size={20} style={{ color: "white" }} /> : 'Load More'}
+          </button>
+        }
       </div>
     </div>
   );

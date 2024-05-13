@@ -36,8 +36,6 @@ const UserProductSearch = () => {
 
     const nothingFound = searchedProducts.pages[0].length === 0 && !searchingProducts
 
-    console.log(searchedProducts);
-
     return (
         <div>
             <SectionHeader title="Search" />
