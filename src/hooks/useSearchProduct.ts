@@ -8,6 +8,7 @@ export const useSearchProduct = (
   debounceTime: number = 300,
 ) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const [sortOption, setSortOption] = useState<string>('default')
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -23,12 +24,14 @@ export const useSearchProduct = (
     fetchNextPage: searchNextPage,
     hasNextPage: hasMoreProducts,
     isFetching: searchingProducts,
-    isFetchingNextPage: searchingNextProducts
+    isFetchingNextPage: searchingNextProducts,
+    refetch: refetchSearch,
+    isRefetching: isRefetchingSearch
   } = useInfiniteQuery({
     queryKey: ["search", searchTerm],
     queryFn: async ({ pageParam = 0 }) => {
       if (searchTerm) {
-        const response = await axios.get(`${baseUrl}products/items/search?page=${pageParam}&searchTerm=${searchTerm}`);
+        const response = await axios.get(`${baseUrl}products/items/search?page=${pageParam}&searchTerm=${searchTerm}&sortOption=${sortOption}`);
         return response.data;
       }
       return null;
@@ -52,5 +55,9 @@ export const useSearchProduct = (
     hasMoreProducts,
     searchingProducts,
     searchingNextProducts,
+    refetchSearch,
+    isRefetchingSearch,
+    sortOption,
+    setSortOption,
   }
 };
