@@ -1,10 +1,15 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useCreateNewCategory } from '../../hooks/useCreateNewCategory';
+import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
+import toast from 'react-hot-toast';
+import { handleSingleImageUpload } from '../../Utils';
+import { CircularProgress } from '@mui/material';
 
 type Inputs = {
     categoryName: string;
-    imageFile: File
+    imageFile: File[]
 };
 
 const AddCategory = () => {
@@ -12,13 +17,28 @@ const AddCategory = () => {
         register,
         handleSubmit,
         reset,
-        watch,
         formState: { errors },
     } = useForm<Inputs>();
     const [imageSrc, setImageSrc] = useState('');
+    const axiosErrorToast = useAxiosErrorToast()
+    const [uploadingImage, setUploadingImage] = useState<boolean>(false)
+    const { createCategory, isCreatingCategory, categoryCreationError } = useCreateNewCategory()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        
+        setUploadingImage(true)
+        const imageUrl = await handleSingleImageUpload(data.imageFile[0])
+        if (!imageUrl) {
+            return toast.error("Can not upload image. Try again later")
+        }
+        setUploadingImage(false)
+        const newCategory = await createCategory({ imageUrl, name: data.categoryName })
+        if (!newCategory) {
+            categoryCreationError && axiosErrorToast(categoryCreationError)
+            return
+        }
+        toast.success(`${data.categoryName} created successfully`)
+        setImageSrc('')
+        reset()
     };
 
     const imageSetHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,16 +110,17 @@ const AddCategory = () => {
                     )}
                 </div>
                 <button
-                    /* disabled={loading} */
+                    disabled={isCreatingCategory}
                     type="submit"
-                    className="center mt-4 w-full rounded-md bg-dark-red py-1 text-center font-normal text-secondary"
+                    className={`center mt-4 w-full rounded-md bg-dark-red py-1 text-center font-normal text-secondary ${(isCreatingCategory || uploadingImage) && 'cursor-not-allowed'}`}
                 >
-                    {/* {loading ? (
-                        <CircularProgress size={20} style={{ color: "white" }} />
-                    ) : (
-                        "Add Product"
-                    )} */}
-                    Create
+                    {
+                        isCreatingCategory || uploadingImage ? (
+                            <CircularProgress size={20} style={{ color: "white" }} />
+                        ) : (
+                            "Add Create"
+                        )
+                    }
                 </button>
             </form>
         </div>

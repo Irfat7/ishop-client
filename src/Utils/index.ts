@@ -3,6 +3,18 @@ import imageCompression from "browser-image-compression";
 import { ICart } from "../types";
 const imageHostingToken = import.meta.env.VITE_imgbbKey;
 
+export const handleSingleImageUpload = async (imageFile: File): Promise<string | false> => {
+  try {
+    const compressedImages = await compressImage(imageFile)
+    const response = await uploadImage(compressedImages)
+    const imageUrl = response?.data?.data?.display_url;
+    return imageUrl;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const handleImageUpload = async (imageFiles: File[]) => {
   const imageFilesArray = Array.from(imageFiles);
   try {
@@ -12,7 +24,6 @@ export const handleImageUpload = async (imageFiles: File[]) => {
     const response = await Promise.all(
       compressedImages.map((image) => uploadImage(image)),
     );
-    console.log(response);
     const imageUrl = response.map((image) => image?.data?.data?.display_url);
     return imageUrl;
   } catch (error) {
