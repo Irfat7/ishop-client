@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
 
 type Inputs = {
   productName: string;
@@ -71,9 +72,7 @@ const AddProduct = () => {
 
   return (
     <form className="mx-auto max-w-md" onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="mb-4 text-center text-xl font-bold md:mb-6 md:text-2xl">
-        Add New Product
-      </h2>
+      <SectionHeader title="Add New Product" />
       <div className="group relative z-0 mb-5 w-full">
         <input
           type="text"

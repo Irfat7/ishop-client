@@ -5,6 +5,7 @@ import { IProduct } from "../../types";
 import ProductCard from "../../components/nextui/ProductCard/ProductCard";
 import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
 import { CircularProgress } from "@mui/material";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
 
 const SearchProduct = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,9 +27,7 @@ const SearchProduct = () => {
 
   return (
     <div>
-      <h2 className="mb-4 text-center text-xl font-bold md:mb-6 md:text-2xl">
-        Search Product
-      </h2>
+      <SectionHeader title="Search Product"/>
       <div>
         <div className="group relative z-0 mx-auto mb-5 w-full md:w-1/2">
           <input
