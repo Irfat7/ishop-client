@@ -15,6 +15,7 @@ import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import MyOrders from "../pages/MyOrders/MyOrders";
 import MyReviews from "../pages/MyReviews/MyReviews";
 import UserProductSearch from "../pages/UserProductSearch/UserProductSearch";
+import AssignRole from "../pages/AssignRole/AssignRole";
 
 const router = createBrowserRouter([
   {
@@ -85,7 +86,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/assign-role",
-        element: <p>assign role page</p>,
+        element: <AssignRole />
       },
       {
         path: "/admin/add-category",

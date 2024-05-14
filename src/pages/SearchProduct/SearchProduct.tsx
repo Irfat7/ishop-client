@@ -29,7 +29,7 @@ const SearchProduct = () => {
       <h2 className="mb-4 text-center text-xl font-bold md:mb-6 md:text-2xl">
         Search Product
       </h2>
-      <form>
+      <div>
         <div className="group relative z-0 mx-auto mb-5 w-full md:w-1/2">
           <input
             type="text"
@@ -47,7 +47,7 @@ const SearchProduct = () => {
             Product Name
           </label>
         </div>
-      </form>
+      </div>
       <div>
         <div className="mx-auto">
           {
