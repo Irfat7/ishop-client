@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useCreateNewAccount } from "../../hooks/useCreateNewAccount";
 import toast from "react-hot-toast";
 import { useLogin } from "../../hooks/useLogin";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
@@ -184,6 +184,15 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({
           "Sign Up"
         )}
       </button>
+      {
+        loginPage ?
+          <p className="text-sm mt-1">
+            Does not have an account? <Link to='/sign-up' className="font-medium text-dark-red hover:underline dark:text-primary-500">Create here</Link>
+          </p> :
+          <p className="text-sm mt-1">
+            Already have an account? <Link to='/sign-in' className="font-medium text-dark-red hover:underline dark:text-primary-500">Login here</Link>
+          </p>
+      }
     </form>
   );
 };

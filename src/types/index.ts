@@ -20,6 +20,7 @@ export type IUser = {
   name: string;
   email: string;
   imageUrl: string;
+  createdAt: string,
   role: string;
 };
 

@@ -4,7 +4,7 @@ import { useAxiosSecure } from "./useAxiosSecure";
 export const useGetAllUsers = () => {
     const axiosInstance = useAxiosSecure()
     const {
-        data: allUsers = [],
+        data: allUsers,
         isFetching: loadingAllUser,
         error: allUserError,
         hasNextPage: hasMoreUser,
@@ -12,8 +12,8 @@ export const useGetAllUsers = () => {
         isFetchingNextPage: fetchingMoreUsers
     } = useInfiniteQuery({
         queryKey: ['ALL_USERS'],
-        queryFn: async () => {
-            const response = await axiosInstance.get(`/users`)
+        queryFn: async ({ pageParam = 1 }) => {
+            const response = await axiosInstance.get(`/users?page=${pageParam}`)
             return response.data
         },
         initialPageParam: 1,
@@ -24,6 +24,7 @@ export const useGetAllUsers = () => {
             }
             return allPages.length + 1;
         },
+        refetchOnWindowFocus: false
     })
     return {
         allUsers, loadingAllUser, allUserError, hasMoreUser, getMoreUsers, fetchingMoreUsers
