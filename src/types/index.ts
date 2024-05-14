@@ -17,6 +17,7 @@ export type IProduct = {
 };
 
 export type IUser = {
+  _id: string,
   name: string;
   email: string;
   imageUrl: string;
