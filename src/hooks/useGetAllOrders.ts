@@ -31,7 +31,7 @@ export const useGetAllOrders = () => {
             }
             return allPages.length + 1
         },
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
     })
     return {
         allOrders, loadingAllOrders, allOrdersError, hasMoreOrders, fetchMoreOrder, loadingMoreOrders, orderRefetching, sortOption, setSortOption, refetchAllOrders
