@@ -6,9 +6,10 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import OrdersRow from '../../components/OrdersRow/OrdersRow';
 import { IAdminOrder } from '../../types';
+import { CircularProgress } from '@mui/material';
 
 const OrdersPageAdmin = () => {
-    const { allOrders, loadingAllOrders, allOrdersError, hasMoreOrders, loadingMoreOrders, orderRefetching, sortOption, setSortOption, refetchAllOrders } = useGetAllOrders()
+    const { allOrders, loadingAllOrders, allOrdersError, hasMoreOrders, loadingMoreOrders, orderRefetching, sortOption, setSortOption, refetchAllOrders, fetchMoreOrder } = useGetAllOrders()
     const initialLoad = loadingAllOrders && !loadingMoreOrders
     const axiosErrorToast = useAxiosErrorToast()
 
@@ -47,8 +48,6 @@ const OrdersPageAdmin = () => {
             </>
         )
     }
-
-    console.log(resultData);
 
     return (
         <div>
@@ -99,6 +98,15 @@ const OrdersPageAdmin = () => {
                             }
                         </tbody>
                     </table>
+            }
+            {
+                hasMoreOrders && <button
+                    onClick={() => fetchMoreOrder()}
+                    disabled={loadingMoreOrders}
+                    className="center w-28 bg-dark-red p-2 rounded-md text-secondary mx-auto mt-5">
+                    {loadingMoreOrders ?
+                        <CircularProgress size={20} style={{ color: "white" }} /> : 'Load More'}
+                </button>
             }
         </div>
     );

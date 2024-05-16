@@ -18,7 +18,7 @@ export const useGetAllOrders = () => {
         isRefetching: orderRefetching,
         refetch: refetchAllOrders
     } = useInfiniteQuery({
-        queryKey: ['ALL_ORDERS', user?.uid],
+        queryKey: ['ALL_ORDERS', sortOption, user?.uid],
         queryFn: async ({ pageParam = 1 }) => {
             const response = await axiosInstance.get(`/orders/get-all?page=${pageParam}&sortOption=${sortOption}`)
             return response.data

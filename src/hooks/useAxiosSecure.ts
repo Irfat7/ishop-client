@@ -25,7 +25,7 @@ export const useAxiosSecure = () => {
       return response;
     },
     function (error) {
-      if (error.response.status === 401 || error.response.status === 403) {
+      if (error.response.data.logOut && error.response.status === 401 || error.response.status === 403) {
         logOut();
       }
       return Promise.reject(error);
