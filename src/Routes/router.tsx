@@ -17,6 +17,7 @@ import MyReviews from "../pages/MyReviews/MyReviews";
 import UserProductSearch from "../pages/UserProductSearch/UserProductSearch";
 import AssignRole from "../pages/AssignRole/AssignRole";
 import AddCategory from "../pages/AddCategory/AddCategory";
+import OrdersPageAdmin from "../pages/OrdersPageAdmin/OrdersPageAdmin";
 
 const router = createBrowserRouter([
   {
@@ -95,7 +96,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/orders",
-        element: <p>orders page</p>,
+        element: <OrdersPageAdmin />,
       },
       {
         path: "/admin/sale-events",

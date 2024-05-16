@@ -60,3 +60,18 @@ export type IReview = {
   starCount: number,
   message: string
 }
+
+export type IAdminOrder = {
+  _id: string,
+  address: string,
+  customerName: string,
+  payment: number,
+  status: string,
+  productInfo: {
+    productId: string,
+    productName: string,
+    image: string[],
+    quantity: number,
+    reviewed: boolean
+  }[]
+}

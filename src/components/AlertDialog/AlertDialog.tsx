@@ -31,7 +31,7 @@ const AlertDialog: React.FC<AlertDialogProps> = ({ changingRoleError, placeholde
             <button
                 onClick={handleClickOpen}
                 disabled={isChangingRole}
-                className="bg-dark-red text-secondary p-1 rounded-md min-w-fit">
+                className="duration-200 border border-dark-red hover:bg-dark-red hover:text-secondary p-1 rounded-md min-w-fit">
                 {isChangingRole ?
                     <CircularProgress size={20} style={{ color: "white" }} />
                     : changingRoleError ?
