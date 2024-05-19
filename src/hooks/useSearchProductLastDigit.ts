@@ -21,6 +21,6 @@ export const useSearchProductLastDigit = () => {
         }
     })
     return {
-        searchedOrder, searchingOrder, errorSearchingOrder, searchingSuccessful, setLastDigits
+        searchedOrder, searchingOrder, errorSearchingOrder, searchingSuccessful, setLastDigits, lastDigits
     }
 };
