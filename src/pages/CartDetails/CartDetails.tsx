@@ -8,6 +8,8 @@ import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
 import toast from "react-hot-toast";
 import { calculateTotal } from "../../Utils";
 import { useNavigate } from "react-router-dom";
+import NothingFound from "../shared/NothingFound";
+import SectionHeader from "../../components/SectionHeader/SectionHeader";
 
 const CartDetails = () => {
     const navigate = useNavigate()
@@ -29,12 +31,20 @@ const CartDetails = () => {
         }
     }, [updateOperation, carts])
 
+    const common = <SectionHeader title="My Cart" />
+
     if (cartsLoading) {
-        return <Loader />;
+        return <>
+            {common}
+            <Loader />
+        </>;
     }
 
     if (carts.length === 0 && !cartsLoading) {
-        return <p className="text-center text-2xl font-medium">Cart is empty</p>;
+        return <>
+            {common}
+            <NothingFound message="Cart is empty" />
+        </>;
     }
 
     const checkoutHandler = async () => {
@@ -50,6 +60,7 @@ const CartDetails = () => {
 
     return (
         <section className="after:contents-[''] after:bg-gray-50 relative z-10 after:absolute after:right-0 after:top-0 after:z-0 after:h-full xl:after:w-1/3">
+            {common}
             <div className="lg-6 relative z-10 mx-auto w-full max-w-7xl px-4 md:px-5">
                 <div className="grid grid-cols-12">
                     <div className="col-span-12 w-full pb-8 max-xl:mx-auto max-xl:max-w-3xl lg:pr-8 xl:col-span-8">

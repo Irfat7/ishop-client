@@ -6,6 +6,7 @@ import { useGetMyReviews } from '../../hooks/useGetMyReviews';
 import ReviewCard from '../shared/ReviewCard';
 import { IReview } from '../../types';
 import { useAuthContext } from '../../hooks/useAuthContext';
+import NothingFound from '../shared/NothingFound';
 
 const MyReviews = () => {
     const [myReviews, isReviewsLoading, reviewsError] = useGetMyReviews()
@@ -24,7 +25,7 @@ const MyReviews = () => {
                 isReviewsLoading ?
                     <Loader /> :
                     noReviews ?
-                        <p className='text-center text-2xl font-medium'>No reviews</p> :
+                        <NothingFound message='No review' /> :
                         myReviews.map((review: IReview) => <ReviewCard key={review._id} review={review} userName={user?.displayName || 'Name Unavailable'} />)
             }
         </div>

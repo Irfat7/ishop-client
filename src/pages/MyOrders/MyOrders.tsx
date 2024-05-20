@@ -5,6 +5,7 @@ import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import { useGetMyOrders } from '../../hooks/useGetMyOrders';
 import { IOrder } from '../../types';
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
+import NothingFound from '../shared/NothingFound';
 
 const MyOrders = () => {
     const [myOrders, ordersLoading, orderError] = useGetMyOrders()
@@ -22,7 +23,7 @@ const MyOrders = () => {
                     <Loader />
                     :
                     myOrders.length === 0 ?
-                        <p className="text-center text-xl md:text-2xl font-medium">Nothing Ordered</p>
+                        <NothingFound message='Nothing Ordered' />
                         :
                         <div className='space-y-5'>
                             {

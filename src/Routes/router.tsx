@@ -18,6 +18,7 @@ import UserProductSearch from "../pages/UserProductSearch/UserProductSearch";
 import AssignRole from "../pages/AssignRole/AssignRole";
 import AddCategory from "../pages/AddCategory/AddCategory";
 import OrdersPageAdmin from "../pages/OrdersPageAdmin/OrdersPageAdmin";
+import SaleEvents from "../pages/SaleEvents/SaleEvents";
 
 const router = createBrowserRouter([
   {
@@ -100,7 +101,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/sale-events",
-        element: <p>sale events page</p>,
+        element: <SaleEvents />
       },
       {
         path: "/admin/coupons",

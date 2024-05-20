@@ -7,6 +7,7 @@ import Loader from "../../components/universe/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import NothingFound from "../shared/NothingFound";
 
 const Category = () => {
   const { categoryName = "mouse" } = useParams();
@@ -51,7 +52,7 @@ const Category = () => {
         </button>
       )}
       {data.pages[0].length === 0 && (
-        <p className="text-center text-lg">Yet to add product in this category</p>
+        <NothingFound message="yet to add product in this category" />
       )}
     </div>
   );
