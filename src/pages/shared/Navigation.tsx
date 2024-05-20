@@ -3,13 +3,11 @@ import IShopLogo from "/logos/IShop-Logo.svg";
 import Search from "../../components/universe/Search/Search";
 import Cart from "../../components/Cart/Cart";
 import UserDropDown from "../../components/nextui/UserDropDown";
-import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import UserIcon from "/icons/user.svg";
 
 const Navigation = () => {
   const { user } = useAuthContext()
-  const { logOut } = useLogout();
 
   return (
     <nav className="md:md-padding flex items-center justify-between bg-primary p-2">
@@ -19,7 +17,6 @@ const Navigation = () => {
       </div>
 
       <div className="h3-medium hidden w-1/3 gap-4 md:flex md:justify-center">
-        <p onClick={() => logOut()}>logout</p>
         <NavLink
           to="/"
           className={({ isActive }) =>

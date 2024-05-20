@@ -9,10 +9,12 @@ import UserIcon from "/icons/user.svg";
 import { Link } from "react-router-dom";
 import { useAdminVerify } from "../../hooks/useAdminVerify";
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
 
 const UserDropDown = () => {
   const { user } = useAuthContext()
   const [admin] = useAdminVerify(user?.email || '')
+  const { logOut } = useLogout()
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -32,9 +34,8 @@ const UserDropDown = () => {
         <DropdownItem key="myReviews" textValue="My Reviews">
           <Link to='/my-reviews'>My Reviews</Link>
         </DropdownItem>
-        <DropdownItem key="edit">Edit file</DropdownItem>
-        <DropdownItem key="delete" className="text-danger" color="danger">
-          Delete file
+        <DropdownItem key="logout" textValue="Log-out" onClick={() => logOut()}>
+          Logout
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
