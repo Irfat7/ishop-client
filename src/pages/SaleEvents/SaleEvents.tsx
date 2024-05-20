@@ -5,6 +5,7 @@ import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import NothingFound from '../shared/NothingFound';
 import CreateEvent from './CreateEvent';
 import { useForm } from "react-hook-form"
+import AllProductsTable from './AllProductsTable/AllProductsTable';
 
 type EventInputs = {
     eventName: string
@@ -40,7 +41,7 @@ const SaleEvents = () => {
     const pageShowMap: { [key: number]: ReactElement } = {
         1: <NothingFound message="No ongoing event. You can launch one." />,
         2: <CreateEvent register={register} errors={errors} />,
-        3: <ul className="bg-dark-red w-full h-96"></ul>,
+        3: <AllProductsTable />,
     };
 
     const currentHandler = (prev = false) => {
