@@ -6,6 +6,8 @@ import NothingFound from '../shared/NothingFound';
 import CreateEvent from './CreateEvent';
 import { useForm } from "react-hook-form"
 import AllProductsTable from './AllProductsTable/AllProductsTable';
+import { IProduct } from '../../types';
+import toast from 'react-hot-toast';
 
 type EventInputs = {
     eventName: string
@@ -17,6 +19,8 @@ const SaleEvents = () => {
     const { event, eventLoading, eventError } = useGetSaleEvent();
     const axiosErrorToast = useAxiosErrorToast();
     const [current, setCurrent] = useState<number>(1)
+    const [selectedProducts, setSelectedProducts] = useState<IProduct[]>([])
+
     const {
         register,
         handleSubmit,
@@ -41,10 +45,17 @@ const SaleEvents = () => {
     const pageShowMap: { [key: number]: ReactElement } = {
         1: <NothingFound message="No ongoing event. You can launch one." />,
         2: <CreateEvent register={register} errors={errors} />,
-        3: <AllProductsTable />,
+        3: <AllProductsTable selectedProducts={selectedProducts} setSelectedProduct={setSelectedProducts} />,
     };
 
+    console.log(selectedProducts);
+
     const currentHandler = (prev = false) => {
+        if (current === 3) {
+            if (selectedProducts.length < 5) {
+                return toast.error("Minimum product error")
+            }
+        }
         if (prev) {
             setCurrent(prevCurrent => (prevCurrent > 1 ? prevCurrent - 1 : prevCurrent));
         } else {
@@ -72,6 +83,26 @@ const SaleEvents = () => {
     return (
         <div>
             <SectionHeader title={pageTitleMap[current] || 'Sale Event'} />
+            <div className="flex justify-between mb-4">
+                <button
+                    onClick={() => currentHandler(true)}
+                    disabled={current === 1}
+                    className={`bg-dark-red text-secondary py-2 px-4 rounded ${current === 1 ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                >
+                    Prev
+                </button>
+                <button
+                    onClick={() => currentHandler(false)}
+                    disabled={current === 3 && selectedProducts.length < 5}
+                    className={`bg-dark-red animate-bounce-once text-secondary py-2 px-4 rounded ${current === 3 && selectedProducts.length < 5 ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
+                >
+                    {
+                        current === 3 ? 'Launch' : "Next"
+                    }
+                </button>
+            </div>
             {noEvent && (
                 <div className="overflow-hidden relative">
                     <div style={carouselStyle}>
@@ -80,24 +111,6 @@ const SaleEvents = () => {
                                 {pageShowMap[Number(key)]}
                             </div>
                         ))}
-                    </div>
-                    <div className="flex justify-between mt-4">
-                        <button
-                            onClick={() => currentHandler(true)}
-                            disabled={current === 1}
-                            className={`bg-dark-red text-secondary py-2 px-4 rounded ${current === 1 ? 'opacity-50 cursor-not-allowed' : ''
-                                }`}
-                        >
-                            Prev
-                        </button>
-                        <button
-                            onClick={() => currentHandler(false)}
-                            disabled={current === 3}
-                            className={`bg-dark-red text-secondary py-2 px-4 rounded ${current === 3 ? 'opacity-50 cursor-not-allowed' : ''
-                                }`}
-                        >
-                            Next
-                        </button>
                     </div>
                 </div>
             )}

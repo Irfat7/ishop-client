@@ -6,7 +6,12 @@ import AllProductsRow from "./AllProductsRow";
 import { IProduct } from "../../../types";
 import { CircularProgress } from "@mui/material";
 
-const AllProductsTable = (): ReactElement => {
+interface AllProductsTableProps {
+    selectedProducts: IProduct[],
+    setSelectedProduct: React.Dispatch<React.SetStateAction<IProduct[]>>
+}
+
+const AllProductsTable: React.FC<AllProductsTableProps> = ({ selectedProducts, setSelectedProduct }): ReactElement => {
     const axiosErrorToast = useAxiosErrorToast()
     const {
         allProducts, loadingProducts, productsLoadingError, hasMoreProducts, getMoreProducts, fetchingMoreProducts,
@@ -24,9 +29,17 @@ const AllProductsTable = (): ReactElement => {
         </>
     }
 
-    const productsArray = allProducts.pages
+    const selectedProductHandler = (productToAdd: IProduct) => {
+        setSelectedProduct(prevProduct => {
+            const exist = prevProduct.find(product => product._id == productToAdd._id)
+            if (exist) {
+                return prevProduct.filter(product => product._id != productToAdd._id)
+            }
+            return [...prevProduct, productToAdd]
+        })
+    }
 
-    console.log(productsArray);
+    const productsArray = allProducts.pages || []
 
     return (
         <table className="shadow-md w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -56,6 +69,8 @@ const AllProductsTable = (): ReactElement => {
                             group.map((product: IProduct) => <AllProductsRow
                                 key={product._id}
                                 product={product}
+                                selected={selectedProducts.find(selectedProduct => selectedProduct._id === product._id)}
+                                selectedProductHandler={selectedProductHandler}
                             />)
                         }
                     </Fragment>)

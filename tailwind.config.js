@@ -16,7 +16,17 @@ export default {
     fontFamily: {
       "roboto-condensed": ["Roboto Condensed", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        "bounce-once": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-20%)" },
+        },
+      },
+      animation: {
+        "bounce-once": "bounce-once 0.5s ease-in-out 1",
+      },
+    },
   },
   darkMode: "class",
   plugins: [
