@@ -20,7 +20,7 @@ type EventInputs = {
 }
 
 const SaleEvents = () => {
-    const { event, eventLoading, eventError } = useGetSaleEvent();
+    const { event, eventLoading, eventError, refetchEvent, refetchingEvent } = useGetSaleEvent();
     const axiosErrorToast = useAxiosErrorToast();
     const [current, setCurrent] = useState<number>(1)
     const [selectedProducts, setSelectedProducts] = useState<IProduct[]>([])
@@ -47,7 +47,7 @@ const SaleEvents = () => {
         3: "Select Products",
     };
 
-    if (eventLoading) {
+    if (eventLoading || refetchingEvent) {
         return <>
             <SectionHeader title={pageTitleMap[current] || 'Sale Event'} />
             <Loader />
@@ -62,7 +62,6 @@ const SaleEvents = () => {
 
     const currentHandler = async (prev = false) => {
         if (current === 3 && selectedProducts.length >= 5) {
-            //perform create event
             const selectedProductsIds = selectedProducts.map(product => product._id)
             const eventInfo = {
                 name: watch('eventName'),
@@ -74,6 +73,7 @@ const SaleEvents = () => {
             if (!newEvent) {
                 return toast.error("Error creating event")
             }
+            refetchEvent()
             toast.success('New event created')
         }
         if (prev) {
@@ -136,7 +136,7 @@ const SaleEvents = () => {
                         </div>
                     </div>
                 </>
-            ) : <EventCard event={event} />
+            ) : <EventCard event={event} refetchEvent={refetchEvent} setCurrent={setCurrent}/>
             }
         </div>
     );

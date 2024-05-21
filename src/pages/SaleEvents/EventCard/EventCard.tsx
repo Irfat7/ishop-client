@@ -6,12 +6,15 @@ import EventDeleteAlert from "../../../components/AlertDialog/EventDeleteAlert";
 import { useDeleteEvent } from "../../../hooks/useDeleteEvent";
 import { useAxiosErrorToast } from "../../../hooks/useAxiosErrorToast";
 import toast from "react-hot-toast";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 
 interface EventCardProps {
     event: ISaleEvent;
+    refetchEvent: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<unknown, Error>>
+    setCurrent: React.Dispatch<React.SetStateAction<number>>
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event }) => {
+const EventCard: React.FC<EventCardProps> = ({ event, refetchEvent, setCurrent }) => {
     const { name, mainDiscount, discountForCheapProducts, products, _id: eventId } = event;
     const {
         closeEvent, closingEvent, eventCloseError, eventDeleted
@@ -20,7 +23,11 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
     useEffect(() => {
         eventCloseError && axiosErrorToast(eventCloseError)
-        eventDeleted && toast.success('Event Deleted')
+        if (eventDeleted && refetchEvent) {
+            refetchEvent()
+            setCurrent(1)
+            toast.success('Event Deleted')
+        }
     }, [eventCloseError, eventDeleted])
 
     return (
@@ -47,7 +54,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                     </tbody>
                 </table>
             </div>
-            <div className="bg-[#f5f5f5] p-5 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 justify-items-center">
+            <div className="bg-[#f5f5f5] p-5 gap-2 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 justify-items-center">
                 {products.map((product) => (
                     <ProductCard key={product._id} product={product} />
                 ))}

@@ -6,7 +6,9 @@ export const useGetSaleEvent = () => {
     const {
         data: event,
         isPending: eventLoading,
-        error: eventError
+        error: eventError,
+        refetch: refetchEvent,
+        isRefetching: refetchingEvent
     } = useQuery({
         queryKey: ['GET_SALE_EVENT'],
         queryFn: async () => {
@@ -15,6 +17,6 @@ export const useGetSaleEvent = () => {
         }
     })
     return {
-        event, eventLoading, eventError
+        event, eventLoading, eventError, refetchEvent, refetchingEvent
     }
 };
