@@ -2,6 +2,7 @@ import React from "react";
 import { ISaleEvent } from "../../../types";
 import ProductCard from "../../../components/nextui/ProductCard/ProductCard";
 import './EventCard.css';
+import EventDeleteAlert from "../../../components/AlertDialog/EventDeleteAlert";
 
 interface EventCardProps {
     event: ISaleEvent;
@@ -28,9 +29,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                             <td className="px-6 py-4 text-sm font-medium">{discountForCheapProducts}</td>
                             <td className="px-6 py-4 text-sm font-medium">{products.length}</td>
                             <td className="px-6 py-4 text-sm font-medium">
-                                <button className="bg-dark-red px-2 py-1 rounded text-secondary duration-300 hover:scale-105">
-                                    Delete
-                                </button>
+                                <EventDeleteAlert />
                             </td>
                         </tr>
                     </tbody>
