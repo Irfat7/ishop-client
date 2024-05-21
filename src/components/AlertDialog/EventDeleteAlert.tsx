@@ -44,7 +44,7 @@ const EventDeleteAlert = () => {
                         autoFocus
                         onClick={()=>console.log(2)}
                     >
-                        Yes
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>
