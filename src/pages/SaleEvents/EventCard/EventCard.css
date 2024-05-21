@@ -1,0 +1,12 @@
+.event-card-header {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.event-card-info {
+  text-align: left;
+}
+
+.event-card-products {
+  gap: 10px;
+}

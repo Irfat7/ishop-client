@@ -4,7 +4,7 @@ import { useAxiosSecure } from "./useAxiosSecure";
 export const useGetSaleEvent = () => {
     const axiosInstance = useAxiosSecure()
     const {
-        data: event = [],
+        data: event,
         isPending: eventLoading,
         error: eventError
     } = useQuery({

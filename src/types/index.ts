@@ -75,3 +75,11 @@ export type IAdminOrder = {
     reviewed: boolean
   }[]
 }
+
+export type ISaleEvent = {
+  _id: string,
+  name: string,
+  mainDiscount: number,
+  discountForCheapProducts: number,
+  products: IProduct[]
+}
