@@ -7,7 +7,6 @@ import CreateEvent from './CreateEvent';
 import { useForm } from "react-hook-form"
 import AllProductsTable from './AllProductsTable/AllProductsTable';
 import { IProduct } from '../../types';
-import toast from 'react-hot-toast';
 
 type EventInputs = {
     eventName: string
@@ -48,13 +47,9 @@ const SaleEvents = () => {
         3: <AllProductsTable selectedProducts={selectedProducts} setSelectedProduct={setSelectedProducts} />,
     };
 
-    console.log(selectedProducts);
-
     const currentHandler = (prev = false) => {
-        if (current === 3) {
-            if (selectedProducts.length < 5) {
-                return toast.error("Minimum product error")
-            }
+        if (current === 3 && selectedProducts.length > 5) {
+            //perform create event
         }
         if (prev) {
             setCurrent(prevCurrent => (prevCurrent > 1 ? prevCurrent - 1 : prevCurrent));
