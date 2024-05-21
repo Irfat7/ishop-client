@@ -5,8 +5,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UseMutateAsyncFunction } from '@tanstack/react-query';
+import { CircularProgress } from '@mui/material';
 
-const EventDeleteAlert = () => {
+interface EventDeleteAlertProps {
+    closeEvent: UseMutateAsyncFunction<unknown, Error, string, unknown>,
+    eventId: string
+    closingEvent: boolean
+}
+
+const EventDeleteAlert: React.FC<EventDeleteAlertProps> = ({ closeEvent, eventId, closingEvent }) => {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -21,8 +29,11 @@ const EventDeleteAlert = () => {
         <React.Fragment>
             <button
                 onClick={handleClickOpen}
+                disabled={closingEvent}
                 className="bg-dark-red px-2 py-1 rounded text-secondary duration-300 hover:scale-105">
-                Delete
+                {
+                    closingEvent ? <CircularProgress size={20} style={{ color: 'white' }} /> : "Delete"
+                }
             </button>
             <Dialog
                 open={open}
@@ -42,7 +53,10 @@ const EventDeleteAlert = () => {
                     <Button onClick={handleClose}>No</Button>
                     <Button
                         autoFocus
-                        onClick={()=>console.log(2)}
+                        onClick={() => {
+                            closeEvent(eventId)
+                            handleClose()
+                        }}
                     >
                         Delete
                     </Button>

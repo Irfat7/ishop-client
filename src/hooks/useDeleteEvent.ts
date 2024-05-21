@@ -6,14 +6,15 @@ export const useDeleteEvent = () => {
     const {
         mutateAsync: closeEvent,
         isPending: closingEvent,
-        error: eventCloseError
+        error: eventCloseError,
+        isSuccess: eventDeleted
     } = useMutation({
         mutationFn: async (eventId: string) => {
-            const response = await axiosInstance.delete(`/event/${eventId}`)
+            const response = await axiosInstance.delete(`/events/${eventId}`)
             return response.data
         }
     })
     return {
-        closeEvent, closingEvent, eventCloseError
+        closeEvent, closingEvent, eventCloseError, eventDeleted
     }
 };
