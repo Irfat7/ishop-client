@@ -83,3 +83,10 @@ export type ISaleEvent = {
   discountForCheapProducts: number,
   products: IProduct[]
 }
+
+export type ICoupons = {
+  _id: string,
+  code: string,
+  quantity: number,
+  amount: number
+}
