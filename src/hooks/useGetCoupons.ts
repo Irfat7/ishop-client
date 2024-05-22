@@ -8,6 +8,8 @@ export const useGetCoupons = () => {
         data: coupons = [],
         isPending: couponsLoading,
         error: couponsError,
+        refetch: refetchCoupon,
+        isRefetching: refetchingCoupon
     } = useQuery({
         queryKey: ['DISCOUNT_COUPONS'],
         queryFn: async () => {
@@ -17,6 +19,6 @@ export const useGetCoupons = () => {
     })
 
     return {
-        coupons, couponsLoading, couponsError
+        coupons, couponsLoading, couponsError, refetchCoupon, refetchingCoupon
     }
 };
