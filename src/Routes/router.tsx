@@ -19,6 +19,7 @@ import AssignRole from "../pages/AssignRole/AssignRole";
 import AddCategory from "../pages/AddCategory/AddCategory";
 import OrdersPageAdmin from "../pages/OrdersPageAdmin/OrdersPageAdmin";
 import SaleEvents from "../pages/SaleEvents/SaleEvents";
+import Coupons from "../pages/Coupons/Coupons";
 
 const router = createBrowserRouter([
   {
@@ -105,7 +106,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/admin/coupons",
-        element: <p>coupons page</p>,
+        element: <Coupons />
       },
     ],
   },
