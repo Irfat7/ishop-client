@@ -10,6 +10,8 @@ import { calculateTotal } from "../../Utils";
 import { useNavigate } from "react-router-dom";
 import NothingFound from "../shared/NothingFound";
 import SectionHeader from "../../components/SectionHeader/SectionHeader";
+import { useGetCouponByCode } from "../../hooks/useGetCouponByCode";
+import { CircularProgress } from "@mui/material";
 
 const CartDetails = () => {
     const navigate = useNavigate()
@@ -20,6 +22,7 @@ const CartDetails = () => {
     >([]);
     const { updateCartQuantity, updatingQuantity, cartQuantityError } = useUpdateCart();
     const [totalPrice, setTotalPrice] = useState<number>(0)
+    const { coupon, couponError, loadingCoupon, setCouponCode } = useGetCouponByCode()
 
     useEffect(() => {
         cartQuantityError && axiosErrorToast(cartQuantityError);
@@ -30,6 +33,10 @@ const CartDetails = () => {
             setTotalPrice(calculateTotal(carts, updateOperation))
         }
     }, [updateOperation, carts])
+
+    useEffect(() => {
+        couponError && axiosErrorToast(couponError)
+    }, [couponError])
 
     const common = <SectionHeader title="My Cart" />
 
@@ -55,8 +62,16 @@ const CartDetails = () => {
                 return;
             }
         }
-        navigate('/payment')
+        navigate('/payment',{
+            state:{
+                coupon
+            }
+        })
     };
+
+    let couponCodeInput = ''
+
+    console.log(coupon);
 
     return (
         <section className="after:contents-[''] after:bg-gray-50 relative z-10 after:absolute after:right-0 after:top-0 after:z-0 after:h-full xl:after:w-1/3">
@@ -117,39 +132,42 @@ const CartDetails = () => {
                             </div>
                             <div>
                                 <label className="text-gray-400 mb-1.5 flex items-center text-sm font-medium">
-                                    Promo Code
+                                    Coupon Code
                                 </label>
                                 <div className="flex w-full pb-4">
                                     <div className="relative w-full ">
                                         <div className=" text-gray-300 absolute left-0 top-0 px-4 py-2.5"></div>
                                         <input
+                                            disabled={totalPrice < 400 || loadingCoupon || coupon}
+                                            onChange={e => couponCodeInput = e.target.value}
                                             type="text"
                                             className="shadow-xs text-gray-900 bg-white border-gray-300 placeholder-gray-500 focus:outline-gray-400 block h-11 w-full rounded-lg border py-2.5 pl-5 pr-11 text-base font-normal "
-                                            placeholder="xxxx xxxx xxxx"
+                                            placeholder={`${totalPrice < 400 ? 'Coupon not available for total price less than 400' : ''}`}
                                         />
-                                        <button
-                                            id="dropdown-button"
-                                            data-target="dropdown"
-                                            className="dropdown-toggle text-gray-900 absolute right-0 top-0 z-10 inline-flex flex-shrink-0 items-center bg-transparent px-4 py-4  pl-2 text-center text-base font-medium "
-                                            type="button"
-                                        >
-                                            +
-                                        </button>
                                     </div>
                                 </div>
-                                <div className="flex items-center">
-                                    <button className="bg-dark-red text-secondary w-full rounded-lg px-4 py-2.5 text-center text-sm font-semibold">
-                                        Apply
+                                <div className="flex items-center mb-5">
+                                    <button
+                                        onClick={() => setCouponCode(couponCodeInput)}
+                                        disabled={totalPrice < 400 || loadingCoupon || coupon}
+                                        className={`bg-dark-red center text-secondary w-full rounded-lg px-4 py-2.5 text-center text-sm font-semibold ${loadingCoupon || totalPrice < 400 || coupon && 'cursor-not-allowed opacity-50'}`}>
+                                        {
+                                            loadingCoupon ? <CircularProgress size={20} style={{ color: "white" }} /> :
+                                                coupon ? "Applied" : "Apply"
+                                        }
                                     </button>
                                 </div>
-                                <div className="flex items-center justify-between py-8">
-                                    <p className="text-black text-xl font-medium leading-8">
-                                        3 Items
-                                    </p>
-                                    <p className="text-indigo-600 text-xl font-semibold leading-8">
-                                        $485.00
-                                    </p>
-                                </div>
+                                {
+                                    coupon &&
+                                    <div className="flex items-center justify-between py-8">
+                                        <p className="text-black text-xl font-medium leading-8">
+                                            Discount Applied ${coupon.amount || 0}
+                                        </p>
+                                        <p className="text-indigo-600 text-xl font-semibold leading-8">
+                                            Total ${totalPrice - coupon.amount || 0}
+                                        </p>
+                                    </div>
+                                }
                                 <button
                                     disabled={updatingQuantity}
                                     onClick={checkoutHandler}

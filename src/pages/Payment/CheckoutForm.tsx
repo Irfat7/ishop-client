@@ -8,13 +8,16 @@ import { calculateTotal } from '../../Utils';
 import { useAxiosErrorToast } from '../../hooks/useAxiosErrorToast';
 import { CircularProgress } from '@mui/material';
 import { useAuthContext } from '../../hooks/useAuthContext';
-import { ICart } from '../../types';
+import { ICart, ICoupons } from '../../types';
 import { useCreatePayment } from '../../hooks/useCreatePayment';
 import { useIdMap } from '../../hooks/useIdMap';
 import { useCreateOrder } from '../../hooks/useCreateOrder';
 
+interface CheckoutFormProps {
+    coupon: ICoupons | undefined
+}
 
-const CheckoutForm = () => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
     const { user } = useAuthContext()
     const stripe = useStripe();
     const elements = useElements();
@@ -32,7 +35,7 @@ const CheckoutForm = () => {
     useEffect(() => {
         if (!cartsLoading) {
             carts.length === 0 && navigate('/')
-            const totalPrice = calculateTotal(carts, [])
+            const totalPrice = calculateTotal(carts, []) - (coupon?.amount || 0)
             axiosInstance.post('/create-payment-intent', { totalPrice, carts })
                 .then(({ data }) => {
                     setClientSecret(data.clientSecret)
@@ -72,6 +75,7 @@ const CheckoutForm = () => {
         });
         setLoading(false);
         if (paymentIntent) {
+            coupon && axiosInstance.patch(`/coupons/use-coupon/${coupon.code}`)
             const cartItemIds = cartData.map(cartInformation => cartInformation._id)
             const productInfo = cartData.map(cartInformation => {
                 return {
