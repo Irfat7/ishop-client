@@ -61,6 +61,15 @@ export type IReview = {
   message: string
 }
 
+export type IReviewProduct = {
+  _id: string,
+  orderId: string,
+  userId: IUser,
+  productId: string,
+  starCount: number,
+  message: string
+}
+
 export type IAdminOrder = {
   _id: string,
   address: string,

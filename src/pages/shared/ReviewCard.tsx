@@ -1,11 +1,11 @@
 import React from "react";
-import { IReview } from "../../types";
+import { IReview, IReviewProduct } from "../../types";
 import { Link } from "react-router-dom";
 import PersonIcon from '@mui/icons-material/Person';
 import { Rating } from "@mui/material";
 
 interface ReviewCardProps {
-    review: IReview,
+    review: IReview | IReviewProduct,
     userName: string
 }
 const ReviewCard: React.FC<ReviewCardProps> = ({ review, userName }) => {
