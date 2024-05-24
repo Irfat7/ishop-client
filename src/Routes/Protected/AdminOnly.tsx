@@ -11,10 +11,7 @@ const AdminOnly: React.FC<{ children: ReactElement }> = ({ children }) => {
   const [admin, isAdminLoading] = useAdminVerify(user?.email || "");
 
   useEffect(() => {
-    console.log('user object value in admin', user);
-    console.log('admin value check', admin);
     if (!user && !isUserLoading) {
-      console.log('will be logged out from admin protection route', user);
       logOut();
     }
   }, []);

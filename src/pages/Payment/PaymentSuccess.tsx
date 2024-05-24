@@ -14,7 +14,7 @@ const PaymentSuccess = () => {
                 <p className="my-2">Thank you for completing your secure online payment.</p>
                 <p> Have a great day!  </p>
                 <div className="py-10 text-center">
-                    <Link className="bg-dark-red text-secondary p-3 rounded-md" to='/'>See Your Order</Link>
+                    <Link className="bg-dark-red text-secondary p-3 rounded-md" to='/my-orders'>See Your Order</Link>
                 </div>
             </div>
         </div>

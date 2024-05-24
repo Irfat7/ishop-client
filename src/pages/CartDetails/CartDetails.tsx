@@ -62,16 +62,14 @@ const CartDetails = () => {
                 return;
             }
         }
-        navigate('/payment',{
-            state:{
-                coupon
+        navigate(`/payment${coupon?.code ? `?code=${coupon?.code}`:''}`, {
+            state: {
+                coupon: totalPrice < 400 ? undefined : coupon
             }
         })
     };
 
     let couponCodeInput = ''
-
-    console.log(coupon);
 
     return (
         <section className="after:contents-[''] after:bg-gray-50 relative z-10 after:absolute after:right-0 after:top-0 after:z-0 after:h-full xl:after:w-1/3">
@@ -158,7 +156,7 @@ const CartDetails = () => {
                                     </button>
                                 </div>
                                 {
-                                    coupon &&
+                                    coupon && totalPrice >= 400 &&
                                     <div className="flex items-center justify-between py-8">
                                         <p className="text-black text-xl font-medium leading-8">
                                             Discount Applied ${coupon.amount || 0}

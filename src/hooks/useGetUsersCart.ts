@@ -8,7 +8,7 @@ export const useGetUsersCart = () => {
 
   const {
     data: carts = [],
-    isLoading,
+    isPending,
     error,
     refetch,
   } = useQuery({
@@ -20,7 +20,8 @@ export const useGetUsersCart = () => {
       const response = await axiosSecure.get(`/carts/user?userId=${userId}`);
       return response.data;
     },
-    /* refetchOnWindowFocus: true, */
+    enabled: !!userId
+
   });
-  return [carts, isLoading, error, refetch];
+  return [carts, isPending, error, refetch];
 };
