@@ -29,12 +29,17 @@ export const useAddToCart = () => {
 
   const {
     mutateAsync: addCart,
-    isPending,
+    isPending: pendingAddToCart,
     isError,
     isSuccess,
     error,
   } = useMutation({
     mutationFn: addToCart,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["Cart"]
+      })
+    }
   });
-  return { addCart, isPending, isError, isSuccess, error };
+  return { addCart, pendingAddToCart, isError, isSuccess, error };
 };

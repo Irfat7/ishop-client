@@ -32,7 +32,7 @@ const AccountForm: React.FC<{ loginPage: boolean }> = ({
     formState: { errors },
   } = useForm<Inputs>();
 
-  if (loggedIn || user) {
+  if (!isNewAccountCreating && (loggedIn || user)) {
     return <Navigate to="/" replace={true} />;
   }
 

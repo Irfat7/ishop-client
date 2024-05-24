@@ -15,7 +15,7 @@ interface ProductProps {
 
 const ProductCard: React.FC<ProductProps> = ({ product }) => {
   const { user } = useAuthContext();
-  const { addCart, isSuccess: cartSuccess, error } = useAddToCart();
+  const { addCart, isSuccess: cartSuccess, error, pendingAddToCart } = useAddToCart();
   const axiosErrorToast = useAxiosErrorToast();
   useEffect(() => {
     cartSuccess && toast.success("Product added to cart");
@@ -60,6 +60,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
             {product.discount !== 0 && <span className="text-sm line-through">${product.price}</span>}
           </p>
           <button
+            disabled={pendingAddToCart}
             onClick={() => {
               user
                 ? addCart({ uId: user.uid, productId: product._id })

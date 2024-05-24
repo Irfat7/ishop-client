@@ -20,6 +20,7 @@ import AddCategory from "../pages/AddCategory/AddCategory";
 import OrdersPageAdmin from "../pages/OrdersPageAdmin/OrdersPageAdmin";
 import SaleEvents from "../pages/SaleEvents/SaleEvents";
 import Coupons from "../pages/Coupons/Coupons";
+import UsersOnly from "./Protected/UsersOnly";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/cart",
-        element: <CartDetails />,
+        element: <UsersOnly><CartDetails /></UsersOnly>,
       },
       {
         path: "/product/:productId",
@@ -52,19 +53,19 @@ const router = createBrowserRouter([
       },
       {
         path: '/payment',
-        element: <Payment />
+        element: <UsersOnly><Payment /></UsersOnly>
       },
       {
         path: '/payment-status',
-        element: <PaymentSuccess />
+        element: <UsersOnly><PaymentSuccess /></UsersOnly>
       },
       {
         path: '/my-orders',
-        element: <MyOrders />
+        element: <UsersOnly><MyOrders /></UsersOnly>
       },
       {
         path: '/my-reviews',
-        element: <MyReviews />
+        element: <UsersOnly><MyReviews /></UsersOnly>
       },
       {
         path: '/search',
