@@ -25,14 +25,6 @@ const Navigation = () => {
         >
           Home
         </NavLink>
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive ? "border-b-2 border-b-dark-red" : ""
-          }
-        >
-          About Us
-        </NavLink>
       </div>
 
       <div className="flex items-center justify-end gap-4 md:w-1/3">

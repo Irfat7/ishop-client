@@ -99,3 +99,9 @@ export type ICoupons = {
   quantity: number,
   amount: number
 }
+
+export type IMostPopularProduct = {
+  _id: string,
+  count: number,
+  product: IProduct
+}

@@ -6,7 +6,9 @@ import Loader from "../../components/universe/Loader/Loader";
 import { useGetAllCategory } from "../../hooks/useGetAllCategory";
 import { useGetSaleEvent } from "../../hooks/useGetSaleEvent";
 import { ICategory, IProduct } from "../../types";
+import AboutUs from "../AboutUs/AboutUs";
 import CarouselHome from "./Carousel/CarouselHome";
+import MostPopularProducts from "./MostPopularProducts/MostPopularProducts";
 
 const Home = () => {
   const [categories, isCategoryLoading, isCategoryError] = useGetAllCategory();
@@ -41,16 +43,8 @@ const Home = () => {
             </div>
           </>
         }
-        <SectionHeader title="Our Top Selling Products" />
-        <div className="grid grid-cols-2 place-items-center gap-y-6 md:grid-cols-3 lg:grid-cols-4">
-          {/* <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard /> */}
-        </div>
+        <MostPopularProducts />
+        <AboutUs />
         <SectionHeader title="Customer Reviews" />
         <div className="grid grid-cols-2 place-items-center gap-y-6 md:grid-cols-3 lg:grid-cols-4">
           {/* <ProductCard />

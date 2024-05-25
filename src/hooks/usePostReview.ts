@@ -1,8 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 
 export const usePostReview = () => {
     const axiosInstance = useAxiosSecure()
+    const queryClient = useQueryClient()
     const {
         mutateAsync: postReview,
         isPending: postingReview,
@@ -17,6 +18,11 @@ export const usePostReview = () => {
                 message
             })
             return response.data
+        },
+        onSuccess:()=>{
+            queryClient.invalidateQueries({
+                queryKey:['MY-ORDERS']
+            })
         }
     })
     return { postReview, postingReview, reviewError }

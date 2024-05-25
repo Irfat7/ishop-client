@@ -32,7 +32,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                 </div>
                 <div className=" mt-2 md:mt-0 md:col-start-4 center">
                     <button
-                        className={`transition-transform ${productVisible ? 'rotate-90' : 'rotate-0'}`}
+                        className={`transition-transform ${productVisible ? 'rotate-180' : 'rotate-0'}`}
                         onClick={() => setProductVisible(!productVisible)}>
                         <KeyboardArrowDownIcon />
                     </button>

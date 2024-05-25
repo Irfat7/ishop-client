@@ -47,7 +47,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
       </Link>
 
       {product.quantity <= 0 ? (
-        <p>Unavailable</p>
+        <p className="h3-medium text-dark-red px-4">Out of stock</p>
       ) : (
         <div className="flex items-center justify-between border-t-2 border-t-light-ash px-4 pt-2">
           <p className="space-x-1">
