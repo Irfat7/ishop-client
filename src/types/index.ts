@@ -1,6 +1,7 @@
 export type ICategory = {
   _id: string;
   name: string;
+  imageUrl: string,
   products: [string];
 };
 export type IProduct = {

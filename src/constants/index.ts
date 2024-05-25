@@ -1,3 +1,4 @@
+import HomeIcon from '@mui/icons-material/Home';
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LocationSearchingIcon from "@mui/icons-material/LocationSearching";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
@@ -5,7 +6,6 @@ import CategoryIcon from "@mui/icons-material/Category";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import DiscountIcon from "@mui/icons-material/Discount";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import HomeIcon from '@mui/icons-material/Home';
 
 export const adminRoutes = [
   {
@@ -43,12 +43,12 @@ export const adminRoutes = [
     path: "/admin/coupons",
     icon: AttachMoneyIcon,
   },
-  //after br
-  {
-    name: "Home",
-    path: "/",
-    icon: HomeIcon,
-  },
 ];
+
+export const afterBreakRoutes = [{
+  name: "Home",
+  path: "/",
+  icon: HomeIcon,
+},]
 
 export const baseUrl = "http://localhost:3001/";

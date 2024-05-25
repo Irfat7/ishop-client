@@ -8,6 +8,7 @@ import { useAddToCart } from "../../../hooks/useAddToCart";
 import { useEffect } from "react";
 import { useAxiosErrorToast } from "../../../hooks/useAxiosErrorToast";
 import { getDiscountedPrice } from "../../../Utils";
+import { motion } from 'framer-motion'
 
 interface ProductProps {
   product: IProduct;
@@ -23,7 +24,12 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
   }, [cartSuccess, error]);
 
   return (
-    <div className="relative w-36 overflow-visible bg-primary sm:w-52 md:duration-500 md:hover:shadow-md">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      viewport={{ once: true }}
+      className="relative w-36 overflow-visible bg-primary sm:w-52 md:duration-500 md:hover:shadow-md">
       <Link to={`/product/${product._id}`}>
         <div className="h-40 w-full">
           <img
@@ -92,7 +98,7 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
         precision={0.1}
         readOnly
       />
-    </div>
+    </motion.div>
   );
 };
 

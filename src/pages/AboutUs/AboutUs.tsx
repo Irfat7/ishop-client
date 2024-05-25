@@ -1,8 +1,14 @@
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
+import { motion } from 'framer-motion'
 
 const AboutUs = () => {
     return (
-        <div className=" max-w-screen-xl">
+        <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            viewport={{ once: true }}
+            className=" max-w-screen-xl">
             <SectionHeader title='about us' />
             <div className="sm:flex items-center max-w-screen-xl">
                 <div className="sm:w-1/2 h-full p-10">
@@ -22,7 +28,7 @@ const AboutUs = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

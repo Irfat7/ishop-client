@@ -22,7 +22,7 @@ const CategoryHome = () => {
                 {categories.map((category: ICategory) => (
                     <CategoryCard
                         key={category._id}
-                        categoryImage="https://consumer.huawei.com/content/dam/huawei-cbg-site/common/mkt/pdp/accessories/wireless-mouse-gt/specs-img.jpg"
+                        categoryImage={category.imageUrl}
                         categoryName={category.name}
                     />
                 ))}

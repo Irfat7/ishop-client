@@ -5,18 +5,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { NavLink, Outlet } from "react-router-dom";
-import { adminRoutes } from "../constants";
+import { adminRoutes, afterBreakRoutes } from "../constants";
 
 const drawerWidth = 240;
 
@@ -71,16 +68,27 @@ export default function Admin(props: Props) {
       </List>
       <Divider />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <List>
+          {afterBreakRoutes.map((route) => (
+            <ListItem key={route.name} disablePadding>
+              <ListItemButton>
+                <NavLink
+                  to={route.path}
+                  className={({ isActive }) =>
+                    isActive ? "font-medium text-dark-red" : ""
+                  }
+                >
+                  <ListItemIcon>
+                    <span>
+                      <route.icon />
+                    </span>
+                  </ListItemIcon>
+                  {route.name}
+                </NavLink>
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
       </List>
     </div>
   );

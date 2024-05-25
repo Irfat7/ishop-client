@@ -24,6 +24,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Loader from "../../universe/Loader/Loader";
 import ErrorMessage from "../../ErrorMessage/ErrorMessage";
 import { useAxiosSecure } from "../../../hooks/useAxiosSecure";
+import { useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "../../../lib/react-query/keys";
 
 type Inputs = {
   productName: string;
@@ -51,6 +53,7 @@ const UpdateProductModal: React.FC<IProduct> = ({
   const [newUrls, setNewUrls] = useState<string[]>(imageUrl);
   const [categories, isCategoryPending, isCategoryError] = useGetAllCategory();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const queryClient = useQueryClient()
 
   const {
     register,
@@ -99,6 +102,9 @@ const UpdateProductModal: React.FC<IProduct> = ({
       updatedProduct,
     );
     if (response.status === 200) {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_ONE_PRODUCT, _id]
+      })
       toast.success("Product Updated");
     }
     reset();
