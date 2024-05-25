@@ -20,6 +20,7 @@ interface CheckoutFormProps {
 }
 
 const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
+    const [address, setAddress] = useState<string>('')
     const { user } = useAuthContext()
     const stripe = useStripe();
     const elements = useElements();
@@ -91,7 +92,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
                 paymentError && axiosErrorToast(paymentError)
                 return
             }
-            const newOrder = await createOrder({ userId: userId, paymentId: newPayment._id, productInfo, carts: cartItemIds })
+            const newOrder = await createOrder({ userId: userId, paymentId: newPayment._id, productInfo, carts: cartItemIds, address })
             if (!newOrder) {
                 orderCreationError && axiosErrorToast(orderCreationError)
             }
@@ -104,12 +105,25 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
         }
     };
 
+    const paymentDisabled = loading || !stripe || !elements || address.length < 10
+
     return (
         <form onSubmit={handleSubmit} className=''>
             <div className="card-element-container">
+                <div className="mb-6">
+                    <label htmlFor="address" className="block mb-2 text-sm font-medium">Address</label>
+                    <input
+                        onChange={(e) => setAddress(e.target.value)}
+                        type="text"
+                        id="address"
+                        className="block w-full p-4 border rounded-lg text-base"
+                        placeholder='minimum length of 10' />
+                </div>
                 <CardElement />
             </div>
-            <button className='w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary' disabled={loading || !stripe || !elements} id="submit">
+            <button
+                className={`w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary ${paymentDisabled && 'cursor-not-allowed opacity-60'}`}
+                disabled={paymentDisabled}>
                 <span id="button-text">
                     {loading || creatingPayment || creatingOrder ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
                 </span>

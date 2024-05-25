@@ -1,8 +1,10 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useChangeRole = () => {
     const axiosInstance = useAxiosSecure()
+    const queryClient = useQueryClient()
     const {
         mutateAsync: changeRole,
         isPending: isChangingRole,
@@ -14,7 +16,10 @@ export const useChangeRole = () => {
                 role
             })
             return response.data
-        }
+        },
+        onSuccess: () => queryClient.invalidateQueries({
+            queryKey: [QUERY_KEYS.ALL_USERS]
+        })
     })
     return {
         changeRole, isChangingRole, changingRoleError

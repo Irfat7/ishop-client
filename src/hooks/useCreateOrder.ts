@@ -9,6 +9,7 @@ interface IOrder {
         quantity: number
     }[],
     carts: string[],
+    address: string
 }
 
 export const useCreateOrder = () => {
@@ -18,12 +19,13 @@ export const useCreateOrder = () => {
         isPending: creatingOrder,
         error: orderCreationError
     } = useMutation({
-        mutationFn: async ({ userId, paymentId, productInfo, carts }: IOrder) => {
+        mutationFn: async ({ userId, paymentId, productInfo, carts, address }: IOrder) => {
             const response = await axiosInstance.post('orders', {
                 userId,
                 paymentId,
                 productInfo,
-                carts
+                carts,
+                address
             })
             return response.data
         }
