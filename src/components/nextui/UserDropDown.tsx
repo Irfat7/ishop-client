@@ -12,11 +12,13 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import { useLogout } from "../../hooks/useLogout";
 import OverallReviewModal from "../OverallReviewModal/OverallReviewModal";
 import { useState } from "react";
+import { useIdMap } from "../../hooks/useIdMap";
 
 const UserDropDown = () => {
   const { user } = useAuthContext();
   const [admin] = useAdminVerify(user?.email || '');
   const { logOut } = useLogout();
+  const [userId] = useIdMap()
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -53,7 +55,9 @@ const UserDropDown = () => {
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-      <OverallReviewModal isOpen={isModalOpen} onClose={closeModal} />
+      {
+        userId && <OverallReviewModal userId={userId} isOpen={isModalOpen} onClose={closeModal} />
+      }
     </>
   );
 };

@@ -1,20 +1,31 @@
 import { Rating } from "@mui/material";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import React, { useState } from "react";
-import { useIdMap } from "../../hooks/useIdMap";
+import React, { useEffect, useState } from "react";
+import { usePostOverallReview } from "../../hooks/usePostOverallReview";
+import { useAxiosErrorToast } from "../../hooks/useAxiosErrorToast";
+import toast from "react-hot-toast";
 
 interface OverallReviewModalProps {
     isOpen: boolean;
     onClose: () => void;
+    userId: string
 }
 
-const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose }) => {
+const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose, userId }) => {
     const [rating, setRating] = useState<number>(5)
     const [message, setMessage] = useState<string>('')
-    const [userId] = useIdMap()
+    const { postReview, postingReviews, errorPostingReview } = usePostOverallReview()
+    const axiosErrorToast = useAxiosErrorToast()
 
-    const handleOverallReview = () => {
-        console.log(rating, message);
+    useEffect(() => {
+        errorPostingReview && axiosErrorToast(errorPostingReview)
+        onClose()
+    }, [errorPostingReview])
+
+    const handleOverallReview = async () => {
+        await postReview({ userId, message })
+        toast.success('Review posted. Thank you!')
+        onClose()
     }
 
     const validMessage = message.length >= 20 && message.length <= 200
@@ -54,9 +65,9 @@ const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose
                                 </p>
                             </div>
                             <button
-                                disabled={!validMessage}
+                                disabled={!validMessage || postingReviews}
                                 onClick={handleOverallReview}
-                                className={`center w-full bg-dark-red p-2 rounded-md text-secondary ${!validMessage && 'opacity-60 cursor-not-allowed'}`}>
+                                className={`center w-full bg-dark-red p-2 rounded-md text-secondary ${(!validMessage || postingReviews) && 'opacity-60 cursor-not-allowed'}`}>
                                 Submit
                             </button>
                         </div>
@@ -65,9 +76,6 @@ const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose
                 <ModalFooter>
                     <Button color="danger" variant="light" onPress={onClose}>
                         Close
-                    </Button>
-                    <Button color="primary" onPress={onClose}>
-                        Action
                     </Button>
                 </ModalFooter>
             </ModalContent>
