@@ -10,8 +10,8 @@ export const usePostOverallReview = () => {
         error: errorPostingReview
     }
         = useMutation({
-            mutationFn: async ({ userId, message }: { userId: string, message: string }) => {
-                const response = await axiosInstance.post('/overallReviews', { userId, message })
+            mutationFn: async ({ userId, message, starCount }: { userId: string, message: string, starCount:number }) => {
+                const response = await axiosInstance.post('/overallReviews', { userId, message, starCount })
                 return response.data
             }
         })

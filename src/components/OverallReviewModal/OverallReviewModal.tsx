@@ -23,7 +23,7 @@ const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose
     }, [errorPostingReview])
 
     const handleOverallReview = async () => {
-        await postReview({ userId, message })
+        await postReview({ userId, message, starCount: rating })
         toast.success('Review posted. Thank you!')
         onClose()
     }

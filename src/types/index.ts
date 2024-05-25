@@ -106,3 +106,10 @@ export type IMostPopularProduct = {
   count: number,
   product: IProduct
 }
+
+export type IOverallReview = {
+  _id: string,
+  userId: IUser,
+  message: string,
+  starCount: number
+}

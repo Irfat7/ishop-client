@@ -1,8 +1,8 @@
-import SectionHeader from "../../components/SectionHeader/SectionHeader";
 import AboutUs from "../AboutUs/AboutUs";
 import CarouselHome from "./Carousel/CarouselHome";
 import CategoryHome from "./CategoryHome/CategoryHome";
 import MostPopularProducts from "./MostPopularProducts/MostPopularProducts";
+import OverallReview from "./OverallReview/OverallReview";
 import SaleEvent from "./SaleEvent/SaleEvent";
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
         <SaleEvent />
         <MostPopularProducts />
         <AboutUs />
-        <SectionHeader title="Customer Reviews" />
+        <OverallReview />
       </div>
     </div>
   );
