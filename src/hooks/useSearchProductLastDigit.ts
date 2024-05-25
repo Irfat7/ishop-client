@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 import { useState } from "react";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useSearchProductLastDigit = () => {
     const axiosSecure = useAxiosSecure()
@@ -11,7 +12,7 @@ export const useSearchProductLastDigit = () => {
         error: errorSearchingOrder,
         isSuccess: searchingSuccessful
     } = useQuery({
-        queryKey: ['SEARCH_ORDER', lastDigits],
+        queryKey: [QUERY_KEYS.SEARCH_ORDER, lastDigits],
         queryFn: async () => {
             if (!lastDigits) {
                 return []

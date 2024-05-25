@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetAllProducts = () => {
     const axiosInstance = useAxiosSecure()
@@ -11,7 +12,7 @@ export const useGetAllProducts = () => {
         fetchNextPage: getMoreProducts,
         isFetchingNextPage: fetchingMoreProducts
     } = useInfiniteQuery({
-        queryKey: ['ALL_PRODUCTS'],
+        queryKey: [QUERY_KEYS.ALL_PRODUCTS],
         queryFn: async ({ pageParam = 1 }) => {
             const response = await axiosInstance.get(`/products?page=${pageParam}`)
             return response.data

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 import { useIdMap } from "./useIdMap";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetMyOrders = () => {
     const [userId = ''] = useIdMap()
@@ -11,7 +12,7 @@ export const useGetMyOrders = () => {
         isLoading: myOrdersLoading,
         error: myOrdersError
     } = useQuery({
-        queryKey: ['MY-ORDERS', userId],
+        queryKey: [QUERY_KEYS.MY_ORDERS, userId],
         queryFn: async () => {
             if (!userId) {
                 return []

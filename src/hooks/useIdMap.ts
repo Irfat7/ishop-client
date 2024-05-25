@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuthContext } from "./useAuthContext";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useIdMap = () => {
   const { user } = useAuthContext();
@@ -8,7 +9,7 @@ export const useIdMap = () => {
 
   const token = localStorage.getItem("access-token");
   const { data: userId, isLoading } = useQuery({
-    queryKey: ["UID", user?.uid],
+    queryKey: [QUERY_KEYS.UID, user?.uid],
     queryFn: async () => {
       const response = await axiosSecure.get(
         `/users/id-map/getUser?firebaseId=${user?.uid}`,

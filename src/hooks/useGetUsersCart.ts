@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 import { useIdMap } from "./useIdMap";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetUsersCart = () => {
   const axiosSecure = useAxiosSecure();
@@ -12,7 +13,7 @@ export const useGetUsersCart = () => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ["Cart", userId],
+    queryKey: [QUERY_KEYS.CART, userId],
     queryFn: async () => {
       if (!userId) {
         return [];

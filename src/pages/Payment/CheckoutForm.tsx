@@ -13,6 +13,7 @@ import { useCreatePayment } from '../../hooks/useCreatePayment';
 import { useIdMap } from '../../hooks/useIdMap';
 import { useCreateOrder } from '../../hooks/useCreateOrder';
 import { useQueryClient } from '@tanstack/react-query';
+import { QUERY_KEYS } from '../../lib/react-query/keys';
 
 interface CheckoutFormProps {
     coupon: ICoupons | undefined
@@ -95,7 +96,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
                 orderCreationError && axiosErrorToast(orderCreationError)
             }
             queryClient.invalidateQueries({
-                queryKey: ['Cart']
+                queryKey: [QUERY_KEYS.CART]
             })
             navigate('/payment-status')
         } else if (error) {

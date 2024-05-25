@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const usePostReview = () => {
     const axiosInstance = useAxiosSecure()
@@ -19,9 +20,9 @@ export const usePostReview = () => {
             })
             return response.data
         },
-        onSuccess:()=>{
+        onSuccess: () => {
             queryClient.invalidateQueries({
-                queryKey:['MY-ORDERS']
+                queryKey: [QUERY_KEYS.MY_ORDERS]
             })
         }
     })

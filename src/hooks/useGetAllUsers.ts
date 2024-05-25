@@ -1,5 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetAllUsers = () => {
     const axiosInstance = useAxiosSecure()
@@ -11,7 +12,7 @@ export const useGetAllUsers = () => {
         fetchNextPage: getMoreUsers,
         isFetchingNextPage: fetchingMoreUsers
     } = useInfiniteQuery({
-        queryKey: ['ALL_USERS'],
+        queryKey: [QUERY_KEYS.ALL_USERS],
         queryFn: async ({ pageParam = 1 }) => {
             const response = await axiosInstance.get(`/users?page=${pageParam}`)
             return response.data

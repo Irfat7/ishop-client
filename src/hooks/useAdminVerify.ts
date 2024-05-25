@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useAdminVerify = (email: string) => {
   const axiosInstance = useAxiosSecure();
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["admin", email],
+    queryKey: [QUERY_KEYS.ADMIN, email],
     queryFn: async () => {
       if (email === "") {
         return null;

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useIdMap } from "./useIdMap";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetMyReviews = () => {
     const [userId] = useIdMap()
@@ -10,7 +11,7 @@ export const useGetMyReviews = () => {
         isLoading,
         error
     } = useQuery({
-        queryKey: ["MY_REVIEWS", userId],
+        queryKey: [QUERY_KEYS.MY_REVIEW, userId],
         queryFn: async () => {
             if (!userId) {
                 return []

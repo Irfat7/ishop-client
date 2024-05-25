@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useAddToCart = () => {
   const axiosSecure = useAxiosSecure();
@@ -37,7 +38,7 @@ export const useAddToCart = () => {
     mutationFn: addToCart,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["Cart"]
+        queryKey: [QUERY_KEYS.CART]
       })
     }
   });

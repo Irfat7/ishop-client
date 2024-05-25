@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 import { useAuthContext } from "./useAuthContext";
 import { useState } from "react";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetAllOrders = () => {
     const axiosInstance = useAxiosSecure()
@@ -18,7 +19,7 @@ export const useGetAllOrders = () => {
         isRefetching: orderRefetching,
         refetch: refetchAllOrders
     } = useInfiniteQuery({
-        queryKey: ['ALL_ORDERS', sortOption, user?.uid],
+        queryKey: [QUERY_KEYS.ALL_ORDERS, sortOption, user?.uid],
         queryFn: async ({ pageParam = 1 }) => {
             const response = await axiosInstance.get(`/orders/get-all?page=${pageParam}&sortOption=${sortOption}`)
             return response.data

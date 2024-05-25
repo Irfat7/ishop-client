@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAxiosSecure } from "./useAxiosSecure";
 import { useState } from "react";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useGetCouponByCode = () => {
     const axiosInstance = useAxiosSecure()
@@ -11,7 +12,7 @@ export const useGetCouponByCode = () => {
         isLoading: loadingCoupon,
         refetch: refetchCoupon
     } = useQuery({
-        queryKey: ['COUPON',couponCode],
+        queryKey: [QUERY_KEYS.COUPON, couponCode],
         queryFn: async () => {
             const response = await axiosInstance.get(`/coupons/${couponCode}`)
             return response.data

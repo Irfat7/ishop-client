@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { baseUrl } from "../constants";
+import { QUERY_KEYS } from "../lib/react-query/keys";
 
 export const useSearchProduct = (
   initialSearchTerm: string,
@@ -28,7 +29,7 @@ export const useSearchProduct = (
     refetch: refetchSearch,
     isRefetching: isRefetchingSearch
   } = useInfiniteQuery({
-    queryKey: ["search", searchTerm],
+    queryKey: [QUERY_KEYS.SEARCH, searchTerm],
     queryFn: async ({ pageParam = 0 }) => {
       if (searchTerm) {
         const response = await axios.get(`${baseUrl}products/items/search?page=${pageParam}&searchTerm=${searchTerm}&sortOption=${sortOption}`);
