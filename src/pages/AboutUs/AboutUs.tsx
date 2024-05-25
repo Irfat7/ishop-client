@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionHeader from '../../components/SectionHeader/SectionHeader';
 
 const AboutUs = () => {
@@ -6,7 +5,7 @@ const AboutUs = () => {
         <div className=" max-w-screen-xl">
             <SectionHeader title='about us' />
             <div className="sm:flex items-center max-w-screen-xl">
-                <div className="sm:w-1/2 p-10">
+                <div className="sm:w-1/2 h-full p-10">
                     <div className="image object-center text-center">
                         <img src="https://i.imgur.com/WbQnbas.png" />
                     </div>
