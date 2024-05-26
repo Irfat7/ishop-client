@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useGetMostPopularProducts } from '../../../hooks/useGetMostPopularProducts';
 import { useAxiosErrorToast } from '../../../hooks/useAxiosErrorToast';
 import { IMostPopularProduct } from '../../../types';

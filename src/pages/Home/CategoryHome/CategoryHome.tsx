@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useGetAllCategory } from '../../../hooks/useGetAllCategory';
 import { useAxiosErrorToast } from '../../../hooks/useAxiosErrorToast';
 import SectionHeader from '../../../components/SectionHeader/SectionHeader';

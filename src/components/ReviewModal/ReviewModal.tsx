@@ -90,7 +90,7 @@ const ReviewModal: React.FC<ReviewModalProps> = ({ reviewInfos }) => {
                                     <Rating
                                         name="simple-controlled"
                                         value={rating}
-                                        onChange={(event, newValue) => {
+                                        onChange={(_, newValue) => {
                                             setRating(newValue || rating);
                                         }}
                                     />

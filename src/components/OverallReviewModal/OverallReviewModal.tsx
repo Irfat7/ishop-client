@@ -41,7 +41,7 @@ const OverallReviewModal: React.FC<OverallReviewModalProps> = ({ isOpen, onClose
                             <Rating
                                 name="simple-controlled"
                                 value={rating}
-                                onChange={(event, newValue) => {
+                                onChange={(_, newValue) => {
                                     setRating(newValue || rating);
                                 }}
                             />
