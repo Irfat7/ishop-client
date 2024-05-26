@@ -8,8 +8,10 @@ import { useFirebaseAuth } from "./useFirebaseAuth";
 import { useAddUserDB } from "./useAddUserDB";
 import { useAuthContext } from "./useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { useGenerateToken } from "./useGenerateToken";
 
 export const useCreateNewAccount = () => {
+  const { generateToken, tokenError } = useGenerateToken();
   const navigate = useNavigate();
   const { setIsLoading: setUserCredentialLoading } = useAuthContext();
   const auth = useFirebaseAuth();
@@ -46,6 +48,11 @@ export const useCreateNewAccount = () => {
           imageUrl: "abc",
           role: "user",
         };
+        const { token } = await generateToken(email);
+        if (tokenError) {
+          throw new Error("token failed");
+        }
+        localStorage.setItem("access-token", token);
         await addUserDB(newUser);
         if (isAddingUserDBFailed) {
           await deleteUser(user);

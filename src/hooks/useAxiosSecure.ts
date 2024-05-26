@@ -2,7 +2,7 @@ import axios from "axios";
 import { useLogout } from "./useLogout";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001/",
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
 
 export const useAxiosSecure = () => {

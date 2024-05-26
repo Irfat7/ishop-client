@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { useAxiosSecure } from "./useAxiosSecure";
 import { QUERY_KEYS } from "../lib/react-query/keys";
+import axios from "axios";
+import { baseUrl } from "../constants";
 
 export const useGetSaleEvent = () => {
-    const axiosInstance = useAxiosSecure()
     const {
         data: event,
         isPending: eventLoading,
@@ -13,7 +13,7 @@ export const useGetSaleEvent = () => {
     } = useQuery({
         queryKey: [QUERY_KEYS.GET_SALE_EVENT],
         queryFn: async () => {
-            const response = await axiosInstance.get('/events')
+            const response = await axios.get(`${baseUrl}events`)
             return response.data
         }
     })

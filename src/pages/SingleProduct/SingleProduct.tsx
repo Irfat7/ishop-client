@@ -21,7 +21,7 @@ const SingleProduct = () => {
   );
   const { user } = useAuthContext();
   const [admin] = useAdminVerify(user?.email || "");
-  const { reviews, reviewsPending } = useGetReviewProductId(productId || '')
+  const { reviews=[], reviewsPending } = useGetReviewProductId(productId || '')
 
   if (isProductInfoLoading) {
     return <Loader />;
@@ -81,7 +81,7 @@ const SingleProduct = () => {
         </div>
         {admin && <UpdateProductModal {...typedProduct} />}
       </div>
-      <div className="">
+      <div>
         <SectionHeader title="Product reviews" />
         {
           reviews.length === 0 && !reviewsPending ? <NothingFound message="No reviews"/> :

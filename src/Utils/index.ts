@@ -1,7 +1,7 @@
 import axios from "axios";
 import imageCompression from "browser-image-compression";
 import { ICart } from "../types";
-const imageHostingToken = import.meta.env.VITE_imgbbKey;
+const imageHostingToken = import.meta.env.VITE_IMGBB_KEY;
 
 export const handleSingleImageUpload = async (imageFile: File): Promise<string | false> => {
   try {

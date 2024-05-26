@@ -51,4 +51,4 @@ export const afterBreakRoutes = [{
   icon: HomeIcon,
 },]
 
-export const baseUrl = "http://localhost:3001/";
+export const baseUrl = import.meta.env.VITE_BACKEND_URL;
