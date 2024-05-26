@@ -9,7 +9,7 @@ const AnimateComponent: React.FC<{ children: ReactElement, className?: string }>
             ref={animateRef}
             initial={{ opacity: 0, y: 10 }}
             animate={isInView && { opacity: 1, y: 0 }}
-            transition={{ delay: 1 }}
+            transition={{ delay: 0.4 }}
             className={className}
         >
             {children}
