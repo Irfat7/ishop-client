@@ -37,9 +37,14 @@ const Navigation = () => {
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="flex items-center gap-1 md:w-1/3">
+      <Link to='/' className="md:hidden flex items-center gap-1 md:w-1/3">
         <img src={IShopLogo} className="w-10" alt="IShop Logo" />
-        <p className="h3-medium md:h2-bold">IShop</p>
+        <p className="h3-medium">IShop</p>
+      </Link>
+
+      <div className="hidden md:flex items-center gap-1 md:w-1/3">
+        <img src={IShopLogo} className="w-10" alt="IShop Logo" />
+        <p className="md:h2-bold">IShop</p>
       </div>
 
       <div className="h3-medium hidden w-1/3 gap-4 md:flex md:justify-center">
