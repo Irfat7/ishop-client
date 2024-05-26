@@ -62,7 +62,7 @@ const CartDetails = () => {
                 return;
             }
         }
-        navigate(`/payment${coupon?.code ? `?code=${coupon?.code}`:''}`, {
+        navigate(`/payment${coupon?.code ? `?code=${coupon?.code}` : ''}`, {
             state: {
                 coupon: totalPrice < 400 ? undefined : coupon
             }
@@ -82,7 +82,7 @@ const CartDetails = () => {
                                 Shopping Cart
                             </h2>
                             <h2 className="font-manrope text-gray-600 text-xl font-bold leading-8">
-                                3 Items
+                                {carts.length} item(s)
                             </h2>
                         </div>
                         <div className="border-gray-200 mt-8 grid grid-cols-12 border-b pb-6 max-md:hidden">

@@ -5,14 +5,19 @@ import ProductCard from "../../components/nextui/ProductCard/ProductCard";
 import { IProduct } from "../../types";
 import Loader from "../../components/universe/Loader/Loader";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import React from "react";
+import React, { useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import NothingFound from "../shared/NothingFound";
+import toast from "react-hot-toast";
 
 const Category = () => {
   const { categoryName = "mouse" } = useParams();
-  const { data, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } =
+  const { data, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage, error } =
     useGetOneCategory(categoryName);
+
+  useEffect(() => {
+    error && toast.error(error.message)
+  }, [error])
 
   if (isFetching && !isFetchingNextPage) {
     return <Loader />;
@@ -22,7 +27,8 @@ const Category = () => {
     return <ErrorMessage code={500} message="Something went wrong" />;
   }
 
-  if (!Array.isArray(data.pages[0])) {
+  const firstPage = data.pages[0];
+  if (!Array.isArray(firstPage)) {
     return <ErrorMessage code={404} message="Category does not exist" />;
   }
 
