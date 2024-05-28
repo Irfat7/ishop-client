@@ -14,13 +14,13 @@ A full-stack eCommerce application crafted with the power of the MERN stack — 
 
 ## Features
 
-- **User Authentication and Authorization:** Securely access the platform and manage user roles for enhanced security.
+- **User Authentication and Authorization:** Securely access the platform and manage user roles for enhanced security using Firebase.
 
 - **Product Categorization:** Explore our extensive range of products conveniently organized into intuitive categories.
 
 - **Sales Event Management:** Stay updated with exciting sales events and promotions to grab the best deals.
 
-- **Popular Product Filtration:** Discover trending products based on popularity, reviews, and more.
+- **Popular Product Filtration:** Discover trending products based on popularity, reviews and most frequently sold.
 
 - **Shopping Cart and Checkout:** Seamlessly add items to your cart and breeze through the checkout process.
 
@@ -45,6 +45,7 @@ A full-stack eCommerce application crafted with the power of the MERN stack — 
 - **Database**: MongoDB
 - **Authentication**: JWT, Firebase
 - **Deployment**: Vercel
+- **API Testing**: Postman
 
 ## Database Schema
 
@@ -132,17 +133,24 @@ ERD of IShop database
 ### Endpoints
 
 #### JWT API
+
 - `POST /api/jwt`: Generate token
+
 #### Cart API
+
 - `POST /api/carts`: Add product to cart
 - `GET /api/carts/user`: Fetch cart of a user
 - `PATCH /api/carts/user`: Update cart of a user
 - `DELETE /api/carts/:cartId`: Delete product from cart
+
 #### Category API
+
 - `GET /api/categories/:categoryName`: Fetch all products under a category
 - `GET /api/categories`: Fetch all the existing category
 - `POST /api/categories`: Create a new category
+
 #### Coupon API
+
 - `POST /api/coupons`: Add new coupon code
 - `DELETE /api/coupons/:couponId`: Delete a coupon code
 - `PATCH /api/coupons/:couponCode`: Update an existing coupon
@@ -151,6 +159,7 @@ ERD of IShop database
 - `PATCH /api/coupons/use-coupon/:couponCode`: Update coupon quantity after usage
 
 #### Order API
+
 - `POST /api/orders`: Create an order
 - `PATCH /api/orders/:orderId`: Update order status by otp
 - `GET /api/orders/:userId`: Fetch orders of a particular user
@@ -160,14 +169,17 @@ ERD of IShop database
 - `GET /api/orders/most-popular`: Get the products that most purchased
 
 #### Overall review API
+
 - `POST /api/overallReviews`: Create a new overall service review
 - `GET /api/overallReviews`: Get all the overall service reviews
 
 #### Payment API
+
 - `POST /api/payment/create-payment-intent`: Initialize a payment intent
 - `POST /api/payment/new-payment`: Create a new payment record
 
 #### Product API
+
 - `POST /api/products`: Launch a new product
 - `GET /api/products/:productId`: Fetch a specific product
 - `GET /api/products`: Get all the products
@@ -176,19 +188,28 @@ ERD of IShop database
 - `DELETE /api/products/:productId`: Delete a product
 
 #### Review API
+
 - `GET /api/reviews/byUser/:userId`: Fetch review of a particular user
 - `GET /api/reviews/byProduct/:productId`: Fetch review of a product
 - `POST /api/reviews`: Create a new review of a product
 
 #### Sale Event API
+
 - `GET /api/events`: Fetch all of the sale events
 - `POST /api/events`: Launch a new event
 - `DELETE /api/events/:eventId`: Close an ongoing event
 
 #### User API
+
 - `GET /api/users/admin-check/:email`: Check whether someone is admin or not
 - `GET /api/users/:email`: Fetch a user data
 - `GET /api/users`: Fetch all the users
 - `GET /api/users/id-map/getUser`: Get the user id of a user
 - `POST /api/users`: Add a new user after successful firebase new account creation.
 - `PATCH /api/users/changeRole`: Change role of users
+
+### Demo Video
+
+Check out this video to see a demonstration of the key features and functionality of this project:
+
+[![Watch the video](https://img.youtube.com/vi/PyzDNxLpJDw/maxresdefault.jpg)](https://youtu.be/PyzDNxLpJDw)
