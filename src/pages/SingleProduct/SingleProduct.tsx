@@ -85,7 +85,7 @@ const SingleProduct = () => {
         <SectionHeader title="Product reviews" />
         {
           reviews.length === 0 && !reviewsPending ? <NothingFound message="No reviews"/> :
-            reviews.map((review: IReviewProduct) => <ReviewCard key={review._id} review={review} userName={review.userId.name || 'Not Available'} />)
+            reviews.map((review: IReviewProduct) => <ReviewCard key={review._id} review={review} userName={review.userId?.name || 'Not Available'} />)
         }
       </div>
     </div>

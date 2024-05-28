@@ -105,7 +105,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
         }
     };
 
-    const paymentDisabled = loading || !stripe || !elements || address.length < 10
+    const paymentDisabled = loading || !stripe || !elements || address.length < 10 || loading || creatingPayment || creatingOrder
 
     return (
         <form onSubmit={handleSubmit} className=''>
@@ -125,7 +125,7 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ coupon }) => {
                 className={`w-full rounded-xl bg-dark-red px-6 py-3 text-center text-lg font-semibold text-secondary ${paymentDisabled && 'cursor-not-allowed opacity-60'}`}
                 disabled={paymentDisabled}>
                 <span id="button-text">
-                    {loading || creatingPayment || creatingOrder ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
+                    {paymentDisabled ? <CircularProgress size={20} style={{ color: "white" }} /> : "Pay now"}
                 </span>
             </button>
         </form>

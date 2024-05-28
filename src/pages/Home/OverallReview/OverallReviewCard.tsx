@@ -27,7 +27,7 @@ const OverallReviewCard: React.FC<OverallReviewCardProps> = ({ review }) => {
                             <AccountCircleIcon />
                         </div>
                         <div className="flex items-center divide-x-2">
-                            <div className="pr-3 font-medium">{userId.name}</div>
+                            <div className="pr-3 font-medium">{userId?.name || 'Name unavailable'}</div>
                             <div className="pl-3 text-sm font-light">Customer</div>
                         </div>
                     </figcaption>

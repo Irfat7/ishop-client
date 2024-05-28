@@ -8,6 +8,7 @@ import AnimateComponent from "../../../components/FramerMotion/AnimateComponent"
 
 const OverallReview = () => {
     const { overallReviews } = useGetOverallReview()
+    console.log(overallReviews);
     return (
         <AnimateComponent>
             <>

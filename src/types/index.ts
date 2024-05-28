@@ -65,7 +65,7 @@ export type IReview = {
 export type IReviewProduct = {
   _id: string,
   orderId: string,
-  userId: IUser,
+  userId: IUser | null,
   productId: string,
   starCount: number,
   message: string
@@ -109,7 +109,7 @@ export type IMostPopularProduct = {
 
 export type IOverallReview = {
   _id: string,
-  userId: IUser,
+  userId: IUser | null,
   message: string,
   starCount: number
 }
