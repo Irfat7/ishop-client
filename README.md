@@ -4,7 +4,7 @@ A full-stack eCommerce application built using MongoDB, Express.js, React, Node.
 
 ## Live Demo
 
-Check out the live version of IShop: [IShop Live Demo](ishop-client.vercel.app)
+Check out the live version of IShop: [IShop Live Demo](https://ishop-client.vercel.app/)
 
 ## Table of Contents
 
