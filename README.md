@@ -1,8 +1,10 @@
-# Welcome to IShop: An eCommerce Platform
+# IShop: Full Stack eCommerce App using MERN and Mongoose
 
-## Description
+A full-stack eCommerce application built using MongoDB, Express.js, React, Node.js, and Mongoose.
 
-A full-stack eCommerce application crafted with the power of the MERN stack — MongoDB, Express, React, and Node.js. Harnessing the capabilities of Express for backend server handling and Mongoose for seamless MongoDB integration, this project delivers a robust and scalable eCommerce solution. From user authentication and product management to streamlined checkout processes and order tracking, every aspect of the application is meticulously designed to provide a smooth and enjoyable shopping experience.
+## Live Demo
+
+Check out the live version of IShop: [IShop Live Demo](ishop-client.vercel.app)
 
 ## Table of Contents
 
@@ -11,6 +13,7 @@ A full-stack eCommerce application crafted with the power of the MERN stack — 
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Documentation](#api-documentation)
+- [Demo Video](#demo-video)
 
 ## Features
 
@@ -122,7 +125,7 @@ ERD of IShop database
    npm run dev
    ```
 
-### Usage
+## Usage
 
 1. Open your browser and navigate to http://localhost:5173 to view the application.
 2. Register a new account or log in with existing credentials.
@@ -208,7 +211,7 @@ ERD of IShop database
 - `POST /api/users`: Add a new user after successful firebase new account creation.
 - `PATCH /api/users/changeRole`: Change role of users
 
-### Demo Video
+## Demo Video
 
 Check out this video to see a demonstration of the key features and functionality of this project:
 
