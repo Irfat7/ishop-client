@@ -73,6 +73,7 @@ const SaleEvents = () => {
             if (!newEvent) {
                 return toast.error("Error creating event")
             }
+            setCurrent(1)
             refetchEvent()
             toast.success('New event created')
         }
