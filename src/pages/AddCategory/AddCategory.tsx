@@ -118,7 +118,7 @@ const AddCategory = () => {
                         isCreatingCategory || uploadingImage ? (
                             <CircularProgress size={20} style={{ color: "white" }} />
                         ) : (
-                            "Add Create"
+                            "Create"
                         )
                     }
                 </button>

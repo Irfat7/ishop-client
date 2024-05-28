@@ -183,7 +183,7 @@ ERD of IShop database
 #### Sale Event API
 - `GET /api/events`: Fetch all of the sale events
 - `POST /api/events`: Launch a new event
-- `DELETE /api/:eventId`: Close an ongoing event
+- `DELETE /api/events/:eventId`: Close an ongoing event
 
 #### User API
 - `GET /api/users/admin-check/:email`: Check whether someone is admin or not
